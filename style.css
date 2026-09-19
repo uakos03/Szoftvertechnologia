@@ -99,9 +99,29 @@ html, body {
     padding-left: 20px;
 }
 
-.terv-lista li {
-    margin-bottom: 16px;     
+.terv-lista > li {
+    font-weight: bold;
+    margin-bottom: 16px;   
+    margin-top: 16px;  
     line-height: 1.4;
+}
+
+.terv-lista ul {
+    list-style: none;
+    font-weight: normal;
+    padding-left: 0;       
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+.terv-lista p {
+    font-weight: normal;
+    text-align: justify;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 80px;
+    line-height: 1.6;
+
 }
 
 .munkanaplo-tabla {
