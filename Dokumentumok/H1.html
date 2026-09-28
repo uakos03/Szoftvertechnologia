@@ -106,7 +106,50 @@
             <p>A vízesés modellel bármikor visszatérhetünk az előbbi fázisokra.</p>
         </li>
         </p>
-        <li>Leendő produktumok (dokumentum), és létrejöttük ideje.</li>
+        <li>Leendő produktumok (dokumentum), és létrejöttük ideje.
+        <p>
+            A félév során a program váza készül el, valamint a fejlesztést végigkísérő dokumentáció.
+            Ezek a dokumentumok a fentebb bemutatott vízesés modell egyes fázisaihoz igazodva, egymásra épülve jönnek létre: előbb 
+            a probléma és az elvárások kerülnek kidolgozásra, majd ezek alapján alakul ki a rendszer felépítése, 
+            végül a teljes munka megszervezését rögzítjük.
+        </p>
+        <table class="tech-tabla">
+        <thead>
+            <tr>
+                <th>Dokumentum</th>
+                <th>Tartalma</th>
+                <th>Várható elkészülése</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td>Vízió</td>
+            <td>Az üzleti probléma és a végtermék üzleti szintű bemutatása, az érintettek és a legfontosabb elvárások összegyűjtése.</td>
+            <td>A „Követelmények elemzése és meghozása” fázis elején, a félév első harmadában.</td>
+            </tr>
+            <tr>
+            <td>SRS (Szoftver Követelmény Specifikáció)</td>
+            <td>A rendszer részletes funkcionális és nem funkcionális követelményei, use case-ekkel kidolgozva.</td>
+            <td>Ugyanabban a fázisban, közvetlenül a Vízió dokumentumot követően.</td>
+            </tr>
+            <tr>
+            <td>Analízis Modell</td>
+            <td>Az SRS-ben leírt funkciók alapján kialakított osztály-, állapot- és funkcionális modell, alrendszerekre bontva.</td>
+            <td>A „Rendszer- és szoftvertervezés” fázist megelőzően, a gyakorlatvezető jóváhagyásával.</td>
+            </tr>
+            <tr>
+            <td>Rendszertervezés</td>
+            <td>A felhasználói felület terve, az adatbázis felépítése (menü, készlet, asztalok állapota), valamint a választott technológiai architektúra részletezése.</td>
+            <td>Közvetlenül az implementáció megkezdése előtt.</td>
+            </tr>
+            <tr>
+            <td>Projektterv</td>
+            <td>A csapat felépítése, az ütemezés, az eszközök, valamint a tesztelési és bemutatási terv — azaz a jelen dokumentum.</td>
+            <td>A félév legelején elkészül, majd a projekt előrehaladtával folyamatosan frissítjük.</td>
+            </tr>
+        </tbody>
+        </table>
+        </li>
         <li>Tesztelési követelmények
         <p>
             Mivel egy étteremben nincs idő a rendszer fagyására vagy hibáira, a fejlesztés során folyamatosan teszteljük a programot. 
@@ -120,7 +163,19 @@
             Végül azt is leteszteljük, hogy stabil marad-e a rendszer csúcsidőben, amikor egyszerre több pincér is párhuzamosan használja.
         </p>
         </li>
-        <li>Bemutatás (demó) és szállítás módja, ideje</li>
+        <li>Bemutatás (demó) és szállítás módja, ideje
+        <p>
+        A bemutatót a vízesés modell „Integráció és rendszerteszt” fázisának lezárásaként, a félév utolsó heteiben 
+        tartjuk, miután a csapat közösen leteszteli a teljes rendszert, és kijavítja a talált hibákat. A bemutató 
+        során egy működő, telepített Tauri-alkalmazást mutatunk be élőben: felveszünk egy rendelést a felszolgálói 
+        felületen, megmutatjuk, ahogy az azonnal megjelenik a konyhai nézeten, majd bemutatjuk, hogy a hozzá tartozó 
+        alapanyagok automatikusan levonódnak a raktárkészletből.
+        A szállítás módja: a forráskódot a csapat közös GitHub/GitLab tárolójában tartjuk karban, a végleges 
+        verziót egy megjelölt (tag-elt) release formájában adjuk le. A dokumentációt (Vízió, SRS, Analízis Modell, 
+        Rendszertervezés, Projektterv) Word és PDF formátumban, a tantárgy hivatalos leadási felületén 
+        (Neptun/e-learning rendszer) töltjük fel, a bemutatóval megegyező határidőre.
+        </p>
+        </li>
        <li>Információ források
             <ul>
                 <li><a href="https://tauri.app/" target="_blank">https://tauri.app/</a></li>
