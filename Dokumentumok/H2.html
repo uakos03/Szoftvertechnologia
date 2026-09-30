@@ -1,13 +1,392 @@
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <title>H2</title>
-    <link rel="stylesheet" href="../style.css">
-</head>
-<body> 
+<!DOCTYPE html> 
+<html lang="hu"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>H2</title> 
+    <link rel="stylesheet" href="../style.css"> 
+</head> 
+<body>  
 
-    <a href="../index.html" class="vissza-link">Főoldal</a>
-    <h1 class="oldal-cim">Vízió dokumentum</h1>
-</body>
+    <a href="../index.html" class="vissza-link">Főoldal</a> 
+    <h1 class="oldal-cim">Vízió dokumentum</h1> 
+    <ol class="terv-lista"> 
+        <li>Bevezetés 
+        <p>A jelen dokumentum célja a tervezett Éttermi Rendelés- és Készletnyilvántartó Rendszer  
+            (DishPatch) követelményeinek, célkitűzéseinek és tervezett funkcióinak átfogó bemutatása.  
+            A projekt keretében egy modern, kliens-szerver architektúrára épülő, asztali és érintőképernyős eszközökre  
+            optimalizált szoftvert fejlesztünk. A rendszer a vendéglátóipari egységek mindennapi 
+            munkafolyamatait hivatott  
+            digitalizálni, felgyorsítani és optimalizálni, lecserélve az elavult papíralapú és egymással nem kommunikáló  
+            megoldásokat. Napjaink felgyorsult világában a vendégek elvárják a gyors és hibátlan kiszolgálást, 
+            a vezetőség pedig az azonnali, adatalapú átláthatóságot. A DishPatch pontosan ezt a hidat építi fel a 
+            front-office (vendégtér) és a back-office (konyha, raktár, iroda) között. A dokumentum alapul szolgál
+             a vízesés modell alapján történő további tervezési, implementációs  
+            és tesztelési fázisok számára, rögzítve a minőségi, biztonsági és teljesítménybeli sarokpontokat.
+        </p> 
+        </li> 
+        <li>Alkalmazás helye 
+            <ul style="list-style: none;"> 
+                <li><b>2.1 Üzleti lehetőségek</b> 
+                    <p>A rendszer bevezetésével az étterem jelentősen növelheti a kiszolgálás sebességét,  
+                        ami közvetlenül magasabb asztalforgási arányt (egy adott asztalnál egy este alatt kiszolgált vendégcsoportok 
+                        számát) és ezáltal megnövekedett bevételt eredményez.  
+                        A pontos, automatizált készletkezelés drasztikusan csökkenti a selejtet, a romlandó áruk indokolatlan 
+                        felhalmozását és a felesleges árubeszerzést, ami azonnali megtakarításként jelentkezik.  
+                        A statisztikai adatok révén a vezetőség optimalizálhatja az étlapot (azonosítva a legmagasabb árréssel 
+                        dolgozó, népszerű ételeket) és a személyzet beosztását,  
+                        ami hosszútávon komoly költségmegtakarítást jelent a szervezet számára. Emellett a digitális, gördülékeny 
+                        munkavégzés jelentősen csökkenti a felszolgálókra nehezedő stresszt a csúcsidőszakokban, ami bizonyítottan 
+                        csökkenti a fluktuációt és a munkaerő-toborzás költségeit.
+                    </p> 
+                </li> 
+                <li><b>2.2 A probléma megfogalmazása</b> 
+                    <p>A modern vendéglátás egyik legnagyobb kihívása a sebesség, a pontosság és a háttérfolyamatok szinkronizációjának  
+                        hiánya. Számos étterem még napjainkban is hagyományos, papíralapú rendelésfelvételt,  
+                        vagy elavult, izolált kasszarendszereket használ, amelyek nem képesek a teljes  
+                        munkafolyamatot egyetlen koherens rendszerben kezelni. Különösen hétvégi csúcsidőszakokban (rush hour) 
+                        válik kritikussá a folyamatok lassúsága, amikor a humán erőforrás maximálisan le van terhelve. 
+                        <br><br> A megoldandó problémák a következők:
+                    </p> 
+                    <ul class="pottyos-lista"> 
+                        <li><b>Lassú kommunikáció és adatvesztés:</b> A papírfecnikre felírt rendelések olvashatatlanok, a zajos 
+                            környezet miatt gyakoriak a félreértések. A pincér fizikailag  
+                            ingázik az asztalok és a konyha között, a rendelés leadása késik. Előfordul, hogy a rendelésblokk 
+                            leesik, elveszik, így a vendég egyáltalán nem kapja meg az ételét, ami komoly presztízsveszteséget 
+                            (pl. negatív online értékeléseket) von maga után.</li> 
+                        <li><b>Készletinformáció hiánya és aszinkronitás:</b> A felszolgáló nem tudja valós időben,  
+                            hogy miből mennyi van a raktárban, így sokszor olyan ételt is elad, ami már elfogyott,  
+                            amit később kellemetlen visszamondani a vendégnek. Ez nemcsak a vendégélményt rontja, de a pincér 
+                            idejét is rabolja, hiszen újra fel kell vennie a rendelést.</li> 
+                        <li><b>Adminisztrációs és elszámolási káosz:</b> A számlák megbontása (amikor egy 10 fős asztaltársaság 
+                            külön szeretne fizetni), a kedvezmények érvényesítése  
+                            és a műszak végi zárás lassú, emberi hibákkal teli folyamat. A borravaló (szervizdíj) manuális számolgatása, 
+                            a kártyás és készpénzes fizetések szétválogatása rengeteg értékes munkaórát emészt fel a műszak végén.</li> 
+                    </ul> 
+                    <p> Az érintettek (pincérek, szakácsok, üzletvezető, vendégek) mind elszenvedik ezen problémák hatásait:  
+                        a vendég sokat vár és türelmetlen lesz, a személyzet stresszes a káosz miatt, ami belső konfliktusokhoz vezet, 
+                        az üzletvezető pedig nem látja át a valós  
+                        készletfogyást és a pénzügyi folyamatokat, így a döntéseit adatok helyett megérzésekre kell alapoznia. 
+                        A sikeres megoldás legfontosabb hasznos hatása a gyors,  
+                        hibamentes rendeléstovábbítás, a valós idejű leltár, a transzparens adatáramlás és a stresszmentes, 
+                        pontos pénzügyi elszámolás lesz. 
+                    </p> 
+                </li> 
+                <li><b>2.3 Az elkészült termék helye</b> 
+                    <p>A DishPatch szoftver az étterem mindennapi infrastruktúrájának központi elemeként, egyfajta 
+                        "digitális idegrendszerként" üzemel,  
+                        összekapcsolva a vendégtéri és a konyhai munkafolyamatokat egyetlen stabil belső hálózaton (LAN). 
+                        A szoftver nem egy elszigetelt eszköz, hanem a teljes üzleti folyamatot végigkísérő ökoszisztéma, 
+                        az asztalfoglalástól a raktár logisztikáig.
+                    </p> 
+                    <ul class="pottyos-lista"> 
+                        <li><b>Kinek készült:</b> Kis- és közepes méretű (KKV) vendéglátóipari egységeknek, éttermeknek,  
+                            bisztróknak, kávézóknak, valamint gyorséttermeknek, ahol a folyamatok standardizálása elengedhetetlen 
+                            a nyereséges működéshez.</li> 
+                        <li><b>Ki fogja használni:</b> A vendégtérben dolgozó felszolgálók és pultosok, a konyhai stáb (szakácsok, séfek),  
+                            valamint a háttéradminisztrációt, elemzéseket és beszerzést végző üzletvezetők és könyvelők.</li> 
+                        <li><b>Alkalmazás kategóriája:</b> Vállalati információs és folyamatirányítási rendszer (ERP)  
+                            vendéglátóipari specializációval, integrált Point of Sale (PoS) funkciókkal.</li> 
+                        <li><b>Alapvető haszna:</b> Valós idejű, közvetlen kapcsolatot teremt a rendelésfelvétel,  
+                            a konyhai kijelző modul (KDS) és a készletnyilvántartás között, ezzel minimalizálva az  
+                            adminisztrációs hibákat, a vendégek várakozási idejét és a raktári selejtet. Átláthatóvá teszi 
+                            a pénzmozgást a vezetőség számára.</li> 
+                        <li><b>Lehetséges alternatívák:</b>  
+                            A hagyományos papíralapú nyilvántartás ugyan olcsó, de rendkívül lassú, nem skálázható és megbízhatatlan.  
+                            A piacon elérhető "dobozos" kasszarendszerek pedig általában drága, havidíjas felhőszolgáltatások,  
+                            amelyek internetkimaradás esetén megbénulnak, lassú a betöltési idejük, és ritkán tartalmaznak alapáron 
+                            beépített, valós idejű konyhai  
+                            kijelzőt vagy grammatikai szintű automatikus receptúrakezelést.</li> 
+                        <li><b>Miben különbözik az alternatíváktól:</b> A DishPatch egy zárt helyi hálózaton futó, internetkapcsolat  
+                            nélkül is maximálisan stabil megoldás. A modern Tauri keretrendszernek köszönhetően rendkívül gyors, 
+                            minimális RAM és CPU igényű (erőforrás-takarékos), felülete pedig kifejezetten az érintőképernyős pultok gyors,
+                             "vakon" történő kezelésére lett tervezve, csökkentve a betanítási időt.</li> 
+                    </ul> 
+                </li> 
+            </ul> 
+        </li> 
+
+        <li>Érintettek és felhasználók 
+            <ul style="list-style: none;"> 
+                <li><b>3.1. Az érintettek összefoglalása</b> 
+                    <table class="tech-tabla"> 
+                        <thead> 
+                            <tr> 
+                                <th>Elnevezés</th> 
+                                <th>Leírás</th> 
+                                <th>Szerep</th> 
+                            </tr> 
+                        </thead> 
+                        <tbody> 
+                            <tr> 
+                                <td>Üzlettulajdonos / Befektető</td> 
+                                <td>Az étterem tulajdonosa vagy befektetője.</td> 
+                                <td>Ő finanszírozza a szoftver bevezetését, a megtérülést, a transzparenciát és az üzleti hasznot 
+                                    (profit maximalizálást) várja a projekttől.</td> 
+                            </tr> 
+                            <tr> 
+                                <td>Beszállítók és Logisztikai partnerek</td> 
+                                <td>Az étterem alapanyag-beszállítói.</td> 
+                                <td>Közvetve érintettek, mivel a szoftver pontosabb és kiszámíthatóbb rendelési előrejelzéseket 
+                                    biztosít számukra a valós idejű raktárkészlet-csökkenés alapján.</td> 
+                            </tr> 
+                            <tr> 
+                                <td>Vendégek (Végfelhasználók)</td> 
+                                <td>Az étterem fizető vendégei.</td> 
+                                <td>Ők az elszenvedői vagy élvezői a rendszer működésének; a szoftver számukra gyorsabb kiszolgálást, 
+                                    meleg ételt és transzparens, pontos számlázást garantál.</td> 
+                            </tr>
+                            <tr> 
+                                <td>Hatóságok (pl. NAV, NÉBIH)</td> 
+                                <td>Állami ellenőrző szervek.</td> 
+                                <td>Elvárják a törvényes adatszolgáltatást (online kassza integráció), a pontos könyvelést 
+                                    és a nyomon követhető alapanyag-felhasználást.</td> 
+                            </tr> 
+                        </tbody> 
+                    </table> 
+                </li> 
+                <li><b>3.2. A felhasználók összefoglalása</b> 
+                    <table class="tech-tabla"> 
+                        <thead> 
+                            <tr> 
+                                <th>Elnevezés</th> 
+                                <th>Leírás</th> 
+                                <th>Illetékes</th> 
+                            </tr> 
+                        </thead> 
+                        <tbody> 
+                            <tr> 
+                                <td>Felszolgáló (Pincér / Pultos)</td> 
+                                <td>A vendégtérben dolgozó, ügyfelekkel kommunikáló alkalmazott.</td> 
+                                <td>A rendelésfelvételi, asztalkezelő és fizettetési modul elsődleges napi felhasználója. 
+                                    Számára a sebesség és az ergonómia a legfontosabb.</td> 
+                            </tr> 
+                            <tr> 
+                                <td>Szakács / Séf (Konyhai stáb)</td> 
+                                <td>Az ételeket elkészítő személyzet.</td> 
+                                <td>A konyhai kijelző modul (KDS) felhasználói, akik az érkező blokkokat olvassák, és 
+                                    az elkészült ételeket egy érintéssel adminisztrálják a rendszerben.</td> 
+                            </tr> 
+                            <tr> 
+                                <td>Üzletvezető (Menedzser)</td> 
+                                <td>Az étterem napi működéséért és a személyzetért felelős vezető.</td> 
+                                <td>Napi szintű rendszeradminisztrátor; asztalokat oszt ki, sztornózásokat hagy jóvá, 
+                                    illetve a műszakzárást és leltározást végzi a szoftverben.</td> 
+                            </tr>
+                            <tr> 
+                                <td>Rendszergazda / IT Karbantartó</td> 
+                                <td>A hálózati infrastruktúrát felügyelő személy.</td> 
+                                <td>Felelős a szerver (Spring Boot + PostgreSQL) zavartalan futásáért, az adatbázis biztonsági 
+                                    mentéseiért és a kliensgépek (Tauri) frissítéséért.</td> 
+                            </tr> 
+                        </tbody> 
+                    </table> 
+                </li> 
+                <li><b>3.3 Felhasználói környezet</b> 
+                    <ul class="pottyos-lista"> 
+                        <li><b>Platform:</b> Az asztali kliensek Windows operációs rendszeren futnak (Tauri alapokon).  
+                            A szerver (Spring Boot) Windows vagy Linux környezetben (igény esetén Docker konténerben) üzemel. 
+                            Nem várható azonnali változás, a cross-platform felépítés garantálja a jövőállóságot.</li> 
+                        <li><b>Felhasználók száma:</b> Étteremmérettől függően átlagosan 3-10 egyidejű felhasználó  
+                            (pl. 4 pincér terminál a pultnál, 2 konyhai monitor a pályákon, 1 irodai gép a háttérben). 
+                            Extrém csúcsidőben ez maximálisan  
+                            15-20 kliensre nőhet. Nincs meredek növekedési trend, a terhelés jól kiszámítható.</li> 
+                        <li><b>Használat ideje:</b> A pincérek folyamatosan, műszakonként 8-12 órában, jellemzően pár másodperces, 
+                            intenzív interakciókra (mikro-tranzakciókra) használják a gépet.  
+                            A konyha egész nap rápillant a kijelzőre mint passzív információforrásra, az üzletvezető pedig 
+                            napi 1-2 órát használja folyamatosan, fókuszáltan a záráshoz, leltárhoz és elemzésekhez.</li> 
+                        <li><b>Különleges körülmények:</b> Fokozott fizikai és pszichológiai igénybevétel. Érintőképernyős 
+                            (touch) eszközök a pultnál, ahol gyakori a folyadék kiömlése (ipari védelem szükséges). Zajos,  
+                            gőzös, magas páratartalmú és hőmérsékletű konyhai környezet (KDS kijelzők), ahol a kijelzőnek erős 
+                            kontraszttal és nagy betűkkel kell operálnia, hogy 2-3 méterről is olvasható legyen.</li> 
+                        <li><b>Integráció:</b> Külső számlázó szoftverekkel (pl. NAV-kompatibilis rendszerek)  
+                            és blokknyomtatókkal, konyhai cetli nyomtatókkal kell integrálni a rendszert lokális hálózati 
+                            protokollokon keresztül.</li> 
+                    </ul> 
+                </li> 
+            </ul> 
+        </li> 
+        <li>A végtermék áttekintése 
+            <ul style="list-style: none;"> 
+                <li><b>4.1 A termék kapcsolatai</b> 
+                    <p>A szoftver három fő funkcionális komponensből álló elosztott rendszer: 
+                        egy React és TypeScript alapú, Tauri keretrendszerbe csomagolt asztali frontend alkalmazásból  
+                        (mely bejelentkezéstől függően dedikált felszolgálói, konyhai és vezetői nézetet biztosít),  
+                        egy központi, nagy teljesítményű Java Spring Boot (REST API) alapú backend szerverből, valamint 
+                        egy robusztus, relációs PostgreSQL adatbázisból, melyet Hibernate ORM kezel. 
+                        A termék a helyi hálózaton (LAN) lévő hardvereszközökhöz és 
+                        külső API-n keresztül harmadik fél által biztosított adóügyi és számlázó  
+                        rendszerekhez kapcsolódik, transzparens adatáramlást biztosítva.</p> 
+                </li> 
+                <li><b>4.2. A termék használatának előnyei</b> 
+                    <table class="tech-tabla"> 
+                        <thead> 
+                            <tr> 
+                                <th>A megrendelő haszna (előnyei)</th> 
+                                <th>Az ezt támogató rendszer jellemző(k)</th> 
+                            </tr> 
+                        </thead> 
+                        <tbody> 
+                            <tr> 
+                                <td>Felgyorsul a kiszolgálás a konyha és a felszolgálók között</td> 
+                                <td>1. A felvett rendelések egy gombnyomásra, késleltetés nélkül azonnal megjelennek a 
+                                    konyhai KDS monitoron.<br>2. A pincér vizuális értesítést (pl. asztal színének változása)  
+                                    kap a terminálon, amint a séf "Kész" státuszba teszi az ételt.</td> 
+                            </tr> 
+                            <tr> 
+                                <td>Megszűnik a készlethiányból fakadó kellemetlenség és a selejt</td> 
+                                <td>1. A rendszer a beállított gramm-pontos receptúrák alapján azonnal levonja az alapanyagokat  
+                                    a raktárból minden rögzített tételnél.<br>2. Ha valami (pl. a lazac) elfogy, a termék automatikusan 
+                                    nem rendelhetővé (kiszürkítetté) válik a pultnál lévő felületen.</td> 
+                            </tr> 
+                            <tr> 
+                                <td>Átlátható, egyszerű fizettetés és asztalbontás, pontos zárás</td> 
+                                <td>1. A szoftver támogatja a "split bill" (szétbontott asztal) drag-and-drop szerű funkciót, amivel 
+                                    a vendégek külön fizethetnek.<br>2. Kezeli a vegyes  
+                                    fizetési módokat (részben készpénz, részben kártya) egyetlen tranzakción belül, a műszak végén 
+                                    pedig automatikus kassza-zárás jelentést készít.</td> 
+                            </tr>
+                            <tr> 
+                                <td>Adatalapú vezetői döntéshozatal és marketing lehetőségek</td> 
+                                <td>1. A statisztikai modul megmutatja a legjövedelmezőbb napokat, órákat és termékeket.<br>
+                                    2. Könnyen beazonosíthatóvá válnak a legjobban teljesítő felszolgálók a forgalmi adatok alapján.</td> 
+                            </tr> 
+                        </tbody> 
+                    </table> 
+                </li> 
+                <li><b>4.3. Feltételezések és függőségek</b> 
+                    <ul class="pottyos-lista"> 
+                        <li>Feltételezzük, hogy az étterem rendelkezik egy folyamatosan működő, stabil belső helyi hálózattal  
+                            (LAN/WLAN) routerekkel és switchekkel, amelyen a kliensek és a szerver IP alapon zavartalanul kommunikálnak.</li> 
+                        <li>Feltételezzük, hogy az étteremben rendelkezésre állnak az ipari standardoknak megfelelő érintőképernyős 
+                            (touch) terminálok, konyhai cseppálló monitorok és  
+                            a hálózati blokknyomtatók, melyek életciklusa legalább 3-5 év.</li> 
+                        <li>Függőség áll fenn a külső számlázó API-k (pl. NAV 3.0 adatszolgáltatás) működési stabilitását 
+                            és hivatalos specifikációit illetően. Ha a külső API  
+                            szervere nem elérhető, a szoftvernek képesnek kell lennie a nyugtaadatokat helyben, aszinkron, 
+                            késleltetett módon tárolni, és a kapcsolat helyreállásakor automatikusan beküldeni.</li>
+                        <li>Feltételezzük, hogy az alkalmazottak rendelkeznek a mindennapi okostelefon/tablet használathoz 
+                            szükséges minimális informatikai alapkészségekkel.</li> 
+                    </ul> 
+                </li> 
+                <li><b>4.4 Költségbecslés</b> 
+                    <p>A projekt becsült bekerülési költsége a szoftverfejlesztés mérnöki munkadíjából, a szükséges, éttermi 
+                        környezetet tűrő hardverek  
+                        (érintőképernyős terminálok, helyi központi szerver PC, hálózati infrastruktúra, blokknyomtatók) beszerzéséből,  
+                        valamint a hálózat kiépítésének és a személyzet betanításának egyszeri integrációs díjából tevődik össze.  
+                        Mivel a rendszer backend és frontend rétege teljes egészében ingyenes, nyílt forráskódú és jogtiszta 
+                        technológiákra  
+                        (Java, React, PostgreSQL) épül, így az üzemeltetőt szoftveres licencköltségek (pl. adatbázis szerver havidíj) 
+                        nem terhelik.  
+                        Egy átlagos méretű étterem esetén a teljes bevezetési beruházás  
+                        a meglévő hardveres infrastruktúrától függően nagyságrendileg 1,5 és 3,5 millió forint közé tehető, 
+                        mely az optimalizált működés révén a számítások szerint 8-12 hónapon belül megtérül.</p> 
+                </li> 
+                <li><b>4.5. Installáció</b> 
+                    <p>A telepítés egy előre meghatározott forgatókönyv alapján, több lépcsőben történik. 
+                        A központi szervergépre szükséges a PostgreSQL adatbázis-kezelő telepítése, a séma inicializálása, 
+                        valamint a Java 17+ (vagy újabb) futtatókörnyezet biztosítása. A szervert érdemes szünetmentes tápegységre 
+                        kötni.  
+                        A kliens gépekre (pult, konyha, iroda) a Tauri által generált, hordozható és önálló egyetlen 
+                        .exe telepítőfájl futtatása szükséges, ami nem igényel komplex regisztrációs adatbázis beállításokat.  
+                        Az installációt követően az üzletvezetőt kb. 2-3 órás, a menedzsment funkciókra kiterjedő betanításban, a 
+                        felszolgáló személyzetet pedig egy 30 perces, a napi rutinműveleteket lefedő gyorstalpaló képzésben kell 
+                        részesíteni a nyitás előtti időszakban.</p> 
+                </li> 
+            </ul> 
+        </li> 
+        <li>A végtermék jellemzői, biztosított szolgáltatások 
+            <p>A rendszer az alábbi egymással szorosan integrált, mégis modulárisan felépülő fő szolgáltatásokat biztosítja a 
+                végfelhasználók számára:</p> 
+            <ul class="pottyos-lista"> 
+                <li><b>Asztal- és rendeléskezelés (Magas prioritás):</b> Interaktív, testreszabható asztaltérkép használata, a
+                    hol színkódok jelzik az asztal státuszát (szabad, foglalt, fizet). Rendelések gyors felvétele kategóriákba 
+                    (levesek, főételek, italok) rendezett érintőképernyős felületen. Tételek módosítása, extra kívánságok és 
+                    allergén információk kezelése, asztalok összevonása vagy tételek áthelyezése másik asztalra.</li> 
+                <li><b>Konyhai KDS modul (Magas prioritás):</b> Időrendben (vagy asztalszám alapján) érkező rendelések (blokkok) 
+                    dinamikus megjelenítése 
+                     a szakácsok számára dedikált képernyőn. A különböző pályákra (hidegkonyha, melegkonyha) bontott megjelenítés 
+                     támogatása, az elkészült ételek lejelentése egyetlen fizikai vagy érintőgomb megnyomásával.</li> 
+                <li><b>Fizettetés és pénzügy (Magas prioritás):</b> Nyugta, egyszerűsített számla és ÁFÁ-s számla generálása. 
+                    Asztalok rugalmas szétbontása tételek (vagy akár egy tétel felezése) szerint. A különböző fizetési módok 
+                    (Készpénz, Bankkártya, SZÉP Kártya, Utalvány) párhuzamos regisztrálása, a borravaló (szervizdíj) automatikus 
+                    számítása és kezelése. Napi zárás automatizálása.</li> 
+                <li><b>Raktárkészlet automatizálás (Közepes prioritás):</b> Ételekhez és italokhoz tartozó precíz receptúrák 
+                    rögzítése a rendszerben. A fogyás  
+                    alapján a felhasznált alapanyagok (gramm, deciliter, darab) automatikus, valós idejű levonása a virtuális 
+                    raktárkészletből. Automatikus vizuális és e-mailes figyelmeztetés generálása a menedzsment számára kritikus 
+                    készletszint (re-order point) elérése esetén. Leltározást segítő digitális ívek generálása.</li> 
+                <li><b>Adminisztráció és Statisztika (Közepes prioritás):</b> Menü, termékkategóriák és árak (akár időszakos 
+                    happy-hour árak) dinamikus szerkesztése valós időben.  
+                    Dolgozók rögzítése, jelszavaik és biztonsági jogosultságaik (pl. sztornó engedélyezése csak menedzsernek) 
+                    kezelése. Napi, heti és havi bontású grafikus forgalmi statisztikák, árrés-elemzések és dolgozói 
+                    teljesítményértékelések megtekintése, exportálási lehetőséggel.</li> 
+            </ul> 
+        </li> 
+
+        <li>Korlátozások 
+            <ul class="pottyos-lista"> 
+                <li>A kliens alkalmazás (Tauri keretrendszer korlátai és az erőforrások miatt) jelen fázisban dedikáltan asztali 
+                    operációs rendszerekre (Windows 10/11) készül. Natív mobiltelefonos (iOS/Android) alkalmazás fejlesztése a 
+                    vendégek vagy a pincérek számára nem része a jelenlegi projekt specifikációnak.</li> 
+                <li>A szoftver a maximális stabilitás érdekében arra lett tervezve, hogy a belső, helyi hálózaton (LAN) működjön 
+                    optimálisan, ahol az adatbázis a helyszínen van. Bár felhő alapú adatbázis 
+                    elérés is beállítható, ebben az esetben a hálózati késések miatt a gombnyomások válaszideje megnőhet, ami 
+                    ronthatja a felhasználói élményt a pultnál.</li> 
+            </ul> 
+        </li> 
+
+        <li>Minőségi elvárások 
+            <ul class="pottyos-lista"> 
+                <li><b>Teljesítmény és Sebesség:</b> A rendelésfelvételi kliens felületen a rendszernek reszponzívnak kell maradnia. 
+                    Minden felhasználói interakcióra (pl. tétel kosárba rakása, kategória váltás) történő rendszer válaszidő 
+                    optimális körülmények között nem haladhatja meg a 0,5 másodpercet, elkerülve a dupla kattintásokat.</li> 
+                <li><b>Rendelkezésre állás és Stabilitás:</b> A szoftver kliens oldala nem fagyhat le, memóriaszivárgást
+                    nem okozhat a hosszú, 12 órás műszakok alatt sem. A rendelési adatokat folyamatosan, tranzakcionálisan 
+                    kell szinkronizálnia az adatbázissal, garantálva, hogy áramszünet vagy hálózati 
+                    szakadás esetén egyetlen felvett tétel vagy kifizetett számla se vesszen el.</li> 
+                <li><b>Használhatóság (UI/UX - Ergonómia):</b> A grafikus felületnek olyannak kell lennie, hogy a felszolgáló 
+                    a legforgalmasabb  
+                    időszakban is, minimális kognitív terheléssel és gépeléssel tudjon dolgozni. Szükséges a nagy, ujjbeggyel 
+                    könnyen eltalálható érintőgombok, kontrasztos színek és letisztult, "flat" dizájn alkalmazása. 
+                    Egy új kolléga betanulási ideje a rendelésfelvételre nem haladhatja meg a 20-30 percet.</li> 
+            </ul> 
+        </li> 
+
+        <li>Dokumentációkkal kapcsolatos követelmények 
+            <ul class="pottyos-lista"> 
+                <li><b>Fejlesztői és Üzemeltetői dokumentáció:</b> Részletes UML diagramok (osztálydiagram, Use-case diagramok, 
+                    adatbázis E-R modell) és a REST API végpontok technikai leírása, 
+                    elektronikus formátumban. Tartalmaznia kell a telepítési lépéseket is a rendszergazdák számára.</li> 
+                <li><b>Felhasználói kézikönyv:</b> Egy vizuálisan gazdag, rövid, képernyőfotókkal (ábrákkal) illusztrált
+                     PDF dokumentum, (mely ideális esetben a szoftver beépített Súgó funkciójából is elérhető).
+                      Ennek külön fejezetekben kell tárgyalnia a felszolgálók napi rutin feladatait (rendelés, fizetés) és az 
+                      üzletvezetők bonyolultabb műveleteit (leltár, árképzés, zárás).</li> 
+            </ul> 
+        </li> 
+
+        <li>Kockázat lista 
+            <ul class="pottyos-lista"> 
+                <li><b>Hálózati / Szerver leállás (Magas kockázat - Nagy hatásfok):</b> A rendszer központosított jellege 
+                    miatt a működés megbénul, ha a belső hálózat megszakad vagy a központi szerver hardvere tönkremegy. 
+                    <i>Kezelés/Intézkedés:</i> Kétcsatornás, ipari stabil hálózati hardverek használata, valamint kötelező 
+                    szünetmentes tápegység biztosítása a szervernek.</li> 
+                <li><b>Fejlesztési csúszás és Integrációs hibák (Közepes kockázat):</b> A kiválasztott heterogén technológiai 
+                    stack (Tauri keretrendszer frontenden + Java Spring Boot backenden) összehangolása, valamint a külső API-k 
+                    bekötése a vártnál több időt és erőforrást vehet igénybe. <i>Kezelés/Intézkedés:</i> Folyamatos verziókezelés (Git), 
+                    rendszeres heti integrációs tesztelések és az alapvető, 
+                    kritikus funkció fejlesztése.</li> 
+                <li><b>Adatvesztés (Magas kockázat - Kritikus hatásfok):</b> A merevlemez meghibásodása miatti adatbázis sérülés, 
+                    ami a pénzügyi adatok elvesztésével is járhat. <i>Kezelés/Intézkedés:</i> PostgreSQL szinten beállított 
+                    automatikus, ütemezett napi (éjszakai) backup (biztonsági mentés) szkriptek futtatása, melyek az adatokat 
+                    egy fizikailag elkülönített külső meghajtóra, vagy titkosítva egy felhőtárhelyre másolják.</li> 
+            </ul> 
+        </li> 
+
+        <li>Szótár 
+            <p>A dokumentumban szereplő szakkifejezések definícióit egy külön oldal tartalmazza: 
+                <a href="Szotar.html" target="_blank" style="color: blue; text-decoration: underline; font-weight: bold;"><br>Ugrás a Részletes Szótárra<br\></a> 
+            </p> 
+        </li> 
+    </ol> 
+</body> 
 </html>

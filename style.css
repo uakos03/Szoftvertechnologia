@@ -183,3 +183,19 @@ html, body {
     text-align: center;
     font-weight: bold;
 }
+
+.terv-lista ul.pottyos-lista {
+    list-style-type: disc; 
+    padding-left: 30px !important; 
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.terv-lista ul.pottyos-lista li {
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 8px; 
+    margin-right: 80px;
+}
