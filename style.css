@@ -158,6 +158,11 @@ html, body {
     text-align: center;
 }
 
+.munkanaplo-tabla th:first-child,
+.munkanaplo-tabla td:first-child {
+    white-space: nowrap;
+}
+
 .tech-tabla {
     width: 80%;
     max-width: 850px;

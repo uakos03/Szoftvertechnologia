@@ -17,15 +17,110 @@
         
         <li>Adatmodellek
             <ul style="list-style: none;">
-                <li><b>3.1 Adatbázis kezelő kiválasztása</b></li>
-                <li><b>3.2 Szemantikai adatmodell</b></li>
+                <li><b>3.1 Adatbázis kezelő kiválasztása</b>
+                <p>A rendszer implementációja során az adatbázis-kezelési feladatokra a <b>PostgreSQL</b> relációs adatbázis-kezelő (RDBMS)
+                     rendszert választottuk. A döntés főbb okai:</p>
+                    <ul class="pottyos-lista">
+                        <li>Teljesen nyílt forráskódú és ingyenes, így licencköltségek nélkül használható üzleti környezetben is.</li>
+                        <li>Kiválóan kezeli a párhuzamos tranzakciókat, ami egy forgalmas étteremben a párhuzamos rendelésfelvételeknél 
+                            kritikus.</li>
+                        <li>Tökéletesen integrálható a backendhez választott Java Spring Boot keretrendszerrel és a Hibernate ORM-mel.</li>
+                    </ul>
+                </li>
+                <li><b>3.2 Szemantikai adatmodell</b>
+                    <p>A rendszer logikai felépítését, a valós világbeli fogalmakat és a közöttük lévő összetett 
+                        kapcsolatokat az alábbi ER diagram szemlélteti. 
+                        A modell részletesen kidolgozott: tartalmazza az N:M (több-a-többhöz) kapcsolatok feloldását, 
+                        valamint a komplex számlabontási lehetőségekhez szükséges 
+                        fizetési logikát.</p>
+                        <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
+                        <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
+                            <i>A rendszer teljes szemantikai adatmodellje</i>
+                                </p>
+                                <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
+                                <img src="../Képek/ER-modell.png" alt="A DishPatch rendszer ER modellje" style="max-width: 95%; border: 1px solid #777; padding: 10px; background-color: white;">
+                                </div>
+                <table class="tech-tabla"> 
+                    <thead> 
+                    <tr> 
+                    <th>Egyed (Entity)</th> 
+                    <th>Attribútumok</th> 
+                    <th>Leírás és Kapcsolatok</th> 
+                                </tr> 
+                            </thead> 
+                            <tbody> 
+                                <tr> 
+                                    <td><b>Szerepkör</b></td> 
+                                    <td>id [PK], megnevezes</td> 
+                                    <td>A dolgozók jogosultsági szintjei (pl. Üzletvezető, Pincér).</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Felhasználó</b></td> 
+                                    <td>id [PK], nev, pin_kod_hash, aktiv</td> 
+                                    <td>Az étterem dolgozói. A jelszót hashelve tároljuk, a törlést logikai inaktiválással oldjuk meg. 
+                                        Kapcsolódik a Szerepkörhöz.</td> 
+                                </tr> 
+                                <tr> 
+                                    <td><b>Zóna / Helyiség</b></td> 
+                                    <td>id [PK], nev</td> 
+                                    <td>Az étterem fizikai területeinek (Terasz, Belső tér) nyilvántartása.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Asztal</b></td> 
+                                    <td>id [PK], asztal_szam, ferohely, aktiv</td> 
+                                    <td>A vendégtér asztalainak nyilvántartása. 1:N kapcsolatban áll a Zónákkal.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Kategória</b></td> 
+                                    <td>id [PK], nev, afa_kulcs</td> 
+                                    <td>A termékek csoportosítása és a hozzájuk tartozó adókulcs.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Termék</b></td> 
+                                    <td>id [PK], nev, aktualis_ar, elerheto</td> 
+                                    <td>Az étlapon és itallapon szereplő késztermékek. Csak a jelenleg érvényes árat tartalmazza.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Alapanyag</b></td> 
+                                    <td>id [PK], nev, mertekegyseg, aktualis_keszlet, minimum_keszlet</td> 
+                                    <td>A raktárkészlet elemei. A minimum készlet segíti az újrarendelési figyelmeztetéseket.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Receptúra</b></td> 
+                                    <td>szukseges_mennyiseg</td> 
+                                    <td>Kapcsoló egyed (Associative Entity). Definiálja, hogy egy ételhez miből mennyi alapanyag kell.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Raktár_mozgás</b></td> 
+                                    <td>id [PK], tipus, mennyiseg, datum</td> 
+                                    <td>A készletváltozások historikus naplózása (Bevételezés, Selejt, Fogyás). A Felhasználóhoz és 
+                                        az Alapanyaghoz kötődik.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Rendelés</b></td> 
+                                    <td>id [PK], nyitas_ideje, zaras_ideje, statusz</td> 
+                                    <td>Egy adott asztalhoz rögzített fogyasztás fejlécadatai.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Rendelés_tétel</b></td> 
+                                    <td>id [PK], eladasi_egysegar, mennyiseg, statusz, megjegyzes</td> 
+                                    <td>Kapcsoló egyed. A rendelés konkrét elemei. Az eladasi_egysegar rögzítése kritikus az ártörténet 
+                                        miatt.</td> 
+                                </tr>
+                                <tr> 
+                                    <td><b>Fizetési_tranzakció</b></td> 
+                                    <td>id [PK], fizetett_osszeg, fizetesi_mod, borravalo, datum</td> 
+                                    <td>A számlakiegyenlítések rögzítése. 1:N kapcsolatban van a Rendeléssel 
+                                        (asztalbontás támogatása).</td> 
+                                </tr>
+                            </tbody> 
+                        </table> 
+                    </li>
                 <li><b>3.3 Relációs adatmodell</b></li>
                 <li><b>3.4 Az adatbázis kezelővel kapcsolatot tartó osztályok</b></li>
             </ul>
-        </li>
-        
+        </li>    
         <li>A funkcionális modell kiegészítése</li>
     </ol>
-
 </body>
 </html>
