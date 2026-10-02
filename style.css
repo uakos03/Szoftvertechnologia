@@ -204,3 +204,19 @@ html, body {
     margin-bottom: 8px; 
     margin-right: 80px;
 }
+
+.srs-belso-lista {
+    padding-left: 25px !important;
+    margin-right: 80px !important;
+    text-align: justify !important;
+}
+
+.srs-belso-lista li {
+    text-align: justify !important;
+    margin-bottom: 8px;
+}
+
+.kozepre-igazitva {
+    text-align: center !important;
+    margin-right: 80px;
+}

@@ -18,129 +18,25 @@
       </thead>
       <tbody>
           <tr>
+              <td>Aktor:</td>
+              <td>A rendszerrel interakcióba lépő entitás. Lehet emberi felhasználó (pl. Pincér, Szakács), 
+                de akár egy külső hardver/szoftver is (pl. Bankkártya terminál, NAV szerver).</td>
+          </tr>
+          <tr>
               <td>API:</td>
-              <td>Két szoftver közötti szabványosított kommunikációs felület. A rendszer ezen keresztül kommunikál 
-                a számlázó programokkal. </td>
+              <td>Két szoftver közötti szabványosított kommunikációs felület. A rendszer ezen keresztül kommunikál a 
+                számlázó programokkal.</td>
           </tr>
           <tr>
               <td>Backend:</td>
-              <td>A rendszer azon része, amely a háttérben fut, és kezeli az adatokat, üzleti logikát és a felhasználói kéréseket. 
-                A backend felelős az adatok feldolgozásáért és a felhasználói felülethez való kapcsolódásért.</td>
-            </tr>
-            <tr>
-                <td>ERP (Enterprise Resource Planning):</td>
-                <td>Egy olyan szoftverrendszer, amely segít az vállalatoknak az erőforrások, folyamatok és információk integrált kezelésében.</td>
-            </tr>
-            <tr>
-                <td>Frontend:</td>
-                <td>A rendszer azon része, amely a felhasználóval közvetlenül kommunikál, és a felhasználói felületet biztosítja. 
-                    A frontend felelős az adatok megjelenítéséért és a felhasználói interakciók kezeléséért.</td>
-            </tr>
-            <tr>
-                <td>KDS:</td>
-                <td>Konyhai kijelző modul. A konyhán elhelyezett képernyő, ahol a szakácsok 
-                    a beérkező, elkészítendő rendeléseket (blokkokat) látják.
-                </td>
-            </tr>
-            <tr>
-                <td>LAN (Local Area Network):</td>
-                <td>Helyi számítógépes hálózat. Az éttermen belüli zárt hálózat, 
-                    amely biztosítja, hogy a gépek internet nélkül is lássák egymást.
-                </td>
-            </tr>
-            <tr>
-                <td>Receptúra:</td>
-                <td>A szoftverben megadott logikai szabály, amely leírja, hogy egy étel (pl. bécsi szelet) pontosan 
-                    milyen alapanyagokból és milyen mennyiségekből áll össze. Ennek alapján történik a raktárkészlet csökkentése.
-                </td>
-            </tr>
-            <tr>
-                <td>Split Bill:</td>
-                <td>"Asztalbontás". Funkció, amely lehetővé teszi, hogy egy asztaltársaság tagjai külön-külön, 
-                    saját tételeiket fizessék ki.
-                </td>
-            </tr>
-            <tr> 
-              <td>Sztornó:</td> 
-              <td>Egy már rögzített, konyhára küldött vagy kifizetett tétel utólagos, adminisztratív törlése a 
-                rendszerből (téves rendelés vagy vendégpanasz miatt). Biztonsági okokból általában kizárólag üzletvezetői 
-                jogosultsággal (PIN kód vagy kártya) hajtható végre, hogy elkerüljék az alkalmazottak általi visszaéléseket.</td> 
-          </tr>
-          <tr> 
-              <td>Tauri:</td> 
-              <td>Egy modern szoftverfejlesztői keretrendszer, amellyel webes technológiákból (React) 
-                lehet rendkívül pici, biztonságos és gyors asztali alkalmazásokat (pl. .exe fájlokat) készíteni. 
-                Ez biztosítja, hogy a szoftverünk úgy működjön, mint egy hagyományos Windows program.</td> 
-          </tr>
-          <tr> 
-              <td>UI / UX:</td> 
-              <td>Felhasználói Felület és Felhasználói Élmény. Az a tudományág a szoftvertervezésben, 
-                ami azzal foglalkozik, hogy a program kinézete (színek, gombok mérete - UI) és a használatának 
-                logikája (hova kell kattintani, mennyire frusztráló - UX) a lehető legkellemesebb és leghatékonyabb legyen. 
-                Az éttermi pörgésben a kiváló UX létfontosságú.</td> 
-          </tr>
-          <tr> 
-              <td>Spring Boot:</td> 
-              <td>Egy ipari szabványnak számító, robusztus backend keretrendszer, 
-                amelyen a szerverünk fut. Automatikusan biztosítja a memóriakezelést, 
-                a biztonságos hálózati kommunikációt és az adatbázis-kapcsolatokat, lerövidítve a fejlesztési időt.</td> 
-          </tr>
-          <tr> 
-              <td>React:</td> 
-              <td>A Meta által kifejlesztett, komponens-alapú nyílt forráskódú frontend keretrendszer. 
-                Ezzel épül fel a rendszerünk modern, gyorsan reagáló vizuális felülete, amely újratöltés nélkül, 
-                azonnal frissíti a képernyőt (pl. amikor elkészül egy étel).</td> 
-          </tr>
-          <tr> 
-              <td>PostgreSQL:</td> 
-              <td>A projektben használt nyílt forráskódú, rendkívül stabil és fejlett relációs adatbázis-kezelő rendszer (RDBMS), 
-                amely a szoftver lelkeként, biztonságosan tárolja a menüt, a rendeléseket, a felhasználókat és a pénzügyi adatokat.</td> 
-          </tr>
-          <tr> 
-              <td>Cross-Platform:</td> 
-              <td>Olyan szoftverfejlesztési megközelítés, amely lehetővé teszi, hogy ugyanaz a 
-                programkód minimális módosítással többféle operációs rendszeren (pl. Windows, macOS, Linux) 
-                is natívan futtatható legyen. Rendszerünkben ezt a Tauri keretrendszer biztosítja.</td> 
+              <td>A rendszer azon része, amely a háttérben fut, és kezeli az adatokat, üzleti logikát és a felhasználói 
+                kéréseket. A backend felelős az adatok feldolgozásáért és a felhasználói felülethez való kapcsolódásért.</td>
           </tr>
           <tr>
-              <td>Szemantikai adatmodell:</td>
-              <td>A valós világ fogalmainak (egyedeinek) és a köztük lévő logikai kapcsolatoknak a grafikus, a fizikai megvalósítástól 
-                még független ábrázolása.</td>
-          </tr>
-          <tr>
-              <td>Relációs adatmodell:</td>
-              <td>A szemantikai modell alapján elkészített, 3NF (harmadik normálforma) szabályait követő fizikai adatbázis-terv, 
-                amely táblák és a közöttük lévő kulcsok segítségével írja le a rendszert.</td>
-          </tr>
-          <tr>
-              <td>Elsődleges kulcs:</td>
-              <td>Egy relációs táblában lévő olyan attribútum, amely egyértelműen és egyedileg 
-                azonosít minden egyes adatsort (például az id mező).</td>
-          </tr>
-          <tr>
-              <td>Idegen kulcs:</td>
-              <td>Egy relációs tábla azon oszlopa, amely egy másik tábla elsődleges kulcsára hivatkozik, ezen keresztül biztosítva 
-                a relációs kapcsolatot.</td>
-          </tr>
-          <tr>
-              <td>Kapcsoló egyed:</td>
-              <td>Olyan speciális adatbázistábla, amely két másik tábla közötti több-a-többhöz (N:M) kapcsolat feloldására szolgál 
-                (például a Receptúra a Termék és az Alapanyag között).</td>
-          </tr>
-          <tr>
-              <td>ORM:</td>
-              <td>Objektum-relációs leképzés, amely automatikusan áthidalja a strukturális különbségeket a relációs adatbázis 
-                (PostgreSQL) táblái és az objektumorientált kód (Java) között.</td>
-          </tr>
-          <tr>
-              <td>Entity:</td>
-              <td>A backend programkód olyan annotált Java osztálya, amely az adatbázis egy konkrét tábláját reprezentálja, 
-                a futás közbeni példányai pedig a tábla adatsorainak felelnek meg.</td>
-          </tr>
-          <tr>
-              <td>Repository:</td>
-              <td>A Spring Data JPA adatelérési interfésze, amely elrejti az adatbázis-kommunikáció komplexitását, és nyers SQL 
-                utasítások helyett metódushívásokkal (pl. findByAsztalId) kezeli a lekérdezéseket.</td>
+              <td>Cross-Platform:</td>
+              <td>Olyan szoftverfejlesztési megközelítés, amely lehetővé teszi, hogy ugyanaz a programkód minimális módosítással 
+                többféle operációs rendszeren (pl. Windows, macOS, Linux) is natívan futtatható legyen. Rendszerünkben ezt a Tauri 
+                keretrendszer biztosítja.</td>
           </tr>
           <tr>
               <td>CRUD műveletek:</td>
@@ -148,10 +44,136 @@
                 Update (Módosítás) és Delete (Törlés).</td>
           </tr>
           <tr>
+              <td>Elsődleges kulcs:</td>
+              <td>Egy relációs táblában lévő olyan attribútum, amely egyértelműen és egyedileg azonosít minden egyes adatsort 
+                (például az id mező).</td>
+          </tr>
+          <tr>
+              <td>Entity:</td>
+              <td>A backend programkód olyan annotált Java osztálya, amely az adatbázis egy konkrét tábláját reprezentálja, 
+                a futás közbeni példányai pedig a tábla adatsorainak felelnek meg.</td>
+          </tr>
+          <tr>
+              <td>ERP:</td>
+              <td>Egy olyan szoftverrendszer, amely segít az vállalatoknak az erőforrások, folyamatok és információk integrált 
+                kezelésében.</td>
+          </tr>
+          <tr>
+              <td>Frontend:</td>
+              <td>A rendszer azon része, amely a felhasználóval közvetlenül kommunikál, és a felhasználói felületet biztosítja. 
+                A frontend felelős az adatok megjelenítéséért és a felhasználói interakciók kezeléséért.</td>
+          </tr>
+          <tr>
+              <td>Hitbox:</td>
+              <td>A képernyőn lévő gombokhoz és interaktív elemekhez tartozó aktív, kattintást vagy érintést érzékelő terület. 
+                Éttermi környezetben a hitboxokat a látható gombnál nagyobbra tervezik a félrekattintások elkerülése végett.</td>
+          </tr>
+          <tr>
+              <td>Idegen kulcs:</td>
+              <td>Egy relációs tábla azon oszlopa, amely egy másik tábla elsődleges kulcsára hivatkozik, ezen keresztül biztosítva
+                 a relációs kapcsolatot.</td>
+          </tr>
+          <tr>
+              <td>Kapcsoló egyed:</td>
+              <td>Olyan speciális adatbázistábla, amely két másik tábla közötti több-a-többhöz (N:M) kapcsolat feloldására szolgál 
+                (például a Receptúra a Termék és az Alapanyag között).</td>
+          </tr>
+          <tr>
+              <td>KDS:</td>
+              <td>Konyhai kijelző modul. A konyhán elhelyezett képernyő, ahol a szakácsok a beérkező, elkészítendő rendeléseket 
+                (blokkokat) látják.</td>
+          </tr>
+          <tr>
+              <td>LAN:</td>
+              <td>Helyi számítógépes hálózat. Az éttermen belüli zárt hálózat, amely biztosítja, hogy a gépek internet nélkül 
+                is lássák egymást.</td>
+          </tr>
+          <tr>
+              <td>ORM:</td>
+              <td>Objektum-relációs leképzés, amely automatikusan áthidalja a strukturális különbségeket a relációs adatbázis 
+                (PostgreSQL) táblái és az objektumorientált kód (Java) között.</td>
+          </tr>
+          <tr>
+              <td>POS Terminál:</td>
+              <td>Értékesítési pont. Az az érintőképernyős számítógép vagy okoseszköz, amelyen a pincérek a mindennapi munkát 
+                (rendelésfelvétel, fizettetés) végzik.</td>
+          </tr>
+          <tr>
+              <td>PostgreSQL:</td>
+              <td>A projektben használt nyílt forráskódú, rendkívül stabil és fejlett relációs adatbázis-kezelő rendszer (RDBMS), 
+                amely a szoftver lelkeként, biztonságosan tárolja a menüt, a rendeléseket, a felhasználókat és a pénzügyi adatokat.</td>
+          </tr>
+          <tr>
+              <td>Prekondíció / Post kondíció:</td>
+              <td>A szoftvertervezésben használt fogalmak. A prekondíció az a feltétel, aminek teljesülnie kell egy művelet 
+                (pl. rendelés) megkezdéséhez. A post kondíció a rendszer állapota a művelet sikeres lefutása után.</td>
+          </tr>
+          <tr>
+              <td>React:</td>
+              <td>A Meta által kifejlesztett, komponens-alapú nyílt forráskódú frontend keretrendszer. Ezzel épül fel 
+                a rendszerünk modern, gyorsan reagáló vizuális felülete, amely újratöltés nélkül, azonnal frissíti a képernyőt.</td>
+          </tr>
+          <tr>
+              <td>Receptúra:</td>
+              <td>A szoftverben megadott logikai szabály, amely leírja, hogy egy étel (pl. bécsi szelet) pontosan milyen 
+                alapanyagokból és milyen mennyiségekből áll össze. Ennek alapján történik a raktárkészlet csökkentése.</td>
+          </tr>
+          <tr>
+              <td>Relációs adatmodell:</td>
+              <td>A szemantikai modell alapján elkészített, 3NF (harmadik normálforma) szabályait követő fizikai adatbázis-terv, 
+                amely táblák és a közöttük lévő kulcsok segítségével írja le a rendszert.</td>
+          </tr>
+          <tr>
+              <td>Repository:</td>
+              <td>A Spring Data JPA adatelérési interfésze, amely elrejti az adatbázis-kommunikáció komplexitását, 
+                és nyers SQL utasítások helyett metódushívásokkal (pl. findByAsztalId) kezeli a lekérdezéseket.</td>
+          </tr>
+          <tr>
+              <td>Split Bill:</td>
+              <td>"Asztalbontás". Funkció, amely lehetővé teszi, hogy egy asztaltársaság tagjai külön-külön, 
+                saját tételeiket fizessék ki.</td>
+          </tr>
+          <tr>
+              <td>Spring Boot:</td>
+              <td>Egy ipari szabványnak számító, robusztus backend keretrendszer, amelyen a szerverünk fut. Automatikusan 
+                biztosítja a memóriakezelést, a biztonságos hálózati kommunikációt és az adatbázis-kapcsolatokat.</td>
+          </tr>
+          <tr>
+              <td>SRS:</td>
+              <td>Szoftver Követelmény Specifikáció. A szoftverfejlesztés "szerződése", egy átfogó dokumentum, amely
+                 laikusok és programozók számára is rögzíti, hogy mit és hogyan kell tudnia az elkészülő rendszernek.</td>
+          </tr>
+          <tr>
               <td>SQL-injekció:</td>
-              <td>Gyakori kibertámadási forma, amely során kártékony adatbázis-parancsokat juttatnak a rendszerbe beviteli 
-                mezőkön keresztül. Az ORM technológia a paraméterezett lekérdezésekkel automatikusan védelmet nyújt ellene.</td>
+              <td>Gyakori kibertámadási forma, amely során kártékony adatbázis-parancsokat juttatnak a rendszerbe
+                 beviteli mezőkön keresztül. Az ORM technológia a paraméterezett lekérdezésekkel automatikusan védelmet nyújt ellene.</td>
+          </tr>
+          <tr>
+              <td>Szemantikai adatmodell:</td>
+              <td>A valós világ fogalmainak (egyedeinek) és a köztük lévő logikai kapcsolatoknak a grafikus, a fizikai 
+                megvalósítástól még független ábrázolása.</td>
+          </tr>
+          <tr>
+              <td>Sztornó:</td>
+              <td>Egy már rögzített, konyhára küldött vagy kifizetett tétel utólagos, adminisztratív törlése a rendszerből. 
+                Biztonsági okokból általában kizárólag üzletvezetői jogosultsággal hajtható végre.</td>
+          </tr>
+          <tr>
+              <td>Tauri:</td>
+              <td>Egy modern szoftverfejlesztői keretrendszer, amellyel webes technológiákból (React) lehet rendkívül pici,
+                 biztonságos és gyors asztali alkalmazásokat készíteni.</td>
+          </tr>
+          <tr>
+              <td>UI / UX:</td>
+              <td>Felhasználói Felület és Felhasználói Élmény. Az a tudományág a szoftvertervezésben, ami azzal foglalkozik, 
+                hogy a program kinézete (UI) és a használatának logikája (UX) a lehető legkellemesebb és leghatékonyabb legyen.</td>
+          </tr>
+          <tr>
+              <td>Use Case:</td>
+              <td>Az UML (Egységes Modellező Nyelv) szabvány egyik eleme. Egy konkrét folyamatot ír le, amelyben a felhasználó 
+                valamilyen céllal (pl. fizettetés) használja a rendszert.</td>
           </tr>
       </tbody>
     </table>
 </body>
+</html>
