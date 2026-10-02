@@ -18,7 +18,7 @@
       </thead>
       <tbody>
           <tr>
-              <td>API (Application Programming Interface):</td>
+              <td>API:</td>
               <td>Két szoftver közötti szabványosított kommunikációs felület. A rendszer ezen keresztül kommunikál 
                 a számlázó programokkal. </td>
           </tr>
@@ -73,14 +73,14 @@
                 Ez biztosítja, hogy a szoftverünk úgy működjön, mint egy hagyományos Windows program.</td> 
           </tr>
           <tr> 
-              <td>UI / UX (User Interface / User Experience):</td> 
+              <td>UI / UX:</td> 
               <td>Felhasználói Felület és Felhasználói Élmény. Az a tudományág a szoftvertervezésben, 
                 ami azzal foglalkozik, hogy a program kinézete (színek, gombok mérete - UI) és a használatának 
                 logikája (hova kell kattintani, mennyire frusztráló - UX) a lehető legkellemesebb és leghatékonyabb legyen. 
                 Az éttermi pörgésben a kiváló UX létfontosságú.</td> 
           </tr>
           <tr> 
-              <td>Spring Boot (Java):</td> 
+              <td>Spring Boot:</td> 
               <td>Egy ipari szabványnak számító, robusztus backend keretrendszer, 
                 amelyen a szerverünk fut. Automatikusan biztosítja a memóriakezelést, 
                 a biztonságos hálózati kommunikációt és az adatbázis-kapcsolatokat, lerövidítve a fejlesztési időt.</td> 
@@ -102,8 +102,56 @@
                 programkód minimális módosítással többféle operációs rendszeren (pl. Windows, macOS, Linux) 
                 is natívan futtatható legyen. Rendszerünkben ezt a Tauri keretrendszer biztosítja.</td> 
           </tr>
-
+          <tr>
+              <td>Szemantikai adatmodell:</td>
+              <td>A valós világ fogalmainak (egyedeinek) és a köztük lévő logikai kapcsolatoknak a grafikus, a fizikai megvalósítástól 
+                még független ábrázolása.</td>
+          </tr>
+          <tr>
+              <td>Relációs adatmodell:</td>
+              <td>A szemantikai modell alapján elkészített, 3NF (harmadik normálforma) szabályait követő fizikai adatbázis-terv, 
+                amely táblák és a közöttük lévő kulcsok segítségével írja le a rendszert.</td>
+          </tr>
+          <tr>
+              <td>Elsődleges kulcs:</td>
+              <td>Egy relációs táblában lévő olyan attribútum, amely egyértelműen és egyedileg 
+                azonosít minden egyes adatsort (például az id mező).</td>
+          </tr>
+          <tr>
+              <td>Idegen kulcs:</td>
+              <td>Egy relációs tábla azon oszlopa, amely egy másik tábla elsődleges kulcsára hivatkozik, ezen keresztül biztosítva 
+                a relációs kapcsolatot.</td>
+          </tr>
+          <tr>
+              <td>Kapcsoló egyed:</td>
+              <td>Olyan speciális adatbázistábla, amely két másik tábla közötti több-a-többhöz (N:M) kapcsolat feloldására szolgál 
+                (például a Receptúra a Termék és az Alapanyag között).</td>
+          </tr>
+          <tr>
+              <td>ORM:</td>
+              <td>Objektum-relációs leképzés, amely automatikusan áthidalja a strukturális különbségeket a relációs adatbázis 
+                (PostgreSQL) táblái és az objektumorientált kód (Java) között.</td>
+          </tr>
+          <tr>
+              <td>Entity:</td>
+              <td>A backend programkód olyan annotált Java osztálya, amely az adatbázis egy konkrét tábláját reprezentálja, 
+                a futás közbeni példányai pedig a tábla adatsorainak felelnek meg.</td>
+          </tr>
+          <tr>
+              <td>Repository:</td>
+              <td>A Spring Data JPA adatelérési interfésze, amely elrejti az adatbázis-kommunikáció komplexitását, és nyers SQL 
+                utasítások helyett metódushívásokkal (pl. findByAsztalId) kezeli a lekérdezéseket.</td>
+          </tr>
+          <tr>
+              <td>CRUD műveletek:</td>
+              <td>Az adatbázis-kezelés négy alapvető funkciójának mozaikszava: Create (Létrehozás), Read (Olvasás/Lekérdezés), 
+                Update (Módosítás) és Delete (Törlés).</td>
+          </tr>
+          <tr>
+              <td>SQL-injekció:</td>
+              <td>Gyakori kibertámadási forma, amely során kártékony adatbázis-parancsokat juttatnak a rendszerbe beviteli 
+                mezőkön keresztül. Az ORM technológia a paraméterezett lekérdezésekkel automatikusan védelmet nyújt ellene.</td>
+          </tr>
       </tbody>
     </table>
 </body>
-</html>
