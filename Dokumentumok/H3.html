@@ -11,173 +11,389 @@
     <h1 class="oldal-cim">SRS</h1>
 
     <ol class="terv-lista">
-        <li><b>Bevezetés</b>
-            <p>A Szoftver Követelmény Specifikáció (Software Requirements Specification, SRS) dokumentum célja, 
-                hogy átfogóan, részletesen és minden érintett számára egyértelműen összefoglalja a DishPatch éttermi rendszer 
-                (kassza és konyhai kijelző modul) funkcionális és nem funkcionális követelményeit. Ezt a dokumentumot a 
+        <li>
+            <b>Bevezetés</b>
+            <p>
+                A Szoftver Követelmény Specifikáció (Software Requirements Specification, SRS) dokumentum célja,
+                hogy átfogóan, részletesen és minden érintett számára egyértelműen összefoglalja a DishPatch éttermi rendszer
+                (kassza és konyhai kijelző modul) funkcionális és nem funkcionális követelményeit. Ezt a dokumentumot a
                 szoftverfejlesztési folyamatunk kezdeti, úgynevezett előkészítő
-                fázisában alapoztuk meg, majd a rákövetkező kidolgozási fázisban bővítettük ki a tervezéshez szükséges 
-                mélységű technikai és logikai részletekkel. Célunk, hogy a fejlesztés teljes életciklusa alatt egyfajta "szerződésként" 
-                és sorvezetőként szolgáljon a megrendelő és a fejlesztőcsapat között.</p>
-            <p>A dokumentum elsődleges olvasóközönsége a megrendelői oldal (étteremvezetők, tulajdonosok), akik ezáltal 
-                feketén-fehéren meggyőződhetnek róla, hogy a fejlesztőcsapat pontosan érti az üzleti igényeiket, és valóban 
-                a mindennapi problémáikat megoldó szoftver fog elkészülni. Másrészt a dokumentum a fejlesztőgárda minden 
-                szereplőjének (programozók, adatbázis-tervezők, tesztelők) is szól, hiszen az itt leírtak alapján azonosítjuk 
-                a rendszerben szereplő objektumokat, az adatbázis tábláit, valamint a rendszer statikus és dinamikus modelljeit. 
-                Mivel az éttermi szoftverek világa sajátos szakzsargont használ, a dokumentáció írásával párhuzamosan a projekt 
-                Szótárát is folyamatosan bővítjük, hogy az olyan fogalmak, mint a "KDS" vagy a "Sztornó", mindenki 
-                számára ugyanazt jelentsék.</p>
+                fázisában alapoztuk meg, majd a rákövetkező kidolgozási fázisban bővítettük ki a tervezéshez szükséges
+                mélységű technikai és logikai részletekkel. Célunk, hogy a fejlesztés teljes életciklusa alatt egyfajta "szerződésként"
+                és sorvezetőként szolgáljon a megrendelő és a fejlesztőcsapat között.
+            </p>
+            <p>
+                A dokumentum elsődleges olvasóközönsége a megrendelői oldal (étteremvezetők, tulajdonosok), akik ezáltal
+                feketén-fehéren meggyőződhetnek róla, hogy a fejlesztőcsapat pontosan érti az üzleti igényeiket, és valóban
+                a mindennapi problémáikat megoldó szoftver fog elkészülni. Másrészt a dokumentum a fejlesztőgárda minden
+                szereplőjének (programozók, adatbázis-tervezők, tesztelők) is szól, hiszen az itt leírtak alapján azonosítjuk
+                a rendszerben szereplő objektumokat, az adatbázis tábláit, valamint a rendszer statikus és dinamikus modelljeit.
+                Mivel az éttermi szoftverek világa sajátos szakzsargont használ, a dokumentáció írásával párhuzamosan a projekt
+                Szótárát is folyamatosan bővítjük, hogy az olyan fogalmak, mint a "KDS" vagy a "Sztornó", mindenki
+                számára ugyanazt jelentsék.
+            </p>
         </li>
-        
-        <li><b>Áttekintés</b>
-            <p>A DishPatch egy modern, érintőképernyős eszközökre (POS terminálokra és tabletekre), valamint hagyományos 
-                számítógépekre egyaránt optimalizált integrált éttermi szoftver. A fejlesztés elsődleges mozgatórugója az volt, 
-                hogy megoldást kínáljunk a vendéglátás leggyakoribb fájó pontjaira: a papíralapú kommunikáció lassúságára, 
-                a konyhára beküldött, majd elveszett rendelési fecnikre, a pincérek és szakácsok közötti folyamatos félreértésekre, 
-                valamint az átláthatatlan raktárkészletből adódó anyagi veszteségekre.</p>
+
+        <li>
+            <b>Áttekintés</b>
+            <p>
+                A DishPatch egy modern, érintőképernyős eszközökre (POS terminálokra és tabletekre), valamint hagyományos
+                számítógépekre egyaránt optimalizált integrált éttermi szoftver. A fejlesztés elsődleges mozgatórugója az volt,
+                hogy megoldást kínáljunk a vendéglátás leggyakoribb fájó pontjaira: a papíralapú kommunikáció lassúságára,
+                a konyhára beküldött, majd elveszett rendelési fecnikre, a pincérek és szakácsok közötti folyamatos félreértésekre,
+                valamint az átláthatatlan raktárkészletből adódó anyagi veszteségekre.
+            </p>
             <ul class="pottyos-lista">
-                <li><b>A termék környezete:</b> A rendszert kifejezetten pörgős, nagy forgalmú, zajos vendéglátóipari környezetbe 
-                    (éttermek, bisztrók) szánjuk. Egy péntek esti csúcsidőszakban a másodpercek is számítanak, így a gyorsaság és 
-                    a megbízhatóság nem köthet kompromisszumot. A szoftver az étterem saját, belső helyi hálózatán (LAN) 
-                    működik egy központi gépen futó szerverrel. Ez garantálja, hogy egy esetleges internetkimaradás ami egy nyári 
-                    vihar közben gyakran előfordul – nem bénítja meg a kiszolgálást, a gépek továbbra is azonnal kommunikálnak 
-                    egymással.</li>
-                <li><b>Legfontosabb funkciók:</b> A rendszer magában foglal egy dinamikus, grafikus asztaltérképet a vendégtér 
-                    teljes átlátásához; egy érintőképernyőre optimalizált rendelésfelvételi modult; egyszerű asztalbontási 
-                    (Split Bill) lehetőséget a fizettetés felgyorsítására; valamint egy konyhai kijelző modult (KDS) a 
-                    papír alapú blokkok teljes kiváltására. Kiemelt funkció még a receptúrákon alapuló automatikus készletkezelés, 
-                    amely azonnal vonja a raktárból a felhasznált alapanyagokat.</li>
-                <li><b>A felhasználók jellemzői:</b> A rendszert három fő célcsoport használja. 1. A <i>Pincérek</i>, 
-                    akik folyamatos mozgásban vannak, és gyors, egyértelmű, kevés kattintást igénylő felületet várnak el. 
-                    2. A <i>Szakácsok</i>, akik a konyhai zajban, melegben és párában dolgoznak, és a távolról is jól olvasható monitort 
-                    figyelik; számukra a letisztult színkódolás és az olvashatóság a legfontosabb. 3. Az <i>Üzletvezetők</i>, 
-                    akik csendesebb környezetben az adminisztrációs feladatokat (árak módosítása, új termékek és dolgozók felvitele, 
-                    forgalmi statisztikák elemzése) végzik, teljes rendszerjogosultsággal.</li>
-                <li><b>Korlátozások, feltételezések:</b> Fontos elvárás a hardverfüggetlenség. A rendszernek egy régebbi, 
-                    gyengébb teljesítményű Windows-os éttermi gépen, vagy egy korszerű érintőképernyős eszközön is akadásmentesen 
-                    kell futnia. Ezt a modern, több operációs rendszert is natívan támogató (cross-platform) Tauri keretrendszer
-                     alkalmazásával biztosítjuk.</li>
+                <li>
+                    <b>A termék környezete:</b> A rendszert kifejezetten pörgős, nagy forgalmú, zajos vendéglátóipari környezetbe
+                    (éttermek, bisztrók) szánjuk. Egy péntek esti csúcsidőszakban a másodpercek is számítanak, így a gyorsaság és
+                    a megbízhatóság nem köthet kompromisszumot. A szoftver az étterem saját, belső helyi hálózatán (LAN)
+                    működik egy központi gépen futó szerverrel. Ez garantálja, hogy egy esetleges internetkimaradás ami egy nyári
+                    vihar közben gyakran előfordul – nem bénítja meg a kiszolgálást, a gépek továbbra is azonnal kommunikálnak
+                    egymással.
+                </li>
+                <li>
+                    <b>Legfontosabb funkciók:</b> A rendszer magában foglal egy dinamikus, grafikus asztaltérképet a vendégtér
+                    teljes átlátásához, asztalfoglalások rögzítésével; egy érintőképernyőre optimalizált rendelésfelvételi modult;
+                    tételenkénti asztalbontási (Split Bill) lehetőséget a fizettetés felgyorsítására; valamint egy konyhai kijelző
+                    modult (KDS) a papír alapú blokkok teljes kiváltására. A helyben fogyasztás mellett a telefonon leadott
+                    kiszállításos rendeléseket is kezeli, vevőnyilvántartással és vevői jelzőkkel (visszatérő, tiltott, priuszos).
+                    Kiemelt funkció még a receptúrákon alapuló automatikus készletkezelés, amely a rendelés leadásakor vonja le a
+                    raktárból a felhasznált alapanyagokat, és a minimumkészlet alá csökkenéskor felugró ablakban és e-mailben riaszt;
+                    valamint a napi zárás, amely után a rendszer automatikusan e-mail-jelentést küld a könyvelőnek és az
+                    üzletvezetőnek.
+                </li>
+                <li>
+                    <b>A felhasználók jellemzői:</b> A rendszert öt célcsoport használja. 1. A <i>Pincérek</i>,
+                    akik folyamatos mozgásban vannak, és gyors, egyértelmű, kevés kattintást igénylő felületet várnak el.
+                    2. A <i>Szakácsok</i>, akik a konyhai zajban, melegben és párában dolgoznak, és a távolról is jól olvasható monitort
+                    figyelik; számukra a letisztult színkódolás és az olvashatóság a legfontosabb. 3. A <i>Diszpécser</i>, aki a napi
+                    működést irányítja (kiszállítások és vevők kezelése, asztalkiosztás, sztornók jóváhagyása, bevételezés, leltár,
+                    műszak, napi zárás, beszállítói rendelések összeállítása). 4. Az <i>Üzletvezető</i>, aki csendesebb környezetben
+                    elemzéseket végez, jóváhagyja a beszerzéseket, beállítja a vevői jelzők küszöbeit, és karbantartja a törzsadatokat
+                    és a jogosultságokat, teljes rendszerjogosultsággal. 5. A <i>Könyvelő</i>, aki elsősorban a napi zárás után
+                    automatikusan érkező könyvelői jelentést kapja, és a pénzügyi kimutatásokat csak olvasási jogosultsággal érheti el.
+                    A futár és a rendszergazda nem felhasználója a szoftvernek: a futár helyett a diszpécser rögzíti a kiszállítás
+                    állapotait telefonos egyeztetés alapján, a rendszergazda pedig a szervert és a hálózatot üzemelteti.
+                </li>
+                <li>
+                    <b>Korlátozások, feltételezések:</b> Fontos elvárás a hardverfüggetlenség. Az első verzió Windows 10/11
+                    rendszerekre készül, és egy régebbi, gyengébb teljesítményű Windows-os éttermi gépen vagy egy korszerű
+                    érintőképernyős eszközön is akadásmentesen kell futnia. A több operációs rendszert natívan támogató
+                    (cross-platform) Tauri keretrendszer a későbbi kiterjeszthetőséget is biztosítja.
+                </li>
             </ul>
         </li>
-        
-        <li><b>A rendszer funkciói</b>
-            <p>Ebben a fejezetben részletezzük a rendszerrel szemben támasztott legfontosabb funkcionális elvárásokat. A 
-                könnyebb megértés és a pontosabb szoftvertervezés érdekében a működést nemcsak szövegesen, hanem úgynevezett 
-                Use Case (használati eset) modellek segítségével is bemutatjuk, rögzítve a szereplőket és a pontos folyamatlépéseket.</p>
-                <div class="kozepre-igazitva" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+
+        <li>
+            <b>A rendszer funkciói</b>
+            <p>
+                Ebben a fejezetben részletezzük a rendszerrel szemben támasztott legfontosabb funkcionális elvárásokat. A
+                könnyebb megértés és a pontosabb szoftvertervezés érdekében a működést nemcsak szövegesen, hanem úgynevezett
+                Use Case (használati eset) modellek segítségével is bemutatjuk, rögzítve a szereplőket és a pontos folyamatlépéseket.
+            </p>
+            <div class="kozepre-igazitva" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                 <p style="font-size: 16px; margin-bottom: 10px; text-align: center;"><i>A rendszer globális Use Case diagramja</i></p>
                 <img src="../Képek/Use-case.png" alt="A DishPatch rendszer Use Case diagramja" style="max-width: 95%; border: 1px solid #777; padding: 10px; background-color: white;">
-                </div>
+            </div>
             <p><b>A diagramon szereplő aktorok (szereplők) pontos definíciója:</b></p>
             <ul class="pottyos-lista srs-belso-lista">
-                <li><b>Pincér:</b> Az az éttermi dolgozó, aki a vendégekkel közvetlenül tartja a kapcsolatot. Felveszi és módosítja 
-                    a rendeléseket, kezeli a zónákat és asztalokat, intézi a fizettetést, valamint tájékoztatja a vendéget az ételek 
-                    elérhetőségéről. Nem rendelkezik jogosultsággal termékek törlésére (sztornózására) a konyhára küldés után.</li>
-                <li><b>Szakács:</b> A konyhán dolgozó személyzet tagja, aki nem találkozik a vendégekkel. Az ő feladata a KDS 
-                    (Kitchen Display System) felületén megjelenő digitális blokkok feldolgozása, az ételek elkészítése, majd 
-                    egyetlen érintéssel azok "készre jelentése", ami értesíti a pincért.</li>
-                <li><b>Üzletvezető:</b> Az étterem vezetője vagy tulajdonosa, aki a legmagasabb (Admin) szintű hozzáféréssel 
-                    rendelkezik a szoftverhez. Ő tartja karban a terméktörzset és a receptúrákat, kezeli az alkalmazottak 
-                    profiljait és jogosultságait. Kizárólag ő képes (egyedi PIN kóddal) sztornózni egy már felvett és konyhára 
-                    küldött tételt, megelőzve ezzel a visszaéléseket.</li>
+                <li>
+                    <b>Pincér:</b> Az az éttermi dolgozó, aki a vendégekkel közvetlenül tartja a kapcsolatot. Felveszi és módosítja
+                    a rendeléseket, rögzíti az asztalfoglalásokat, intézi a fizettetést, valamint tájékoztatja a vendéget az ételek
+                    elérhetőségéről. Konyhára küldött tételt nem sztornózhat; ilyenkor a Diszpécsert hívja.
+                </li>
+                <li>
+                    <b>Szakács:</b> A konyhán dolgozó személyzet tagja, aki nem találkozik a vendégekkel. Az ő feladata a KDS
+                    (Kitchen Display System) felületén megjelenő digitális blokkok feldolgozása, az ételek elkészítése, majd
+                    egyetlen érintéssel azok "készre jelentése", ami értesíti a pincért, illetve kiszállításnál a diszpécsert.
+                </li>
+                <li>
+                    <b>Diszpécser:</b> Az étterem napi működésének irányítója, aki a Pincér minden funkcióját is eléri. Felveszi a
+                    telefonos kiszállításos rendeléseket, kezeli a vevőket, és a futárral telefonon egyeztetve vezeti a kiszállítás
+                    állapotait. Kiosztja az asztalokat, rögzíti a napi műszakot. Egy már konyhára küldött tétel sztornójához az ő
+                    jóváhagyása szükséges, és ez önmagában elegendő: a saját PIN-kódjával hagyja jóvá. A rendszer naplózza, ki, mikor és
+                    milyen indokkal sztornózott. Ő végzi a bevételezést, a leltárt és a napi zárást. Megkapja a készletriasztásokat,
+                    és ezek alapján beszállítói rendelési előrejelzést állít össze, amelyet az Üzletvezető jóváhagyása után küld el.
+                </li>
+                <li>
+                    <b>Üzletvezető:</b> Az étterem vezetője, aki a legmagasabb (Admin) szintű hozzáféréssel rendelkezik, és a Diszpécser
+                    minden funkcióját is eléri. Forgalmi és árrés-elemzéseket végez, jóváhagyja vagy elutasítja a beszerzési rendeléseket,
+                    megkapja a készletriasztásokat és az üzletvezetői zárási jelentést. Beállítja a vevői jelzők küszöbértékeit, eldönti,
+                    milyen kedvezmény jár a visszatérő vevőknek, és feloldhatja a végleges tiltást. Ő tartja karban a terméktörzset, a
+                    receptúrákat, a beszerzési árakat, valamint az alkalmazottak profiljait és jogosultságait.
+                </li>
+                <li>
+                    <b>Könyvelő:</b> Az étterem könyvelését végző szakember. A napi zárás után automatikusan könyvelői jelentést kap
+                    e-mailben (napi bevétel tételesen és fizetési módonként, aznapi alapanyag-bevételezések, aznap dolgozó munkatársak).
+                    A pénzügyi kimutatásokat csak olvasási jogosultsággal érheti el.
+                </li>
+                <li>
+                    <b>Külső rendszerek (Bankkártya-terminál, NAV-szerver, E-mail-szerver):</b> A kártyás fizetés, az adóügyi
+                    adatszolgáltatás, illetve az automatikus e-mailek (zárási jelentések, készletriasztások, beszállítói rendelések)
+                    küldésének külső szereplői.
+                </li>
             </ul>
 
-            <p><b>A diagramon szereplő főbb use case-ek (használati esetek) felsorolása:</b> Rendelés rögzítése, Fizettetés 
-                (és komplex asztalbontás), Védett sztornózás, Étel készre jelentése a konyhán, Raktárkészlet ellenőrzése és 
-                bevételezés. Az alábbiakban a legkritikusabb napi folyamatot fejtjük ki részletesen.</p>
+            <p>
+                <b>A diagramon szereplő use case-ek (használati esetek) felsorolása:</b> Rendelés rögzítése (kiterjesztése:
+                Készlethiány riasztása), Asztalfoglalás rögzítése, Fizettetés (része: Nyugta nyomtatása; kiterjesztése:
+                Tételenkénti asztalbontás), Étel készre jelentése, Receptúrák megtekintése / készlethiány jelzése, Kiszállításos
+                rendelés felvétele (része: Vevő keresése / felvétele, Vevői jelzők ellenőrzése), Kiszállítás állapotának kezelése
+                (része: Szállítólevél nyomtatása), Védett sztornózás (része: Diszpécseri PIN-azonosítás), Raktárkészlet és étlap
+                ellenőrzése, Bevételezés, Műszak rögzítése, Napi zárás (része: Zárási jelentések küldése), Beszállítói rendelés
+                összeállítása, Beszerzés jóváhagyása, Forgalmi és árrés-elemzés, Vevői jelzők beállítása. Az alábbiakban a két
+                legkritikusabb napi folyamatot fejtjük ki részletesen.
+            </p>
 
             <p><b>3.1. Első követelmény: Rendelés felvétele és asztalhoz rögzítése</b></p>
             <ul class="srs-belso-lista" style="list-style-type: none;">
                 <li><b>A use case neve:</b> Rendelés felvétele és asztalhoz rögzítése.</li>
-                <li><b>Rövid leírás:</b> A Pincér a grafikus asztaltérképen kiválasztja a vendégek asztalát, felveszi a kért 
-                    ételeket és italokat, megadja az esetleges egyedi kéréseket (pl. "jól átsütve"), majd véglegesíti a rendelést. 
-                    Ekkor a tételek azonnal megjelennek a konyhában elhelyezett kijelzőn, a rendszer pedig a háttérben frissíti 
-                    a várható raktárkészletet.</li>
-                <li><b>Prekondíciók (előfeltételek):</b> A Pincér sikeresen azonosította magát a rendszerben a saját egyedi 
-                    PIN kódjával. A hálózati kapcsolat él a terminál és a szerver között. Létezik legalább egy szabad, vagy 
-                    általa korábban már megnyitott asztal. A terméktörzs, az árak és az aktuális készletadatok sikeresen 
-                    betöltődtek a memóriába.</li>
-                <li><b>Post kondíciók (utófeltételek):</b> A rendelés sikeres mentése után az asztal állapota 
-                    "Foglalt/Fogyasztás alatt" státuszba vált. A rendelés tételei és a hozzájuk tartozó megjegyzések valós 
-                    időben megjelennek a Szakács KDS képernyőjén, időbélyeggel ellátva. A rendszer a beépített receptúrák 
-                    alapján automatikusan zárolja (virtuálisan levonja) a szükséges alapanyagokat az adatbázisban lévő
-                     raktárkészletből.</li>
-                <li><b>Szokásos működés (Main Flow):</b>
+                <li>
+                    <b>Rövid leírás:</b> A Pincér a grafikus asztaltérképen kiválasztja a vendégek asztalát, felveszi a kért
+                    ételeket és italokat, megadja az esetleges egyedi kéréseket (pl. "jól átsütve"), majd véglegesíti a rendelést.
+                    Ekkor a tételek azonnal megjelennek a konyhában elhelyezett kijelzőn, a rendszer pedig a háttérben frissíti
+                    a várható raktárkészletet.
+                </li>
+                <li>
+                    <b>Prekondíciók (előfeltételek):</b> A Pincér sikeresen azonosította magát a rendszerben a saját egyedi
+                    PIN kódjával. A hálózati kapcsolat él a terminál és a szerver között. Létezik legalább egy szabad, vagy
+                    általa korábban már megnyitott asztal. A terméktörzs, az árak és az aktuális készletadatok sikeresen
+                    betöltődtek a memóriába.
+                </li>
+                <li>
+                    <b>Post kondíciók (utófeltételek):</b> A rendelés sikeres mentése után az asztal állapota
+                    "Foglalt/Fogyasztás alatt" státuszba vált. A rendelés tételei és a hozzájuk tartozó megjegyzések valós
+                    időben megjelennek a Szakács KDS képernyőjén, időbélyeggel ellátva. A rendszer a beépített receptúrák
+                    alapján levonja a szükséges alapanyagokat a raktárkészletből (Fogyás típusú raktármozgásként rögzítve);
+                    egy esetleges sztornó ezt visszaírja.
+                </li>
+                <li>
+                    <b>Szokásos működés (Main Flow):</b>
                     <ol class="srs-belso-lista">
-                        <li>A Pincér a főképernyőn kiválasztja a megfelelő zónát (pl. Belső terem), majd rábök arra az asztalra, 
-                            ahol a vendégek ülnek.</li>
+                        <li>
+                            A Pincér a főképernyőn kiválasztja a megfelelő zónát (pl. Belső terem), majd rábök arra az asztalra,
+                            ahol a vendégek ülnek.
+                        </li>
                         <li>A rendszer megnyitja a rendelésfelvételi panelt az aktuális asztalhoz rendelve.</li>
-                        <li>A Pincér a bal oldalon lévő kategóriák (pl. Levesek, Főételek, Italok) között böngészve rákattint a
-                             kért termékekre. Szükség esetén a "+" és "-" gombokkal módosítja a mennyiséget.</li>
+                        <li>
+                            A Pincér a bal oldalon lévő kategóriák (pl. Levesek, Főételek, Italok) között böngészve rákattint a
+                            kért termékekre. Szükség esetén a "+" és "-" gombokkal módosítja a mennyiséget.
+                        </li>
                         <li>A Pincér egy adott termékre kattintva hozzáad egy elkészítési megjegyzést (pl. "Öntet nélkül").</li>
                         <li>Miután minden tételt rögzített, megnyomja a nagyméretű, zöld "Rendelés leadása" gombot.</li>
-                        <li>A rendszer elmenti az adatokat a PostgreSQL adatbázisba, majd azonnal frissíti a konyhai kijelző 
-                            felületét, vizuális vagy hangjelzést adva a szakácsoknak az új feladatról.</li>
+                        <li>
+                            A rendszer elmenti az adatokat a PostgreSQL adatbázisba, majd azonnal frissíti a konyhai kijelző
+                            felületét, vizuális vagy hangjelzést adva a szakácsoknak az új feladatról.
+                        </li>
                     </ol>
                 </li>
-                <li><b>Alternatív esetek (Alternate Flows):</b> A Pincér a rendelés felvétele közben véletlenül rossz termékre
-                     kattint, vagy a vendég az utolsó pillanatban meggondolja magát. Mivel a Pincér még nem nyomta meg a 
-                     véglegesítő "Rendelés leadása" gombot, egyszerűen a tétel melletti piros 'Kuka' ikonra kattintva törli 
-                     azt az aktuális kosárból. A kosár frissül, az összeg újraszámolódik, a konyha pedig mindebből semmit nem 
-                     érzékel, hiszen az adat nem hagyta el a terminált.</li>
-                <li><b>Kivételes esetek (Exception Flows):</b>
+                <li>
+                    <b>Alternatív esetek (Alternate Flows):</b> A Pincér a rendelés felvétele közben véletlenül rossz termékre
+                    kattint, vagy a vendég az utolsó pillanatban meggondolja magát. Mivel a Pincér még nem nyomta meg a
+                    véglegesítő "Rendelés leadása" gombot, egyszerűen a tétel melletti piros 'Kuka' ikonra kattintva törli
+                    azt az aktuális kosárból. A kosár frissül, az összeg újraszámolódik, a konyha pedig mindebből semmit nem
+                    érzékel, hiszen az adat nem hagyta el a terminált.
+                </li>
+                <li>
+                    <b>Kivételes esetek (Exception Flows):</b>
                     <ul class="pottyos-lista srs-belso-lista">
-                        <li><i>Készlethiány:</i> A Pincér olyan ételt akar felvenni (pl. Bélszín steak), amelynek fő alapanyaga 
-                            a raktár adatai alapján teljesen elfogyott. A rendszer azonnal felugró hibaüzenetet dob ("Figyelem: 
-                            Készlethiány!"), megakadályozza a tétel kosárba tételét, és javasolja, hogy a Pincér 
-                            tájékoztassa a vendéget, illetve hívja az Üzletvezetőt (aki felülbírálhatja a hiányt, 
-                            ha csak adminisztrációs hiba történt).</li>
-                        <li><i>Hálózati szakadás:</i> A "Rendelés leadása" gomb megnyomásakor a terminál nem éri el a 
-                            belső szervert. A rendszer piros sávban jelzi a hálózati hibát, a kosár tartalmát helyben, 
-                            ideiglenesen elmenti a memóriába, és amint a hálózat helyreáll, automatikusan újrapróbálja a küldést.</li>
+                        <li>
+                            <i>Készlethiány:</i> A Pincér olyan ételt akar felvenni (pl. Bélszín steak), amelynek fő alapanyaga
+                            a raktár adatai alapján teljesen elfogyott. A rendszer azonnal felugró hibaüzenetet dob ("Figyelem:
+                            Készlethiány!"), megakadályozza a tétel kosárba tételét, és javasolja, hogy a Pincér
+                            tájékoztassa a vendéget, illetve hívja a Diszpécsert (aki felülbírálhatja a hiányt,
+                            ha csak adminisztrációs hiba történt).
+                        </li>
+                        <li>
+                            <i>Hálózati szakadás:</i> A "Rendelés leadása" gomb megnyomásakor a terminál nem éri el a
+                            belső szervert. A rendszer piros sávban jelzi a hálózati hibát, és a kosár tartalmát azonnal a terminál
+                            helyi lemezére menti (nem csak a memóriába), így az egy áramszünetet vagy a program újraindítását is
+                            túléli. Amint a hálózat helyreáll, a kliens automatikusan újraküldi a rendelést, és csak a szerver
+                            visszaigazolása után törli a helyi másolatot.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <p><b>3.2. Második követelmény: Kiszállításos rendelés felvétele és kezelése</b></p>
+            <ul class="srs-belso-lista" style="list-style-type: none;">
+                <li><b>A use case neve:</b> Kiszállításos rendelés felvétele és kezelése.</li>
+                <li>
+                    <b>Rövid leírás:</b> A vevő telefonon ad le rendelést. A Diszpécser a telefonszám alapján azonosítja vagy
+                    felveszi a vevőt, rögzíti a szállítási címet és a tételeket, majd a rendelést a konyhára küldi. A rendelés
+                    állapotát végig a Diszpécser vezeti, a futárral telefonon egyeztetve, egészen a futár visszaérkezéséig.
+                </li>
+                <li>
+                    <b>Prekondíciók (előfeltételek):</b> A Diszpécser sikeresen azonosította magát a saját PIN-kódjával.
+                    A hálózati kapcsolat él a terminál és a szerver között. Van az aznapi műszakban rögzített futár.
+                </li>
+                <li>
+                    <b>Post kondíciók (utófeltételek):</b> A rendelés "Felvéve" állapotban, a vevőhöz és a szállítási címhez kötve
+                    elmentődik, tételei megjelennek a KDS-en, a rendszer pedig levonja a felhasznált alapanyagokat a raktárkészletből.
+                    A folyamat végén a rendelés "Kiszállítva" állapotba kerül, a beszedett összeg fizetési tranzakcióként rögzül.
+                </li>
+                <li>
+                    <b>Szokásos működés (Main Flow):</b>
+                    <ol class="srs-belso-lista">
+                        <li>
+                            A Diszpécser beírja a hívó telefonszámát. Ha a vevő már szerepel a rendszerben, a rendszer megjeleníti
+                            az adatait, a korábbi címeit és a vevői jelzőit (pl. visszatérő, priuszos); ha nem, a Diszpécser felveszi
+                            a vevő nevét, telefonszámát és címét.
+                        </li>
+                        <li>A Diszpécser kiválasztja vagy rögzíti a szállítási címet.</li>
+                        <li>
+                            A Diszpécser kiválasztja a tételeket, megadja az elkészítési megjegyzéseket és a tervezett fizetési módot;
+                            a rendszer hozzáadja a kiszállítási díjat.
+                        </li>
+                        <li>
+                            A "Rendelés leadása" gomb megnyomására a rendelés "Felvéve" állapotba kerül, és a tételek megjelennek a
+                            konyhai kijelzőn.
+                        </li>
+                        <li>
+                            Amikor a szakácsok minden tételt készre jelentettek, a Diszpécser "Kész" állapotba teszi a rendelést,
+                            kiválasztja a futárt, és kinyomtatja a szállítólevelet.
+                        </li>
+                        <li>A futár indulásakor a Diszpécser "Úton" állapotba teszi a rendelést.</li>
+                        <li>
+                            A futár telefonon jelzi az átadást. Amikor visszaér és leadja a beszedett összeget, a Diszpécser rögzíti
+                            a fizetést, és "Kiszállítva" állapotba teszi a rendelést.
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <b>Alternatív esetek (Alternate Flows):</b> A vevő a megszokottól eltérő címre kér szállítást: a Diszpécser
+                    új címet rögzít a vevőhöz, a korábbiak megmaradnak. A vevő a leadás előtt módosít: a tétel a kosárból
+                    törölhető, a konyha ebből semmit nem érzékel.
+                </li>
+                <li>
+                    <b>Kivételes esetek (Exception Flows):</b>
+                    <ul class="pottyos-lista srs-belso-lista">
+                        <li>
+                            <i>Tiltott vevő:</i> A vevő azonosításakor a rendszer felugró ablakban jelzi a Diszpécsernek, hogy a
+                            vevő tiltott, és meddig tart a tiltás. A rendelés nem rögzíthető.
+                        </li>
+                        <li>
+                            <i>Véglegesen tiltott vevő:</i> A rendszer felugró ablakban jelzi a végleges tiltást, a rendelés nem
+                            rögzíthető. A tiltást csak az Üzletvezető oldhatja fel.
+                        </li>
+                        <li>
+                            <i>Lemondás:</i> A vevő lemondja a rendelést, nem veszi át, vagy nem érhető el. A Diszpécser "Lemondva"
+                            állapotba teszi a rendelést, és megadja az okát. Ha az ok a vevőnek felróható, a rendszer növeli a vevő
+                            lemondás-számlálóját; az étterem hibájából (pl. készlethiány, késés) történt lemondás nem számít bele.
+                        </li>
+                        <li>
+                            <i>Hálózati szakadás:</i> Ugyanúgy kezelendő, mint a 3.1. use case esetében (helyi lemezre mentés,
+                            automatikus újraküldés).
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <b>A vevői jelzők szabályai:</b>
+                    <ul class="pottyos-lista srs-belso-lista">
+                        <li>
+                            <i>Visszatérő:</i> Minden hónap első napján a rendszer megszámolja, hány "Kiszállítva" állapotú rendelése
+                            volt a vevőnek az előző naptári hónapban. Ha legalább 10, a vevő arra a hónapra visszatérő jelzőt kap.
+                            A rendszer csak a jelzőt biztosítja; hogy milyen kedvezmény vagy jogosultság jár vele, azt az Üzletvezető
+                            dönti el.
+                        </li>
+                        <li>
+                            <i>Tiltott:</i> Ha a vevőnek 3 rendelése a vevőnek felróható okból "Lemondva" állapotba kerül, a vevő egy
+                            hónapra tiltott lesz, és ezalatt nem rendelhet.
+                        </li>
+                        <li>
+                            <i>Priuszos:</i> Az egy hónapos tiltás lejártakor a vevő priuszos lesz, és a lemondás-számlálója nullázódik.
+                            A priuszos vevő rendelhet, a jelző azonban a Diszpécser számára látható.
+                        </li>
+                        <li>
+                            <i>Véglegesen tiltott:</i> Ha a vevő tiltása harmadszor jár le, a vevő priuszos helyett véglegesen tiltott
+                            lesz.
+                        </li>
+                        <li>
+                            A küszöbértékeket (10 rendelés, 3 lemondás, 1 hónap, 3 tiltás) az Üzletvezető módosíthatja. A tiltások
+                            lejáratát a szerver naponta, a visszatérő jelzőt havonta, automatikusan értékeli ki.
+                        </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        
-        <li><b>Használhatóság</b>
-            <p>Ebben a fejezetben azokat a nem funkcionális követelményeket részletezzük, amelyek a szoftver kényelmes, logikus és 
+
+        <li>
+            <b>Használhatóság</b>
+            <p>
+                Ebben a fejezetben azokat a nem funkcionális követelményeket részletezzük, amelyek a szoftver kényelmes, logikus és
                 hatékony mindennapi használatát garantálják. A vendéglátásban a felhasználói élmény (UX) és a felhasználói felület
-                 (UI) minősége nem csupán esztétikai kérdés: egy rosszul elhelyezett gomb vagy egy átláthatatlan menü komoly 
-                 fennakadásokat, tévesztéseket és végső soron elégedetlen vendégeket, anyagi kárt eredményez.</p>
+                (UI) minősége nem csupán esztétikai kérdés: egy rosszul elhelyezett gomb vagy egy átláthatatlan menü komoly
+                fennakadásokat, tévesztéseket és végső soron elégedetlen vendégeket, anyagi kárt eredményez.
+            </p>
             <ul class="pottyos-lista srs-belso-lista">
-                <li><b>Betanulási idő (Ergonómia):</b> A vendéglátóiparban köztudottan magas a munkaerő fluktuációja, így a betanítási 
+                <li>
+                    <b>Betanulási idő (Ergonómia):</b> A vendéglátóiparban köztudottan magas a munkaerő fluktuációja, így a betanítási
                     költségeket és időt drasztikusan minimalizálni kell. A szoftver felületét úgy kell megterveznünk, hogy a hétköznapi
-                     okostelefonok logikájára épüljön. A cél az, hogy egy teljesen új, informatikai képzettség nélküli Pincér vagy 
-                     Szakács a rendszer alapvető használatát (asztal nyitása, étel felvétele, fizettetés, illetve a konyhai blokkok 
-                     leütése) külső segítség nélkül, legfeljebb 30 perc alatt önállóan el tudja sajátítani.</li>
-                <li><b>Feladatvégzés sebessége (Hatékonyság):</b> A hagyományos, memóriára és papírfecnikre hagyatkozó rendelésfelvétel, 
+                    okostelefonok logikájára épüljön. A cél az, hogy egy teljesen új, informatikai képzettség nélküli Pincér vagy
+                    Szakács a rendszer alapvető használatát (asztal nyitása, étel felvétele, fizettetés, illetve a konyhai blokkok
+                    leütése) külső segítség nélkül, legfeljebb 30 perc alatt önállóan el tudja sajátítani.
+                </li>
+                <li>
+                    <b>Feladatvégzés sebessége (Hatékonyság):</b> A hagyományos, memóriára és papírfecnikre hagyatkozó rendelésfelvétel,
                     majd a konyhába sétálás hosszú perceket emészt fel. Az új szoftverrel a képernyőváltások számát minimalizáljuk.
-                     Az ergonómiai elvárás, hogy egy átlagos asztaltársaság (4 fő) mintegy 6-8 tételből álló rendelésének rögzítése 
-                     és konyhára küldése egy gyakorlott pincér esetében az asztal megnyitásától számítva ne vegyen igénybe 
-                     15-20 másodpercnél többet.</li>
-                <li><b>Kezdő felhasználók vizuális támogatása:</b> A UI/UX tervezés során a "kevesebb néha több" elvét alkalmazzuk, és 
-                    figyelembe vesszük a fizikai környezetet. A képernyőn csak az adott művelethez feltétlenül szükséges információk 
-                    jelennek meg. A termékkategóriákat és az asztalok állapotát (pl. szabad, foglalt, fizetésre vár) egyértelmű, azonnal
-                     felismerhető színkódokkal (zöld, piros, sárga) különböztetjük meg. A gombok (hitboxok) méretét direkt túlméretezzük,
-                      hogy az érintőképernyőkön, sietség közben vagy akár nedves kézzel is minimálisra csökkentsük a melléütés
-                       esélyét.</li>
-                <li><b>Hasonlóság a már piacon lévő rendszerekhez:</b> A rendelésfelvételi felület megtervezésekor szándékosan követjük
-                     a bevált iparági standardokat és az olvasás irányát (bal oldalon a főkategóriák, középen a termékek bontása, 
-                     jobb oldalon pedig a virtuális blokk/kosár aktuális állapota). Mivel a legtöbb professzionális éttermi rendszer 
-                     (pl. Micros, r_keeper) ezt a bevált struktúrát használja, a más munkahelyről érkező, tapasztalt pincérek 
-                     számára a mi rendszerünk használata is az első pillanattól kezdve ismerős, logikus és kézreálló lesz.</li>
+                    Az ergonómiai elvárás, hogy egy átlagos asztaltársaság (4 fő) mintegy 6-8 tételből álló rendelésének rögzítése
+                    és konyhára küldése egy gyakorlott pincér esetében az asztal megnyitásától számítva ne vegyen igénybe
+                    15-20 másodpercnél többet.
+                </li>
+                <li>
+                    <b>Kezdő felhasználók vizuális támogatása:</b> A UI/UX tervezés során a "kevesebb néha több" elvét alkalmazzuk, és
+                    figyelembe vesszük a fizikai környezetet. A képernyőn csak az adott művelethez feltétlenül szükséges információk
+                    jelennek meg. A termékkategóriákat és az asztalok állapotát (szabad, lefoglalt, foglalt, fizetésre vár) egyértelmű,
+                    azonnal felismerhető színkódokkal (zöld, kék, piros, sárga) különböztetjük meg. A gombok (hitboxok) méretét direkt
+                    túlméretezzük, hogy az érintőképernyőkön, sietség közben vagy akár nedves kézzel is minimálisra csökkentsük a
+                    melléütés esélyét.
+                </li>
+                <li>
+                    <b>Hasonlóság a már piacon lévő rendszerekhez:</b> A rendelésfelvételi felület megtervezésekor szándékosan követjük
+                    a bevált iparági standardokat és az olvasás irányát (bal oldalon a főkategóriák, középen a termékek bontása,
+                    jobb oldalon pedig a virtuális blokk/kosár aktuális állapota). Mivel a legtöbb professzionális éttermi rendszer
+                    (pl. Micros, r_keeper) ezt a bevált struktúrát használja, a más munkahelyről érkező, tapasztalt pincérek
+                    számára a mi rendszerünk használata is az első pillanattól kezdve ismerős, logikus és kézreálló lesz.
+                </li>
             </ul>
         </li>
-        
-        <li><b>Megbízhatóság</b></li>
-        
+
+        <li>
+            <b>Megbízhatóság</b>
+            <ul class="pottyos-lista srs-belso-lista">
+                <li>
+                    <b>Adatbiztonság áramkimaradás és hálózati szakadás esetén:</b> Minden adatmódosító műveletet (rendelés
+                    leadása, állapotváltás, fizetés, sztornó) a kliens először a terminál helyi lemezére ír egy várakozási sorba, és
+                    csak a szerver visszaigazolása után töröl onnan. Újraindítás vagy a hálózat helyreállása után a sorban maradt
+                    műveleteket automatikusan újraküldi. Minden művelet egyedi azonosítót kap, így a szerver felismeri és eldobja a
+                    duplikált küldést.
+                </li>
+                <li>
+                    <b>Szerveroldali tartósság:</b> A szerver a módosításokat tranzakcionálisan, lemezre írva menti (a PostgreSQL
+                    tranzakciós naplójával), így egy visszaigazolt művelet áramszünet után is megmarad. A szervert szünetmentes
+                    tápegységre kell kötni.
+                </li>
+                <li>
+                    <b>Internetfüggő műveletek:</b> A zárási jelentéseket, a készletriasztásokat és a beszállítói rendeléseket,
+                    valamint a NAV felé küldendő adatokat a szerver a lemezén sorba állítja, és internetkimaradás után automatikusan
+                    elküldi.
+                </li>
+                <li><b>Mentés:</b> Naponta automatikus adatbázis-mentés készül egy fizikailag elkülönített meghajtóra.</li>
+            </ul>
+        </li>
+
         <li><b>Teljesítmény</b></li>
-        
+
         <li><b>Támogatottság</b></li>
-        
+
         <li><b>Tervezési korlátozások</b></li>
-        
+
         <li><b>On-line dokumentáció és Help rendszer</b></li>
-        
+
         <li><b>Felhasznált kész komponensek</b></li>
-        
-        <li><b>Interfészek</b>
+
+        <li>
+            <b>Interfészek</b>
             <ul style="list-style: none;">
                 <li><b>11.1. Felhasználói interfészek</b></li>
                 <li><b>11.2. Hardware interfészek</b></li>
@@ -185,14 +401,15 @@
                 <li><b>11.4. Kommunikációs interfészek</b></li>
             </ul>
         </li>
-        
-        <li><b>Alkalmazott szabványok</b>
+
+        <li>
+            <b>Alkalmazott szabványok</b>
             <ul style="list-style: none;">
                 <li><b>12.1. Kötelezően alkalmazandó szabványok</b></li>
                 <li><b>12.2. Választás alapján alkalmazott szabványok</b></li>
             </ul>
         </li>
-        
+
         <li><b>Mellékletek</b></li>
     </ol>
 

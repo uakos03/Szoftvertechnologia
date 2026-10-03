@@ -17,148 +17,310 @@
         
         <li>Adatmodellek
             <ul style="list-style: none;">
-                <li><b>3.1 Adatbázis kezelő kiválasztása</b>
-                <p>A rendszer implementációja során az adatbázis-kezelési feladatokra a <b>PostgreSQL</b> relációs adatbázis-kezelő (RDBMS)
-                     rendszert választottuk. A döntés főbb okai:</p>
+                <li>
+                    <b>3.1 Adatbázis kezelő kiválasztása</b>
+                    <p>
+                        A rendszer implementációja során az adatbázis-kezelési feladatokra a <b>PostgreSQL</b> relációs adatbázis-kezelő (RDBMS)
+                        rendszert választottuk. A döntés főbb okai:
+                    </p>
                     <ul class="pottyos-lista">
                         <li>Teljesen nyílt forráskódú és ingyenes, így licencköltségek nélkül használható üzleti környezetben is.</li>
-                        <li>Kiválóan kezeli a párhuzamos tranzakciókat, ami egy forgalmas étteremben a párhuzamos rendelésfelvételeknél 
-                            kritikus.</li>
+                        <li>
+                            Kiválóan kezeli a párhuzamos tranzakciókat, ami egy forgalmas étteremben a párhuzamos rendelésfelvételeknél
+                            kritikus.
+                        </li>
                         <li>Tökéletesen integrálható a backendhez választott Java Spring Boot keretrendszerrel és a Hibernate ORM-mel.</li>
                     </ul>
                 </li>
-                <li><b>3.2 Szemantikai adatmodell</b>
-                    <p>A rendszer logikai felépítését, a valós világbeli fogalmakat és a közöttük lévő összetett 
-                        kapcsolatokat az alábbi ER diagram szemlélteti. 
-                        A modell részletesen kidolgozott: tartalmazza az N:M (több-a-többhöz) kapcsolatok feloldását, 
-                        valamint a komplex számlabontási lehetőségekhez szükséges 
-                        fizetési logikát.</p>
-                        <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
-                        <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
-                            <i>A rendszer teljes ER modellje</i>
-                                </p>
-                                <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
-                                <img src="../Képek/ER-modell.png" alt="A DishPatch rendszer ER modellje" style="max-width: 95%; 
-                                border: 1px solid #777; padding: 10px; background-color: white;">
-                                </div>
-                <table class="tech-tabla"> 
-                    <thead> 
-                    <tr> 
-                    <th>Egyed (Entity)</th> 
-                    <th>Attribútumok</th> 
-                    <th>Leírás és Kapcsolatok</th> 
-                                </tr> 
-                            </thead> 
-                            <tbody> 
-                                <tr> 
-                                    <td><b>Szerepkör</b></td> 
-                                    <td>id [PK], megnevezes</td> 
-                                    <td>A dolgozók jogosultsági szintjei (pl. Üzletvezető, Pincér).</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Felhasználó</b></td> 
-                                    <td>id [PK], nev, pin_kod_hash, aktiv</td> 
-                                    <td>Az étterem dolgozói. A jelszót hashelve tároljuk, a törlést logikai inaktiválással oldjuk meg. 
-                                        Kapcsolódik a Szerepkörhöz.</td> 
-                                </tr> 
-                                <tr> 
-                                    <td><b>Zóna / Helyiség</b></td> 
-                                    <td>id [PK], nev</td> 
-                                    <td>Az étterem fizikai területeinek (Terasz, Belső tér) nyilvántartása.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Asztal</b></td> 
-                                    <td>id [PK], asztal_szam, ferohely, aktiv</td> 
-                                    <td>A vendégtér asztalainak nyilvántartása. 1:N kapcsolatban áll a Zónákkal.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Kategória</b></td> 
-                                    <td>id [PK], nev, afa_kulcs</td> 
-                                    <td>A termékek csoportosítása és a hozzájuk tartozó adókulcs.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Termék</b></td> 
-                                    <td>id [PK], nev, aktualis_ar, elerheto</td> 
-                                    <td>Az étlapon és itallapon szereplő késztermékek. Csak a jelenleg érvényes árat tartalmazza.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Alapanyag</b></td> 
-                                    <td>id [PK], nev, mertekegyseg, aktualis_keszlet, minimum_keszlet</td> 
-                                    <td>A raktárkészlet elemei. A minimum készlet segíti az újrarendelési figyelmeztetéseket.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Receptúra</b></td> 
-                                    <td>szukseges_mennyiseg</td> 
-                                    <td>Kapcsoló egyed. Definiálja, hogy egy ételhez miből mennyi alapanyag kell.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Raktár_mozgás</b></td> 
-                                    <td>id [PK], tipus, mennyiseg, datum</td> 
-                                    <td>A készletváltozások historikus naplózása (Bevételezés, Selejt, Fogyás). A Felhasználóhoz és 
-                                        az Alapanyaghoz kötődik.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Rendelés</b></td> 
-                                    <td>id [PK], nyitas_ideje, zaras_ideje, statusz</td> 
-                                    <td>Egy adott asztalhoz rögzített fogyasztás fejlécadatai.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Rendelés_tétel</b></td> 
-                                    <td>id [PK], eladasi_egysegar, mennyiseg, statusz, megjegyzes</td> 
-                                    <td>Kapcsoló egyed. A rendelés konkrét elemei. Az eladasi_egysegar rögzítése kritikus az ártörténet 
-                                        miatt.</td> 
-                                </tr>
-                                <tr> 
-                                    <td><b>Fizetési_tranzakció</b></td> 
-                                    <td>id [PK], fizetett_osszeg, fizetesi_mod, borravalo, datum</td> 
-                                    <td>A számlakiegyenlítések rögzítése. 1:N kapcsolatban van a Rendeléssel 
-                                        (asztalbontás támogatása).</td> 
-                                </tr>
-                            </tbody> 
-                        </table> 
-                    </li>
-                <li><b>3.3 Relációs adatmodell</b>
+                <li>
+                    <b>3.2 Szemantikai adatmodell</b>
+                    <p>
+                        A rendszer logikai felépítését, a valós világbeli fogalmakat és a közöttük lévő összetett
+                        kapcsolatokat az alábbi ER diagram szemlélteti.
+                        A modell tartalmazza az N:M (több-a-többhöz) kapcsolatok feloldását, valamint a tételenkénti
+                        számlabontáshoz, az asztalfoglaláshoz, a kiszállításhoz és a vevői jelzőkhöz, a sztornók és a beszerzések
+                        jóváhagyásához, valamint a napi záráshoz szükséges adatokat.
+                    </p>
                     <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
-                        <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
-                            <i>A rendszer relációs adatmodellje</i>
-                                </p>
-                                <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
-                                <img src="../Képek/Relacios-modell.png" alt="A DishPatch rendszer relációs modellje" style="max-width: 95%; 
-                                border: 1px solid #777; padding: 10px; background-color: white;">
-                                </div>
+                        <i>A rendszer teljes ER modellje</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
+                        <img src="../Képek/ER-modell.png" alt="A DishPatch rendszer ER modellje" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr>
+                                <th>Egyed (Entity)</th>
+                                <th>Attribútumok</th>
+                                <th>Leírás és Kapcsolatok</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Szerepkör</b></td>
+                                <td>id [PK], megnevezes</td>
+                                <td>
+                                    A dolgozók munkakörei és jogosultsági szintjei: Pincér, Szakács, Diszpécser, Üzletvezető, Könyvelő,
+                                    Futár. A Futár szerepkörű dolgozók az első verzióban nem lépnek be; a rendszergazda nem kap szerepkört.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Felhasználó</b></td>
+                                <td>id [PK], nev, pin_kod_hash, email, aktiv, szerepkor_id [FK]</td>
+                                <td>
+                                    Az étterem dolgozói. A PIN-kódot hashelve tároljuk (futárnál üres), a törlést logikai inaktiválással
+                                    oldjuk meg. Az e-mail-cím a Könyvelőnél és az Üzletvezetőnél (zárási jelentések), valamint a
+                                    Diszpécsernél (készletriasztások) kötelező. A Szerepkörhöz N:1 kapcsolattal kötődik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Műszak</b></td>
+                                <td>id [PK], datum, kezdes, befejezes, felhasznalo_id [FK]</td>
+                                <td>
+                                    Az aznap dolgozó (bejelentett) munkatársak nyilvántartása, amelyet a Diszpécser rögzít. Ebből készül
+                                    a zárási jelentések dolgozói listája, és ebből választható ki az aznapi futár. A Felhasználóhoz N:1
+                                    kapcsolattal kötődik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Zóna / Helyiség</b></td>
+                                <td>id [PK], nev</td>
+                                <td>Az étterem fizikai területeinek (Terasz, Belső tér) nyilvántartása.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Asztal</b></td>
+                                <td>id [PK], asztal_szam, ferohely, aktiv, zona_id [FK]</td>
+                                <td>
+                                    A vendégtér asztalainak nyilvántartása. N:1 kapcsolatban áll a Zónával. Az asztal állapotát
+                                    (szabad, lefoglalt, foglalt, fizetésre vár) nem tároljuk: a rendszer a nyitott rendelésből és az
+                                    aktuális foglalásokból számítja.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Asztalfoglalás</b></td>
+                                <td>
+                                    id [PK], vendeg_nev, telefonszam, letszam, kezdes, varhato_vege, statusz, megjegyzes,
+                                    asztal_id [FK], rogzito_felhasznalo_id [FK]
+                                </td>
+                                <td>
+                                    A vendégek előzetes asztalfoglalásai. Állapota: Aktív, Megérkezett, Lemondva, Nem jelent meg.
+                                    Egy asztalhoz és a foglalást rögzítő felhasználóhoz N:1 kapcsolattal kötődik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Vevő</b></td>
+                                <td>
+                                    id [PK], nev, telefonszam (egyedi), email, visszatero_honap, lemondas_szamlalo, tiltas_vege,
+                                    priusz_szamlalo, vegleg_tiltott, aktiv
+                                </td>
+                                <td>
+                                    A kiszállításos rendelést leadó vevők. A visszatero_honap azt a hónapot jelöli, amelyben a vevő
+                                    visszatérő (havonta számítva). A lemondas_szamlalo a vevőnek felróható lemondásokat számolja: a
+                                    küszöb elérésekor a tiltas_vege egy hónappal későbbi dátumot kap (tiltott). Lejáratkor a
+                                    priusz_szamlalo eggyel nő (priuszos), és a lemondas_szamlalo nullázódik; a harmadik lejáratkor a
+                                    vegleg_tiltott igazra vált. A szabályok részletesen: SRS 3.2.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Cím</b></td>
+                                <td>id [PK], iranyitoszam, telepules, cim_sor, megjegyzes, aktiv, vevo_id [FK]</td>
+                                <td>
+                                    A vevők szállítási címei; egy vevőnek több címe is lehet (Vevő 1:N Cím). A megjegyzés pl. a
+                                    kapucsengőre vagy az emeletre vonatkozik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Kategória</b></td>
+                                <td>id [PK], nev, afa_kulcs</td>
+                                <td>A termékek csoportosítása és a hozzájuk tartozó adókulcs.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Termék</b></td>
+                                <td>id [PK], nev, aktualis_ar, elerheto, palya, allergenek, kategoria_id [FK]</td>
+                                <td>
+                                    Az étlapon és itallapon szereplő késztermékek. Csak a jelenleg érvényes árat tartalmazza.
+                                    A pálya (Hidegkonyha, Melegkonyha, Pult) határozza meg, melyik konyhai kijelzőn jelenik meg.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Alapanyag</b></td>
+                                <td>id [PK], nev, mertekegyseg, aktualis_keszlet, minimum_keszlet, beszerzesi_egysegar</td>
+                                <td>
+                                    A raktárkészlet elemei. A beszerzési egységár egy mértékegységnyi alapanyag aktuális ára, ebből és a
+                                    receptúrából számítható a termékek árrése. A minimumkészlet alá csökkenéskor a rendszer felugró
+                                    ablakban és e-mailben figyelmezteti a diszpécsert és az üzletvezetőt.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Receptúra</b></td>
+                                <td>termek_id [PK, FK], alapanyag_id [PK, FK], szukseges_mennyiseg</td>
+                                <td>
+                                    Kapcsoló egyed a Termék és az Alapanyag közötti N:M kapcsolathoz. Definiálja, hogy egy ételhez
+                                    miből mennyi alapanyag kell.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Raktár_mozgás</b></td>
+                                <td>
+                                    id [PK], tipus, mennyiseg, datum, beszerzesi_egysegar, alapanyag_id [FK], felhasznalo_id [FK],
+                                    rendeles_tetel_id [FK, opcionális]
+                                </td>
+                                <td>
+                                    A készletváltozások historikus naplózása (Bevételezés, Selejt, Fogyás, Sztornó-visszaírás).
+                                    Bevételezésnél rögzül az akkori beszerzési egységár, ebből készül a zárási jelentések
+                                    alapanyag-bevételezési része. Fogyásnál és sztornónál a kiváltó rendelési tételhez is kötődik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Beszerzési_rendelés</b></td>
+                                <td>
+                                    id [PK], letrehozas_ideje, statusz, beszallito_nev, beszallito_email, jovahagyas_ideje, kuldes_ideje,
+                                    osszeallito_id [FK], jovahagyo_id [FK]
+                                </td>
+                                <td>
+                                    A beszállítónak szóló rendelési előrejelzés. A Diszpécser állítja össze a készletriasztás javasolt
+                                    mennyiségei alapján, az Üzletvezető jóváhagyja vagy elutasítja, jóváhagyás után a rendszer e-mailben
+                                    elküldi. Állapota: Tervezet, Jóváhagyásra vár, Jóváhagyva, Elutasítva, Elküldve.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Beszerzési_tétel</b></td>
+                                <td>beszerzesi_rendeles_id [PK, FK], alapanyag_id [PK, FK], mennyiseg, becsult_egysegar</td>
+                                <td>Kapcsoló egyed a Beszerzési_rendelés és az Alapanyag közötti N:M kapcsolathoz.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Rendelés</b></td>
+                                <td>
+                                    id [PK], tipus, nyitas_ideje, zaras_ideje, statusz, kert_idopont, szallitasi_cim, kiszallitasi_dij,
+                                    tervezett_fizetesi_mod, lemondas_oka, lemondas_vevo_miatt, asztal_id [FK], vevo_id [FK],
+                                    futar_id [FK], felhasznalo_id [FK]
+                                </td>
+                                <td>
+                                    Egy fogyasztás vagy kiszállítás fejlécadatai. Típusa: Helyben vagy Kiszállítás. Helyben fogyasztásnál
+                                    az asztal_id kötelező, állapota: Nyitott, Fizetésre vár, Lezárt. Kiszállításnál a vevo_id és a
+                                    szallitasi_cim (a cím rendeléskori másolata) kötelező, állapota: Felvéve, Kész, Úton, Kiszállítva,
+                                    Lemondva. Ezeket a Diszpécser állítja; a Kiszállítva a futár visszaérkezésekor kerül beállításra.
+                                    A felvevő dolgozóhoz, a futárhoz, az asztalhoz és a vevőhöz N:1 kapcsolattal kötődik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Rendelés_tétel</b></td>
+                                <td>
+                                    id [PK], eladasi_egysegar, mennyiseg, statusz, megjegyzes, rendeles_id [FK], termek_id [FK],
+                                    sztorno_idopont, sztorno_ok, sztorno_jovahagyo_id [FK]
+                                </td>
+                                <td>
+                                    Kapcsoló egyed: a rendelés konkrét elemei. Az eladasi_egysegar rögzítése kritikus az ártörténet
+                                    miatt. Állapota: Konyhán, Kész, Felszolgálva, Sztornózva. Konyhára küldött tétel sztornójához a
+                                    diszpécser PIN-kódos jóváhagyása szükséges és elegendő; a jóváhagyó, az időpont és az indok a tételnél
+                                    rögzül. Tétel áthelyezésekor vagy asztalok összevonásakor a tétel rendeles_id-ja módosul.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Fizetési_tranzakció</b></td>
+                                <td>id [PK], fizetett_osszeg, fizetesi_mod, borravalo, datum, rendeles_id [FK]</td>
+                                <td>
+                                    A számlakiegyenlítések rögzítése. Egy tranzakció egy fizetési módhoz tartozik, így a vegyes
+                                    fizetés több tranzakcióként jelenik meg. Kiszállításnál a Diszpécser rögzíti a futár
+                                    visszaérkezésekor. A Rendeléssel N:1 kapcsolatban áll.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Fizetett_tétel</b></td>
+                                <td>fizetesi_tranzakcio_id [PK, FK], rendeles_tetel_id [PK, FK], fizetett_mennyiseg, osszeg</td>
+                                <td>
+                                    Kapcsoló egyed a tételenkénti asztalbontáshoz (Fizetési_tranzakció és Rendelés_tétel között, N:M).
+                                    A fizetett mennyiség tört is lehet (pl. 0,5 egy tétel felezésekor). Egy tételre jutó fizetett
+                                    mennyiségek összege nem haladhatja meg a tétel mennyiségét.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Napi_zárás</b></td>
+                                <td>
+                                    id [PK], datum, keszpenz_osszeg, bankkartya_osszeg, szep_kartya_osszeg, utalvany_osszeg,
+                                    borravalo_osszeg, lezaro_felhasznalo_id [FK]
+                                </td>
+                                <td>
+                                    A napi zárás összesítője, amelyet a Diszpécser indít, miután nincs nyitott asztal és "Úton" lévő
+                                    kiszállítás. A zárás után a rendszer két Zárási_jelentést állít elő és küld el.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Zárási_jelentés</b></td>
+                                <td>id [PK], tipus, email_statusz, kuldes_ideje, napi_zaras_id [FK]</td>
+                                <td>
+                                    A napi zárás e-mail-jelentései. A <i>Könyvelői</i> jelentés a napi bevételt tartalmazza tételesen és
+                                    fizetési módonként (készpénz, bankkártya, SZÉP-kártya, utalvány), az aznapi alapanyag-bevételezéseket
+                                    (mennyiség, beszerzési érték) és az aznap dolgozó munkatársakat (Műszak); a Könyvelő szerepkörű
+                                    felhasználók kapják. Az <i>Üzletvezetői</i> jelentés ugyanezeket tartalmazza, kiegészítve az aznapi
+                                    sztornókkal (tétel, indok, jóváhagyó) és a lemondott kiszállításokkal; az Üzletvezető kapja.
+                                    Internetkimaradáskor a jelentés a szerver lemezén sorban áll (email_statusz: Sorban áll / Elküldve).
+                                    A Napi_záráshoz N:1 kapcsolattal kötődik.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Beállítás</b></td>
+                                <td>kulcs [PK], ertek</td>
+                                <td>
+                                    Az Üzletvezető által módosítható rendszerbeállítások, pl. visszatérő küszöb (10 rendelés), tiltási
+                                    lemondásküszöb (3), tiltás időtartama (1 hónap), végleges tiltás küszöbe (3 tiltás), kiszállítási díj.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </li>
-                <li><b>3.4. Az adatbázis kezelővel kapcsolatot tartó osztályok</b> 
-                        <p>A DishPatch rendszer adatbázis-rétegének megvalósítása során a klasszikus, 
-                            nyers SQL alapú megközelítés helyett objektum-relációs leképzést alkalmazunk.
-                             A Java alapú backend és a PostgreSQL adatbázis közötti kommunikációt a <b>Spring Data JPA</b> és 
-                             a <b>Hibernate</b> keretrendszerek biztosítják. Ennek az architektúrának a legfőbb előnye, hogy feloldja 
-                             az objektumorientált programozás és a relációs adatbázisok közötti strukturális különbségeket 
-                            ,így a fejlesztés során a tiszta üzleti logikára koncentrálhatunk 
-                             az adatbázis-specifikus parancsok ismételgetése helyett.</p>
-    
-                        <p>A kommunikáció alapját az <b>Entity osztályok</b> adják. 
-                            A relációs sémánk minden egyes táblájának (pl. <i>Termekek, Rendelesek, Felhasznalok</i>) pontosan 
-                            megfelel egy annotációkkal (pl. <code>@Entity</code>, <code>@Table</code>) ellátott Java osztály. 
-                            Ezek az entitások felelnek azért, hogy az adatbázisban lévő fizikai sorokat a program futása közben 
-                            a memóriában lévő objektumokként lehessen kezelni. A táblák közötti kapcsolatokat 
-                            (idegen kulcsok, N:M kapcsolatok) szintén objektumszinten, referenciákkal képezzük le. 
-                            Így például egy asztal vagy egy rendelés lekérdezésekor a hozzá tartozó tételek automatikusan, 
-                            egy Java lista vagy kollekció formájában állnak rendelkezésre, 
-                            anélkül, hogy manuális JOIN műveleteket kellene írnunk.</p>
+                <li>
+                    <b>3.3 Relációs adatmodell</b>
+                    <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
+                        <i>A rendszer relációs adatmodellje</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
+                        <img src="../Képek/Relacios-modell.png" alt="A DishPatch rendszer relációs modellje" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                </li>
+                <li>
+                    <b>3.4. Az adatbázis kezelővel kapcsolatot tartó osztályok</b>
+                    <p>
+                        A DishPatch rendszer adatbázis-rétegének megvalósítása során a klasszikus,
+                        nyers SQL alapú megközelítés helyett objektum-relációs leképzést alkalmazunk.
+                        A Java alapú backend és a PostgreSQL adatbázis közötti kommunikációt a <b>Spring Data JPA</b> és
+                        a <b>Hibernate</b> keretrendszerek biztosítják. Ennek az architektúrának a legfőbb előnye, hogy feloldja
+                        az objektumorientált programozás és a relációs adatbázisok közötti strukturális különbségeket
+                        , így a fejlesztés során a tiszta üzleti logikára koncentrálhatunk
+                        az adatbázis-specifikus parancsok ismételgetése helyett.
+                    </p>
 
-                        <p>Az adatbázis-műveletek végrehajtásáért a <b>Repository interfészek</b> felelnek, amelyek elrejtik 
-                            a perzisztencia réteg komplexitását. Ahelyett, hogy minden entitáshoz külön megírnánk a beszúró, 
-                            módosító, törlő és lekérdező rutinokat, a Spring keretrendszer beépített <code>JpaRepository</code> 
-                            elületét terjesztjük ki. A specifikusabb üzleti igényeket például egy adott dolgozóhoz tartozó 
-                            készletmozgások listázását, vagy az aktív asztalok szűrését a Spring Data beépített névfeloldó 
-                            mechanizmusa kezeli. Elegendő a metódus nevét a megfelelő kulcsszavakkal felépíteni 
-                            (pl. <code>findByAsztalIdAndStatusz</code>), és a keretrendszer a háttérben automatikusan 
-                            legenerálja hozzá az optimalizált lekérdezést.</p>
+                    <p>
+                        A kommunikáció alapját az <b>Entity osztályok</b> adják.
+                        A relációs sémánk minden egyes táblájának (pl. <i>Termekek, Rendelesek, Felhasznalok</i>) pontosan
+                        megfelel egy annotációkkal (pl. <code>@Entity</code>, <code>@Table</code>) ellátott Java osztály.
+                        Ezek az entitások felelnek azért, hogy az adatbázisban lévő fizikai sorokat a program futása közben
+                        a memóriában lévő objektumokként lehessen kezelni. A táblák közötti kapcsolatokat
+                        (idegen kulcsok, N:M kapcsolatok) szintén objektumszinten, referenciákkal képezzük le.
+                        Így például egy asztal vagy egy rendelés lekérdezésekor a hozzá tartozó tételek automatikusan,
+                        egy Java lista vagy kollekció formájában állnak rendelkezésre,
+                        anélkül, hogy manuális JOIN műveleteket kellene írnunk.
+                    </p>
 
-                        <p>Végül, ez az adatelérési réteg felel a tranzakciókezelésért és a biztonságért is. Emellett a Hibernate 
-                            automatikusan paraméterezett lekérdezéseket használ, ami rendszerszinten zárja 
-                            ki az SQL-injekciós támadások lehetőségét, biztonságossá téve az egész backend működését.</p>
-                       </li>
+                    <p>
+                        Az adatbázis-műveletek végrehajtásáért a <b>Repository interfészek</b> felelnek, amelyek elrejtik
+                        a perzisztencia réteg komplexitását. Ahelyett, hogy minden entitáshoz külön megírnánk a beszúró,
+                        módosító, törlő és lekérdező rutinokat, a Spring keretrendszer beépített <code>JpaRepository</code>
+                        felületét terjesztjük ki. A specifikusabb üzleti igényeket például egy adott dolgozóhoz tartozó
+                        készletmozgások listázását, vagy az aktív asztalok szűrését a Spring Data beépített névfeloldó
+                        mechanizmusa kezeli. Elegendő a metódus nevét a megfelelő kulcsszavakkal felépíteni
+                        (pl. <code>findByAsztalIdAndStatusz</code>), és a keretrendszer a háttérben automatikusan
+                        legenerálja hozzá az optimalizált lekérdezést.
+                    </p>
+
+                    <p>
+                        Végül, ez az adatelérési réteg felel a tranzakciókezelésért és a biztonságért is. Emellett a Hibernate
+                        automatikusan paraméterezett lekérdezéseket használ, ami rendszerszinten zárja
+                        ki az SQL-injekciós támadások lehetőségét, biztonságossá téve az egész backend működését.
+                    </p>
+                </li>
             </ul>
         </li>    
         <li>A funkcionális modell kiegészítése</li>

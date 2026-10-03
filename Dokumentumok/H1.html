@@ -10,173 +10,195 @@
     <a href="../index.html" class="vissza-link">Főoldal</a>
     <h1 class="oldal-cim">Projekt terv</h1>
     <ol class="terv-lista">
-        <li>Csoport tagjai, struktúrája
-        <ul>
-            <li>Sipos Barnabás András (csapatvezető)</li>
-            <li>Urbán Ákos</li>
-            <li>Kocsis Bence</li>
-            <li>Rigó Máté Tamás</li>
-            <li>Dezső András</li>
-        </ul>
+        <li>
+            Csoport tagjai, struktúrája
+            <ul>
+                <li>Sipos Barnabás András (csapatvezető)</li>
+                <li>Urbán Ákos</li>
+                <li>Kocsis Bence</li>
+                <li>Rigó Máté Tamás</li>
+                <li>Dezső András</li>
+            </ul>
         </li>
-        <li>Fejlesztési terv: mérföldkövek, eredmények
-        <p>
-            A projektünk célja egy olyan könnyen használható éttermi program elkészítése, 
-            amely megkönnyíti a pincérek, a konyhai dolgozók és az üzletvezető mindennapi munkáját. 
-            A rendszerben a felszolgálók egyszerűen és gyorsan felvehetik a vendégek rendeléseit az asztaloknál, 
-            a rendelések azonnal megjelennek a konyhán, a vezetés pedig valós időben látja, hogy miből mennyi fogyott. 
-            Ezzel elkerülhetők a félreértések a rendeléseknél, és nem fordulhat elő az sem, hogy egy olyan ételt kérnek ki, 
-            amihez már elfogyott az alapanyag a raktárból.
-            A féléves munka során lépésről lépésre haladunk előre. Első lépésként pontosan összeírjuk, hogy milyen funkciókra 
-            és gombokra lesz szükség, majd megrajzoljuk a képernyők egyszerű elrendezési terveit. Ezt követően kialakítjuk az adatbázist, 
-            ahol a menüt, a készletet és az asztalok állapotát tároljuk, majd megkezdjük magának a programnak a megírását. 
-            Először az alapvető rendelésfelvevő felületet készítjük el, utána kötjük hozzá az automatikus raktárkezelést. 
-            A félév végén a teljes csapat közösen teszteli a rendszert, kijavítjuk az esetleges hibákat, 
-            végül pedig egy működő programmal mutatjuk be a kész munkánkat.
-        </p>
+        <li>
+            Fejlesztési terv: mérföldkövek, eredmények
+            <p>
+                A projektünk célja egy olyan könnyen használható éttermi program elkészítése,
+                amely megkönnyíti a pincérek, a konyhai dolgozók, a diszpécser és az üzletvezető mindennapi munkáját.
+                A rendszerben a felszolgálók egyszerűen és gyorsan felvehetik a vendégek rendeléseit az asztaloknál,
+                a rendelések azonnal megjelennek a konyhán, a vezetés pedig valós időben látja, hogy miből mennyi fogyott.
+                A helyben fogyasztás mellett a rendszer a telefonon leadott kiszállításos rendeléseket is kezeli: ezeket a diszpécser
+                veszi fel, és ő követi végig a konyhától a futár visszaérkezéséig.
+                Ezzel elkerülhetők a félreértések a rendeléseknél, és nem fordulhat elő az sem, hogy egy olyan ételt kérnek ki,
+                amihez már elfogyott az alapanyag a raktárból.
+                A féléves munka során lépésről lépésre haladunk előre. Első lépésként pontosan összeírjuk, hogy milyen funkciókra
+                és gombokra lesz szükség, majd megrajzoljuk a képernyők egyszerű elrendezési terveit. Ezt követően kialakítjuk az adatbázist,
+                ahol a menüt, a készletet, az asztalok állapotát és a vevők adatait tároljuk, majd megkezdjük magának a programnak a megírását.
+                Először az alapvető rendelésfelvevő felületet készítjük el, utána kötjük hozzá az automatikus raktárkezelést és a kiszállítást.
+                A félév végén a teljes csapat közösen teszteli a rendszert, kijavítjuk az esetleges hibákat,
+                végül pedig a program vázával mutatjuk be a munkánkat.
+            </p>
         </li>
-        <li>Programozói nyelvek, fejlesztő eszközök
-        <table class="tech-tabla">
-        <thead>
-            <tr>
-                <th>Rétegek</th>
-                <th>Technológia</th>
-                <th>Oka</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Felület</td>
-                <td>TypeScript + React</td>
-                <td>Modern, jól személyre szabható kezelőfelület</td>
-            </tr>
-            <tr>
-                <td>Desktop alkalmazás</td>
-                <td>Tauri</td>
-                <td>Gyors és cross Platform kompatibilis</td>
-            </tr>
-            <tr>
-                <td>Backend</td>
-                <td>JAVA (Spring Boot)</td>
-                <td>Stabil, jól strukturálható</td>
-            </tr>
-            <tr>
-                <td>Adatbázis</td>
-                <td>PostgreSQL</td>
-                <td>Egyszerre több számítógépen való használathoz kiváló</td>
-            </tr>
-            <tr>
-                <td>ORM</td>
-                <td>Hibernate / Spring Data JPA</td>
-                <td>Kényelmes adatbázis-kezelés JAVA-ból</td>
-            </tr>
-            <tr>
-                <td>Fejlesztőkörnyezet</td>
-                <td>Visual Studio / VS Code / IntelliJ IDEA</td>
-                <td>Kiváló Java, React és TypeScript támogatás</td>
-            </tr>
-            <tr>
-                <td>Verziókezelés</td>
-                <td>Git + Github/Gitlab</td>
-                <td>Forráskód és verzió kezelés</td>
-            </tr>
-            </tbody>
-        </table>
-        <p>Ezekkel elérhető, hogy egyszerre több asztalt, rendelés felvételt, módosítást vagy törlést tudjon kezelni. Tudja kezelni a számlázást API-n keresztül, dolgozók és hozzájuk tartozó adminisztrációit. Raktár mozgásokat, rendelés alapú fogyást is tud kezelni. A Cross Platform kompatibilitás révén akár különböző operációs rendszerrel rendelkező számítógépekkel is használható.</p>
+        <li>
+            Programozói nyelvek, fejlesztő eszközök
+            <table class="tech-tabla">
+                <thead>
+                    <tr>
+                        <th>Rétegek</th>
+                        <th>Technológia</th>
+                        <th>Oka</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Felület</td>
+                        <td>TypeScript + React</td>
+                        <td>Modern, jól személyre szabható kezelőfelület</td>
+                    </tr>
+                    <tr>
+                        <td>Desktop alkalmazás</td>
+                        <td>Tauri</td>
+                        <td>Gyors és cross Platform kompatibilis</td>
+                    </tr>
+                    <tr>
+                        <td>Backend</td>
+                        <td>JAVA (Spring Boot)</td>
+                        <td>Stabil, jól strukturálható</td>
+                    </tr>
+                    <tr>
+                        <td>Adatbázis</td>
+                        <td>PostgreSQL</td>
+                        <td>Egyszerre több számítógépen való használathoz kiváló</td>
+                    </tr>
+                    <tr>
+                        <td>ORM</td>
+                        <td>Hibernate / Spring Data JPA</td>
+                        <td>Kényelmes adatbázis-kezelés JAVA-ból</td>
+                    </tr>
+                    <tr>
+                        <td>Fejlesztőkörnyezet</td>
+                        <td>Visual Studio / VS Code / IntelliJ IDEA</td>
+                        <td>Kiváló Java, React és TypeScript támogatás</td>
+                    </tr>
+                    <tr>
+                        <td>Verziókezelés</td>
+                        <td>Git + Github/Gitlab</td>
+                        <td>Forráskód és verzió kezelés</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Ezekkel elérhető, hogy egyszerre több asztalt, rendelés felvételt, módosítást vagy törlést tudjon kezelni. Tudja kezelni a számlázást API-n keresztül, dolgozók és hozzájuk tartozó adminisztrációit. Raktár mozgásokat, rendelés alapú fogyást is tud kezelni. A Cross Platform kompatibilitás révén akár különböző operációs rendszerrel rendelkező számítógépekkel is használható.</p>
         </li>
-        <li>Használni tervezett eszközök, technikák
-            <p>Vízesés modellel történik a program fejlesztése, amely 5 fázisból áll:</p>
+        <li>
+            Használni tervezett eszközök, technikák
+            <p>A program fejlesztése iteratív vízesés modell szerint történik, amely 5 fázisból áll:</p>
             <ol>
-                <li>Követelmények elemzése és meghozása
+                <li>
+                    Követelmények elemzése és meghatározása
                     <p>Amelyben konzultációval alakul ki a rendszer célja, specifikációja. Itt egy megbízható működésű, adatok felvitelére, tárolására és kibocsátására szolgáló szoftverről van szó, amely biztosítja a rendelés és készlet nyilvántartás megkönnyítését.</p>
                 </li>
-                <li>Rendszer- és szoftvertervezés
-                    <p>A rendszer architechtúrája itt alakul ki, és itt választódik ki a hardver és szoftverkövetelmény. Ez esetben egy LAN-t alkalmazó eszközökről van szó. Az operációs rendszer az elterjedt Microsoft Windows legújabb verziója lehet.</p>
+                <li>
+                    Rendszer- és szoftvertervezés
+                    <p>A rendszer architektúrája itt alakul ki, és itt választódik ki a hardver- és szoftverkövetelmény. Ez esetben egy LAN-t alkalmazó eszközökről van szó. Az első verzió Windows 10/11 operációs rendszerekre készül, a cross-platform Tauri keretrendszer pedig lehetővé teszi a későbbi kiterjesztést más rendszerekre is.</p>
                 </li>
-                <li>Implementáció és egységteszt
-                    <p>Ebben a részben jön létre a szoftver részei. Ehhez jön segítségül az UML-diagram.</p>
+                <li>
+                    Implementáció és egységteszt
+                    <p>Ebben a fázisban jönnek létre a szoftver részei, az UML-diagramok alapján.</p>
                 </li>
-                <li>Integráció és rendszerteszt
+                <li>
+                    Integráció és rendszerteszt
                     <p>Itt a szoftver elemeit egésszé formáljuk, majd teszteljük, hogy működik-e a szoftver.</p>
                 </li>
-                <li>Működtetés és karbantartás
-                    <p>Itt a szoftver későbbi hibáinak orvoslása történik, és a felmerülő igények újrakiszolgálása történik.</p>
+                <li>
+                    Működtetés és karbantartás
+                    <p>Itt a szoftver későbbi hibáinak orvoslása, illetve az újonnan felmerülő igények kiszolgálása történik.</p>
                 </li>
             </ol>
-            <p>A vízesés modellel bármikor visszatérhetünk az előbbi fázisokra.</p>
+            <p>
+                Az iteratív vízesés modell abban tér el a klasszikus vízesés modelltől, hogy ha egy későbbi fázisban hiba vagy új igény
+                merül fel, visszatérünk az érintett korábbi fázishoz, és onnan ismét végighaladunk a további fázisokon.
+            </p>
         </li>
-        </p>
-        <li>Leendő produktumok (dokumentum), és létrejöttük ideje.
-        <p>
-            A félév során a program váza készül el, valamint a fejlesztést végigkísérő dokumentáció.
-            Ezek a dokumentumok a fentebb bemutatott vízesés modell egyes fázisaihoz igazodva, egymásra épülve jönnek létre: előbb 
-            a probléma és az elvárások kerülnek kidolgozásra, majd ezek alapján alakul ki a rendszer felépítése, 
-            végül a teljes munka megszervezését rögzítjük.
-        </p>
-        <table class="tech-tabla">
-        <thead>
-            <tr>
-                <th>Dokumentum</th>
-                <th>Tartalma</th>
-                <th>Várható elkészülése</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-            <td>Vízió</td>
-            <td>Az üzleti probléma és a végtermék üzleti szintű bemutatása, az érintettek és a legfontosabb elvárások összegyűjtése.</td>
-            <td>A „Követelmények elemzése és meghozása” fázis elején, a félév első harmadában.</td>
-            </tr>
-            <tr>
-            <td>SRS (Szoftver Követelmény Specifikáció)</td>
-            <td>A rendszer részletes funkcionális és nem funkcionális követelményei, use case-ekkel kidolgozva.</td>
-            <td>Ugyanabban a fázisban, közvetlenül a Vízió dokumentumot követően.</td>
-            </tr>
-            <tr>
-            <td>Analízis Modell</td>
-            <td>Az SRS-ben leírt funkciók alapján kialakított osztály-, állapot- és funkcionális modell, alrendszerekre bontva.</td>
-            <td>A „Rendszer- és szoftvertervezés” fázist megelőzően, a gyakorlatvezető jóváhagyásával.</td>
-            </tr>
-            <tr>
-            <td>Rendszertervezés</td>
-            <td>A felhasználói felület terve, az adatbázis felépítése (menü, készlet, asztalok állapota), valamint a választott technológiai architektúra részletezése.</td>
-            <td>Közvetlenül az implementáció megkezdése előtt.</td>
-            </tr>
-            <tr>
-            <td>Projektterv</td>
-            <td>A csapat felépítése, az ütemezés, az eszközök, valamint a tesztelési és bemutatási terv — azaz a jelen dokumentum.</td>
-            <td>A félév legelején elkészül, majd a projekt előrehaladtával folyamatosan frissítjük.</td>
-            </tr>
-        </tbody>
-        </table>
+        <li>
+            Leendő produktumok (dokumentum), és létrejöttük ideje.
+            <p>
+                A félév során a program váza és a fejlesztést végigkísérő dokumentáció készül el.
+                A dokumentumok a fentebb bemutatott iteratív vízesés modell fázisaihoz igazodva, egymásra épülve jönnek létre: előbb
+                a probléma és az elvárások kerülnek kidolgozásra, majd ezek alapján alakul ki a rendszer felépítése,
+                végül a program váza és a tesztelési terv.
+            </p>
+            <table class="tech-tabla">
+                <thead>
+                    <tr>
+                        <th>Dokumentum</th>
+                        <th>Tartalma</th>
+                        <th>Várható elkészülése</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vízió</td>
+                        <td>Az üzleti probléma és a végtermék üzleti szintű bemutatása, az érintettek és a legfontosabb elvárások összegyűjtése.</td>
+                        <td>A „Követelmények elemzése és meghatározása” fázis elején, a félév első harmadában.</td>
+                    </tr>
+                    <tr>
+                        <td>SRS (Szoftver Követelmény Specifikáció)</td>
+                        <td>A rendszer részletes funkcionális és nem funkcionális követelményei, use case-ekkel kidolgozva.</td>
+                        <td>Ugyanabban a fázisban, közvetlenül a Vízió dokumentumot követően.</td>
+                    </tr>
+                    <tr>
+                        <td>Analízis Modell</td>
+                        <td>Az SRS-ben leírt funkciók alapján kialakított osztály-, állapot- és funkcionális modell, alrendszerekre bontva.</td>
+                        <td>A „Rendszer- és szoftvertervezés” fázist megelőzően, a gyakorlatvezető jóváhagyásával.</td>
+                    </tr>
+                    <tr>
+                        <td>Rendszertervezés</td>
+                        <td>A felhasználói felület terve, az adatbázis felépítése (menü, készlet, asztalok és foglalások, vevők és kiszállítások, fizetések), valamint a választott technológiai architektúra részletezése.</td>
+                        <td>Közvetlenül az implementáció megkezdése előtt.</td>
+                    </tr>
+                    <tr>
+                        <td>Objektumtervezés, implementáció és tesztelés (H5)</td>
+                        <td>A rendszer vezérlésének kidolgozása, az implementációs osztályok és modulok, a program váza (skeleton), valamint a tesztelési terv és a tesztesetek.</td>
+                        <td>Az „Implementáció és egységteszt” fázisban, a bemutató előtt.</td>
+                    </tr>
+                    <tr>
+                        <td>Projektterv</td>
+                        <td>A csapat felépítése, az ütemezés, az eszközök, valamint a tesztelési és bemutatási terv — azaz a jelen dokumentum.</td>
+                        <td>A félév legelején elkészül, majd a projekt előrehaladtával folyamatosan frissítjük.</td>
+                    </tr>
+                </tbody>
+            </table>
         </li>
-        <li>Tesztelési követelmények
-        <p>
-            Mivel egy étteremben nincs idő a rendszer fagyására vagy hibáira, a fejlesztés során folyamatosan teszteljük a programot. 
-            A legfőbb célunk, hogy a rendelések hibátlanul átmenjenek a konyhára, az adatbázis pedig mindig a pontos, 
-            valós raktárkészletet mutassa.
+        <li>
+            Tesztelési követelmények
+            <p>
+                Mivel egy étteremben nincs idő a rendszer fagyására vagy hibáira, a fejlesztés során folyamatosan teszteljük a programot.
+                A legfőbb célunk, hogy a rendelések hibátlanul átmenjenek a konyhára, az adatbázis pedig mindig a pontos,
+                valós raktárkészletet mutassa.
 
-            A gyakorlatban először az alapfunkciókat ellenőrizzük: leteszteljük, 
-            hogy a felvett rendelés azonnal megjelenik-e a szakácsoknál, 
-            és a rendszer levonja-e a felhasznált alapanyagot. Külön odafigyelünk a felületre is, 
-            hiszen a pincéreknek pörgés közben, gyorsan kell rögzíteniük a tételeket, így a programnak bolondbiztosnak kell lennie. 
-            Végül azt is leteszteljük, hogy stabil marad-e a rendszer csúcsidőben, amikor egyszerre több pincér is párhuzamosan használja.
-        </p>
+                A gyakorlatban először az alapfunkciókat ellenőrizzük: leteszteljük,
+                hogy a felvett rendelés azonnal megjelenik-e a szakácsoknál,
+                és a rendszer levonja-e a felhasznált alapanyagot. Külön odafigyelünk a felületre is,
+                hiszen a pincéreknek pörgés közben, gyorsan kell rögzíteniük a tételeket, így a programnak bolondbiztosnak kell lennie.
+                Végül azt is leteszteljük, hogy stabil marad-e a rendszer csúcsidőben, amikor egyszerre több pincér is párhuzamosan használja.
+            </p>
         </li>
-        <li>Bemutatás (demó) és szállítás módja, ideje
-        <p>
-        A bemutatót a vízesés modell „Integráció és rendszerteszt” fázisának lezárásaként, a félév utolsó heteiben 
-        tartjuk, miután a csapat közösen leteszteli a teljes rendszert, és kijavítja a talált hibákat. A bemutató 
-        során egy működő, telepített Tauri-alkalmazást mutatunk be élőben: felveszünk egy rendelést a felszolgálói 
-        felületen, megmutatjuk, ahogy az azonnal megjelenik a konyhai nézeten, majd bemutatjuk, hogy a hozzá tartozó 
-        alapanyagok automatikusan levonódnak a raktárkészletből.
-        A szállítás módja: a forráskódot a csapat közös GitHub/GitLab tárolójában tartjuk karban, a végleges 
-        verziót egy megjelölt (tag-elt) release formájában adjuk le. A dokumentációt (Vízió, SRS, Analízis Modell, 
-        Rendszertervezés, Projektterv) Word és PDF formátumban, a tantárgy hivatalos leadási felületén 
-        (Neptun/e-learning rendszer) töltjük fel, a bemutatóval megegyező határidőre.
-        </p>
+        <li>
+            Bemutatás (demó) és szállítás módja, ideje
+            <p>
+                A bemutatót az iteratív vízesés modell „Integráció és rendszerteszt” fázisának lezárásaként, a félév utolsó
+                heteiben tartjuk. A bemutatón a program vázát (skeleton) mutatjuk be élőben, telepített Tauri-alkalmazásként:
+                a felszolgálói felületen kiválasztunk egy asztalt és leadunk egy rendelést, majd megmutatjuk, ahogy a tételek
+                megjelennek a konyhai nézeten, és a szakács készre jelenti őket. A vázban még meg nem valósított modulok
+                (pl. automatikus készletkezelés, kiszállítás, napi zárás) működését a tervezési dokumentumok (use case-ek, adatmodell)
+                alapján ismertetjük.
+                A szállítás módja: a program forráskódját és a dokumentációt (HTML-oldalak és diagramok) a csapat közös
+                GitHub-tárolójában tartjuk karban. A végleges állapotot egy megjelölt (tag-elt) release formájában,
+                a gyakorlatvezető által megadott módon és határidőre adjuk le.
+            </p>
         </li>
-       <li>Információ források
+        <li>
+            Információ források
             <ul>
                 <li><a href="https://tauri.app/" target="_blank">https://tauri.app/</a></li>
                 <li><a href="https://spring.io/projects/spring-boot" target="_blank">https://spring.io/projects/spring-boot</a></li>
@@ -185,7 +207,7 @@
                 <li><a href="https://react.dev/" target="_blank">https://react.dev/</a></li>
             </ul>
         </li>
-        
+
     </ol>
 </body>
 </html>

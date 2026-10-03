@@ -5,45 +5,622 @@
     <title>H4 - Analízis modell</title>
     <link rel="stylesheet" href="../style.css">
 </head>
-<body> 
+<body>
 
     <a href="../index.html" class="vissza-link">Főoldal</a>
     <h1 class="oldal-cim">Analízis modell</h1>
 
     <ol class="terv-lista">
-        <li>Bevezetés</li>
-        
-        <li>Kezdeti osztálydiagram
+        <li>
+            Bevezetés
+            <p>
+                Az analízis modell célja, hogy az SRS-ben rögzített funkcionális követelményekből (use case-ekből)
+                azonosítsa a DishPatch rendszer probléma terének osztályait, azok kapcsolatait, attribútumait és
+                műveleteit, a megvalósítás technikai részleteitől függetlenül. A modell a rendszert alrendszerekre bontja,
+                majd az első, legösszetettebb alrendszert – a Rendelés- és kiszállításkezelést – statikus, dinamikus és
+                funkcionális szempontból is részletesen kidolgozza.
+            </p>
+            <p>
+                A dokumentum az iteratív vízesés modell „Rendszer- és szoftvertervezés” fázisát készíti elő: az itt
+                azonosított osztályokból készül a Rendszertervezés adatmodellje, ezért az osztály- és attribútumnevek
+                megegyeznek az ott szereplő egyedek és mezők neveivel. A felhasználói felület (Tauri kliens nézetei) és az
+                adatbázis-elérés (Spring Data JPA) osztályait nem itt, hanem a Rendszertervezés dokumentum tárgyalja.
+            </p>
+        </li>
+
+        <li>
+            Kezdeti osztálydiagram
             <ul style="list-style: none;">
-                <li><b>2.1 Osztálydiagram</b></li>
-                <li><b>2.2 Osztályok felsorolása</b></li>
-                <li><b>2.3 Alrendszerek</b></li>
+                <li>
+                    <b>2.1 Osztálydiagram</b>
+                    <p>
+                        Az SRS use case-eiben szereplő főnevekből (pl. rendelés, tétel, asztal, vevő, cím, termék, alapanyag,
+                        fizetés, zárás) kiindulva az alábbi kezdeti osztálydiagram készült. Ezen a szinten még csak az osztályok
+                        és a köztük lévő alapvető kapcsolatok szerepelnek, attribútumok és műveletek nélkül.
+                    </p>
+                    <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
+                        <i>A rendszer kezdeti osztálydiagramja</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
+                        <img src="../Képek/Osztalydiagram-kezdeti.png" alt="A DishPatch rendszer kezdeti osztálydiagramja" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                </li>
+                <li>
+                    <b>2.2 Osztályok felsorolása</b>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr>
+                                <th>Osztály</th>
+                                <th>Rövid leírás</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Szerepkör</td><td>A dolgozók munkakörei és jogosultsági szintjei (Pincér, Szakács, Diszpécser, Üzletvezető, Könyvelő, Futár).</td></tr>
+                            <tr><td>Felhasználó</td><td>Az étterem egy dolgozója, aki (a Futár kivételével) PIN-kóddal lép be a rendszerbe.</td></tr>
+                            <tr><td>Műszak</td><td>Egy dolgozó adott napi munkavégzése; ebből készül a zárási jelentések dolgozói listája.</td></tr>
+                            <tr><td>Zóna</td><td>Az étterem egy fizikai területe (pl. Terasz, Belső terem).</td></tr>
+                            <tr><td>Asztal</td><td>A vendégtér egy asztala, amelyhez helyben fogyasztásos rendelések tartoznak.</td></tr>
+                            <tr><td>Asztalfoglalás</td><td>Egy vendég előzetes foglalása egy asztalra, adott időpontra.</td></tr>
+                            <tr><td>Vevő</td><td>A kiszállításos rendelést leadó személy, a vevői jelzőivel (visszatérő, tiltott, priuszos, véglegesen tiltott).</td></tr>
+                            <tr><td>Cím</td><td>Egy vevő egy szállítási címe.</td></tr>
+                            <tr><td>Rendelés</td><td>Egy fogyasztás vagy kiszállítás fejléce: helyben fogyasztásos vagy kiszállításos.</td></tr>
+                            <tr><td>Rendelés_tétel</td><td>Egy rendelés egy terméke, a rendeléskori eladási árral és saját állapottal.</td></tr>
+                            <tr><td>Kategória</td><td>A termékek csoportja (pl. Levesek, Italok) az adókulccsal.</td></tr>
+                            <tr><td>Termék</td><td>Az étlapon vagy itallapon szereplő késztermék.</td></tr>
+                            <tr><td>Alapanyag</td><td>A raktárkészlet egy eleme, beszerzési árral és minimumkészlettel.</td></tr>
+                            <tr><td>Receptúra</td><td>Megadja, hogy egy termékhez melyik alapanyagból mennyi kell.</td></tr>
+                            <tr><td>Raktár_mozgás</td><td>A készlet egy változása (Bevételezés, Selejt, Fogyás, Sztornó-visszaírás).</td></tr>
+                            <tr><td>Beszerzési_rendelés</td><td>A beszállítónak szóló, üzletvezetői jóváhagyáshoz kötött rendelési előrejelzés.</td></tr>
+                            <tr><td>Beszerzési_tétel</td><td>Egy beszerzési rendelés egy alapanyaga és mennyisége.</td></tr>
+                            <tr><td>Fizetési_tranzakció</td><td>Egy fizetési módon történt kiegyenlítés egy rendeléshez.</td></tr>
+                            <tr><td>Fizetett_tétel</td><td>Megadja, hogy egy tranzakció mely tételek mekkora részét fizette ki (tételenkénti asztalbontás).</td></tr>
+                            <tr><td>Napi_zárás</td><td>A nap végi elszámolás, fizetési módonkénti összesítővel.</td></tr>
+                            <tr><td>Zárási_jelentés</td><td>A napi zárás e-mailben küldött jelentése (könyvelői vagy üzletvezetői).</td></tr>
+                            <tr><td>Beállítás</td><td>Az Üzletvezető által módosítható rendszerbeállítás (pl. vevői jelzők küszöbei, kiszállítási díj).</td></tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <b>2.3 Alrendszerek</b>
+                    <p>
+                        Az osztályokat funkcionálisan összetartozó alrendszerekbe soroltuk. Az alrendszerek közötti kapcsolatokat
+                        a lehető legkevesebb osztálypáron keresztül tartjuk, hogy egymástól függetlenül fejleszthetők és
+                        tesztelhetők legyenek.
+                    </p>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr>
+                                <th>Alrendszer</th>
+                                <th>Osztályok</th>
+                                <th>Felelősség</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Felhasználó- és műszakkezelés</b></td>
+                                <td>Szerepkör, Felhasználó, Műszak</td>
+                                <td>Dolgozók, PIN-alapú azonosítás, jogosultságok és a napi műszak nyilvántartása.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Vendégtér-kezelés</b></td>
+                                <td>Zóna, Asztal, Asztalfoglalás</td>
+                                <td>Az asztaltérkép, az asztalok állapotának számítása és a foglalások kezelése.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Rendelés- és kiszállításkezelés</b> (első alrendszer)</td>
+                                <td>Rendelés, Rendelés_tétel, Vevő, Cím</td>
+                                <td>
+                                    Helyben fogyasztásos és kiszállításos rendelések felvétele, állapotaik vezetése, sztornó, vevőnyilvántartás
+                                    és vevői jelzők.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Étlap és készlet</b></td>
+                                <td>Kategória, Termék, Alapanyag, Receptúra, Raktár_mozgás</td>
+                                <td>Terméktörzs, receptúrák, automatikus készletlevonás, bevételezés, leltár és készletriasztás.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Beszerzés</b></td>
+                                <td>Beszerzési_rendelés, Beszerzési_tétel</td>
+                                <td>A beszállítói rendelések összeállítása (Diszpécser), jóváhagyása (Üzletvezető) és elküldése.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Pénzügy és zárás</b></td>
+                                <td>Fizetési_tranzakció, Fizetett_tétel, Napi_zárás, Zárási_jelentés</td>
+                                <td>Fizettetés, tételenkénti asztalbontás, napi zárás, a könyvelői és az üzletvezetői jelentés elküldése.</td>
+                            </tr>
+                            <tr>
+                                <td><b>Rendszerbeállítások</b></td>
+                                <td>Beállítás</td>
+                                <td>A többi alrendszer által használt, Üzletvezető által módosítható paraméterek.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        A felhasználói felület (felszolgálói, konyhai, diszpécseri és vezetői nézet) és az adatelérési réteg
+                        nem része a fenti, probléma téri alrendszereknek; ezeket a Rendszertervezés dokumentum részletezi.
+                    </p>
+                </li>
             </ul>
         </li>
-        
-        <li>Az első alrendszer modellje
+
+        <li>
+            Az első alrendszer modellje: Rendelés- és kiszállításkezelés
             <ul style="list-style: none;">
-                <li><b>3.1 Statikus modell</b>
+                <li>
+                    <b>3.1 Statikus modell</b>
                     <ul style="list-style: none;">
-                        <li><b>3.1.1 Kapcsolatok pontosítása</b></li>
-                        <li><b>3.1.2 Attribútumok azonosítása</b></li>
-                        <li><b>3.1.3 Bázisosztályok keresése</b></li>
+                        <li>
+                            <b>3.1.1 Kapcsolatok pontosítása</b>
+                            <ul class="pottyos-lista">
+                                <li>
+                                    <b>Rendelés – Rendelés_tétel (1 : 1..*), kompozíció:</b> egy tétel nem létezhet rendelés nélkül, és
+                                    egy leadott rendelésnek legalább egy tétele van. A rendelés törlése (ami a gyakorlatban nem történik meg,
+                                    csak sztornó vagy lemondás) a tételeit is érintené.
+                                </li>
+                                <li>
+                                    <b>Rendelés – Termék (N : M) feloldása:</b> a kezdeti diagramon a Rendelés közvetlenül a Termékhez
+                                    kapcsolódott. Ezt a Rendelés_tétel osztállyal oldottuk fel, amely a mennyiség mellett a rendeléskori
+                                    eladási egységárat is tárolja, így a Termék későbbi árváltozása nem írja át a régi rendeléseket.
+                                    Rendelés_tétel – Termék: N : 1.
+                                </li>
+                                <li>
+                                    <b>Rendelés – Asztal (N : 1):</b> csak a helyben fogyasztásos rendelésre érvényes. Egy asztalhoz időben
+                                    sok rendelés tartozik, de egyszerre legfeljebb egy lehet Nyitott vagy Fizetésre vár állapotban.
+                                </li>
+                                <li><b>Rendelés – Vevő (N : 1):</b> csak a kiszállításos rendelésre érvényes.</li>
+                                <li>
+                                    <b>Vevő – Cím (1 : 1..*), aggregáció:</b> egy vevőnek több szállítási címe lehet. A rendelés a
+                                    kiválasztott címet szövegként lemásolja (szallitasi_cim), így a cím későbbi módosítása vagy
+                                    inaktiválása nem változtatja meg a korábbi rendeléseket.
+                                </li>
+                                <li>
+                                    <b>Rendelés – Felhasználó, két asszociáció:</b> a <i>felvevő</i> (N : 1, minden rendelésnél kötelező:
+                                    Pincér vagy Diszpécser) és a <i>futár</i> (N : 0..1, csak kiszállításnál, a Kész állapottól kötelező,
+                                    Futár szerepkörű felhasználó).
+                                </li>
+                                <li>
+                                    <b>Rendelés_tétel – Felhasználó (N : 0..1):</b> a sztornót jóváhagyó Diszpécser (vagy az őt is magában
+                                    foglaló Üzletvezető); csak sztornózott tételnél van kitöltve.
+                                </li>
+                                <li>
+                                    <b>Kapcsolatok más alrendszerekhez:</b> Rendelés – Fizetési_tranzakció (1 : 0..*, Pénzügy és zárás),
+                                    Rendelés_tétel – Raktár_mozgás (1 : 0..*, Étlap és készlet), Rendelés_tétel – Fizetett_tétel
+                                    (1 : 0..*, Pénzügy és zárás).
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>3.1.2 Attribútumok azonosítása</b>
+                            <p>
+                                Az attribútumokat a use case-ek leírásaiból és a zárási jelentések adatigényéből vezettük le.
+                                A teljes lista a 3.6 pontban szerepel; az alábbi döntések igényelnek magyarázatot:
+                            </p>
+                            <ul class="pottyos-lista">
+                                <li>
+                                    <b>Ár-pillanatkép:</b> a Rendelés_tétel saját eladási egységárat tárol, a Kiszállításos_rendelés a
+                                    kiszállítási díjat és a szállítási címet is lemásolja, mert ezek a rendelés pillanatában érvényes
+                                    értékek.
+                                </li>
+                                <li>
+                                    <b>Számított vevői jelzők:</b> a tiltott, a priuszos és a véglegesen tiltott állapotot nem külön
+                                    jelzőként, hanem számlálókból és dátumból tároljuk (lemondas_szamlalo, tiltas_vege, priusz_szamlalo,
+                                    vegleg_tiltott). A vevő állapota ezekből egyértelműen számítható, így nem állhat elő ellentmondásos
+                                    jelzőkombináció. A visszatérő státuszt a visszatero_honap mező jelöli: a vevő abban a hónapban
+                                    visszatérő.
+                                </li>
+                                <li>
+                                    <b>Lemondás oka:</b> a Kiszállításos_rendelés a lemondás szöveges okát és azt is tárolja, hogy az a
+                                    vevőnek felróható-e, mert csak ez utóbbi számít bele a tiltásba.
+                                </li>
+                                <li>
+                                    <b>Az asztal állapota</b> (szabad, lefoglalt, foglalt, fizetésre vár) nem ennek az alrendszernek az
+                                    attribútuma: a Vendégtér-kezelés számítja a rendelések állapotából és a foglalásokból.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>3.1.3 Bázisosztályok keresése</b>
+                            <ul class="pottyos-lista">
+                                <li>
+                                    <b>Rendelés mint absztrakt bázisosztály:</b> a helyben fogyasztásos és a kiszállításos rendelés közös
+                                    tulajdonságai (tételek, felvevő, nyitás és zárás ideje, végösszeg, fizetések) a <i>Rendelés</i>
+                                    absztrakt osztályba kerültek. Ebből származik a <i>Helyben_rendelés</i> (asztalhoz kötött, saját
+                                    állapotgéppel) és a <i>Kiszállításos_rendelés</i> (vevőhöz, címhez és futárhoz kötött, saját
+                                    állapotgéppel és attribútumokkal). A végösszeg számítása polimorf: a kiszállításos rendelés a
+                                    kiszállítási díjat is hozzáadja. Az adatbázisba a két alosztály egyetlen Rendelés táblaként, a
+                                    <i>tipus</i> mezővel megkülönböztetve képeződik le (lásd Rendszertervezés).
+                                </li>
+                                <li>
+                                    <b>Elvetett öröklés – Felhasználó:</b> a szerepköröket (Pincér, Diszpécser stb.) nem a Felhasználó
+                                    alosztályaiként, hanem a Szerepkör osztállyal való asszociációként modelleztük, mert egy dolgozó
+                                    munkaköre változhat, és a jogosultsági hierarchia (Üzletvezető → Diszpécser → Pincér) a use case-ek
+                                    szintjén, a szerepkörhöz rendelt jogosultságokkal kezelhető.
+                                </li>
+                                <li>
+                                    <b>Elvetett összevonás – Vevő és Cím:</b> a címet nem a Vevő attribútumaként tároljuk, mert egy
+                                    vevőnek több szállítási címe lehet.
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
-                <li><b>3.2 Dinamikus modell</b></li>
-                <li><b>3.3 Funkcionális modell</b></li>
-                <li><b>3.4 Operációk azonosítása</b></li>
-                <li><b>3.5 Az analízis modell osztálydiagramja</b></li>
-                <li><b>3.6 Az analízis modell osztályainak listája</b>
+                <li>
+                    <b>3.2 Dinamikus modell</b>
+                    <p>
+                        Az alrendszer négy osztályának van nem triviális életciklusa. Az állapotokat és az átmeneteket az alábbi
+                        állapotdiagramok és táblázatok írják le; minden átmenetet a megadott szerepkör vált ki a felületen,
+                        kivéve az ütemezett (rendszer által végzett) átmeneteket.
+                    </p>
+
+                    <p><b>Helyben fogyasztásos rendelés</b></p>
+                    <p style="font-size: 16px; margin-top: 20px; margin-bottom: 5px; text-align: center;">
+                        <i>A Helyben_rendelés állapotdiagramja</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 20px;">
+                        <img src="../Képek/Allapot-helyben-rendeles.png" alt="A helyben fogyasztásos rendelés állapotdiagramja" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Kiinduló állapot</th><th>Esemény</th><th>Feltétel</th><th>Célállapot</th><th>Végrehajtó</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>–</td><td>Első rendelés leadása az asztalnál</td><td>Az asztalnak nincs nyitott rendelése</td><td>Nyitott</td><td>Pincér</td></tr>
+                            <tr><td>Nyitott</td><td>További tételek leadása</td><td>–</td><td>Nyitott</td><td>Pincér</td></tr>
+                            <tr><td>Nyitott</td><td>A vendég fizetni kér</td><td>–</td><td>Fizetésre vár</td><td>Pincér</td></tr>
+                            <tr><td>Fizetésre vár</td><td>A vendég mégis rendel még</td><td>–</td><td>Nyitott</td><td>Pincér</td></tr>
+                            <tr><td>Fizetésre vár</td><td>Utolsó fizetés rögzítése</td><td>A nem sztornózott tételek teljes összege ki van fizetve</td><td>Lezárt</td><td>Pincér</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p><b>Kiszállításos rendelés</b></p>
+                    <p style="font-size: 16px; margin-top: 20px; margin-bottom: 5px; text-align: center;">
+                        <i>A Kiszállításos_rendelés állapotdiagramja</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 20px;">
+                        <img src="../Képek/Allapot-kiszallitas.png" alt="A kiszállításos rendelés állapotdiagramja" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Kiinduló állapot</th><th>Esemény</th><th>Feltétel</th><th>Célállapot</th><th>Végrehajtó</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>–</td><td>Rendelés leadása</td><td>A vevő rendelhet (nem tiltott, nem véglegesen tiltott)</td><td>Felvéve</td><td>Diszpécser</td></tr>
+                            <tr><td>Felvéve</td><td>Készre állítás</td><td>Minden nem sztornózott tétel Kész</td><td>Kész</td><td>Diszpécser</td></tr>
+                            <tr><td>Kész</td><td>Futár indulása</td><td>Futár kiosztva, szállítólevél kinyomtatva</td><td>Úton</td><td>Diszpécser</td></tr>
+                            <tr><td>Úton</td><td>A futár visszaér, leadja a beszedett összeget</td><td>A fizetés rögzítve</td><td>Kiszállítva</td><td>Diszpécser</td></tr>
+                            <tr><td>Felvéve, Kész, Úton</td><td>Lemondás (vevő lemondta, nem vette át, nem volt elérhető, vagy étterem miatti ok)</td><td>Lemondás oka megadva</td><td>Lemondva</td><td>Diszpécser</td></tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        A Kiszállítva és a Lemondva végállapot. A vevőnek felróható lemondás a vevő lemondás-számlálóját is növeli
+                        (lásd a Vevő állapotdiagramját).
+                    </p>
+
+                    <p><b>Rendelési tétel</b></p>
+                    <p style="font-size: 16px; margin-top: 20px; margin-bottom: 5px; text-align: center;">
+                        <i>A Rendelés_tétel állapotdiagramja</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 20px;">
+                        <img src="../Képek/Allapot-rendeles-tetel.png" alt="A rendelési tétel állapotdiagramja" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Kiinduló állapot</th><th>Esemény</th><th>Feltétel</th><th>Célállapot</th><th>Végrehajtó</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>–</td><td>A rendelés leadása</td><td>–</td><td>Konyhán</td><td>Pincér / Diszpécser</td></tr>
+                            <tr><td>Konyhán</td><td>Készre jelentés a KDS-en</td><td>–</td><td>Kész</td><td>Szakács</td></tr>
+                            <tr><td>Kész</td><td>Felszolgálás (helyben), illetve a rendelés Úton állapotba kerülése (kiszállítás)</td><td>–</td><td>Felszolgálva</td><td>Pincér / rendszer</td></tr>
+                            <tr><td>Konyhán, Kész, Felszolgálva</td><td>Sztornó</td><td>Diszpécseri PIN-kódos jóváhagyás és sztornó ok megadva</td><td>Sztornózva</td><td>Diszpécser</td></tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Sztornókor a rendszer a tétel receptúra szerinti alapanyagait Sztornó-visszaírás típusú raktármozgással
+                        visszaírja a készletbe.
+                    </p>
+
+                    <p><b>Vevő (vevői jelzők)</b></p>
+                    <p style="font-size: 16px; margin-top: 20px; margin-bottom: 5px; text-align: center;">
+                        <i>A Vevő állapotdiagramja</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 20px;">
+                        <img src="../Képek/Allapot-vevo.png" alt="A vevő állapotdiagramja" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Kiinduló állapot</th><th>Esemény</th><th>Feltétel</th><th>Célállapot</th><th>Végrehajtó</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>–</td><td>Új vevő felvétele</td><td>–</td><td>Normál</td><td>Diszpécser</td></tr>
+                            <tr><td>Normál, Priuszos</td><td>Vevőnek felróható lemondás</td><td>A lemondás-számláló eléri a küszöböt (alapértelmezés: 3)</td><td>Tiltott</td><td>Diszpécser (a lemondással)</td></tr>
+                            <tr><td>Tiltott</td><td>Napi ütemezett ellenőrzés</td><td>A tiltás lejárt, és a lejárt tiltások száma ezzel 3 alatt marad</td><td>Priuszos</td><td>Rendszer</td></tr>
+                            <tr><td>Tiltott</td><td>Napi ütemezett ellenőrzés</td><td>A tiltás lejárt, és ez a harmadik lejárt tiltás</td><td>Véglegesen tiltott</td><td>Rendszer</td></tr>
+                            <tr><td>Véglegesen tiltott</td><td>Végleges tiltás feloldása</td><td>–</td><td>Priuszos</td><td>Üzletvezető</td></tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Tiltott és Priuszos állapotba lépéskor a lemondás-számláló nullázódik (Tiltottba lépéskor a tiltás végének
+                        dátuma is beállítódik). Tiltott és Véglegesen tiltott állapotban a vevő nem rendelhet, erről a rendszer
+                        rendelésfelvételkor felugró ablakban értesíti a Diszpécsert. A <i>visszatérő</i> jelző a fenti állapotoktól
+                        független, párhuzamos jelölés: minden hónap első napján a rendszer kiszámítja, és csak az adott hónapra
+                        érvényes. A küszöbértékek a Beállítás osztályból származnak.
+                    </p>
+                </li>
+                <li>
+                    <b>3.3 Funkcionális modell</b>
+                    <p>
+                        Az alrendszer fő adatfeldolgozási folyamatait az alábbi táblázatok írják le: mi a bemenet, milyen
+                        feldolgozás történik, és milyen adat keletkezik vagy módosul.
+                    </p>
+
+                    <p><b>Kiszállításos rendelés felvétele és leadása (SRS 3.2)</b></p>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Lépés</th><th>Bemenet</th><th>Feldolgozás</th><th>Kimenet / módosult adat</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1. Vevő azonosítása</td><td>Telefonszám</td><td>Keresés a vevők között; ha nincs találat, új Vevő és Cím felvétele</td><td>Vevő (meglévő vagy új)</td></tr>
+                            <tr><td>2. Jelzők ellenőrzése</td><td>Vevő</td><td>A vevő állapotának számítása; tiltott vagy véglegesen tiltott vevőnél a folyamat megszakad, felugró ablakkal</td><td>Vevői állapot, visszatérő jelző a képernyőn</td></tr>
+                            <tr><td>3. Cím kiválasztása</td><td>Vevő címei</td><td>A kiválasztott vagy új cím szöveges másolása a rendelésbe</td><td>szallitasi_cim</td></tr>
+                            <tr><td>4. Tételek felvétele</td><td>Termékek, mennyiségek, megjegyzések</td><td>Elérhetőség és készlet ellenőrzése (Étlap és készlet alrendszer), az aktuális ár lemásolása</td><td>Rendelés_tétel-ek (még csak a kliens helyi kosarában)</td></tr>
+                            <tr><td>5. Leadás</td><td>Kosár, tervezett fizetési mód</td><td>Kiszállítási díj hozzáadása a Beállításból, mentés; a tételek Konyhán állapotba kerülnek, a KDS frissül</td><td>Kiszállításos_rendelés (Felvéve), Raktár_mozgás (Fogyás) tételenként</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p><b>Kiszállítás lezárása és lemondása</b></p>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Lépés</th><th>Bemenet</th><th>Feldolgozás</th><th>Kimenet / módosult adat</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Futár kiosztása, indulás</td><td>Futár (az aznapi Műszakból)</td><td>Futár hozzárendelése, szállítólevél nyomtatása, a tételek Felszolgálva állapotba kerülnek</td><td>Rendelés: Kész → Úton</td></tr>
+                            <tr><td>Lezárás</td><td>Beszedett összeg, tényleges fizetési mód, borravaló</td><td>Fizetési tranzakció létrehozása (Pénzügy és zárás alrendszer)</td><td>Fizetési_tranzakció, Rendelés: Kiszállítva</td></tr>
+                            <tr><td>Lemondás</td><td>Lemondás oka, vevőnek felróható-e</td><td>Állapotváltás; ha felróható, a vevő lemondás-számlálójának növelése és szükség esetén a tiltás beállítása</td><td>Rendelés: Lemondva, Vevő számlálói és tiltás vége</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p><b>Ütemezett feldolgozások</b></p>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Feldolgozás</th><th>Gyakoriság</th><th>Bemenet</th><th>Kimenet / módosult adat</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Tiltások lejáratának ellenőrzése</td><td>Naponta</td><td>Tiltott vevők, Beállítás (végleges tiltás küszöbe)</td><td>Vevő: Priuszos vagy Véglegesen tiltott</td></tr>
+                            <tr><td>Visszatérő vevők számítása</td><td>Minden hónap első napján</td><td>Az előző naptári hónap Kiszállítva állapotú rendelései, Beállítás (visszatérő küszöb)</td><td>Vevő: visszatero_honap</td></tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <b>3.4 Operációk azonosítása</b>
+                    <p>
+                        A dinamikus és a funkcionális modell minden átmenetéhez és feldolgozási lépéséhez hozzárendeltük azt az
+                        osztályt, amely az adott műveletért felelős. A műveletek részletes leírása a 3.6 pontban található.
+                    </p>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Osztály</th><th>Operáció</th><th>Kiváltó use case / átmenet</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Rendelés</td><td>tetelHozzaad, leadas, vegosszeg, mindenTetelKesz, fizetettOsszeg</td><td>Rendelés rögzítése; Kiszállításos rendelés felvétele</td></tr>
+                            <tr><td>Helyben_rendelés</td><td>fizetesKerese, rendelesFolytatasa, lezaras, tetelAthelyezes, osszevonas</td><td>Fizettetés; a helyben rendelés átmenetei</td></tr>
+                            <tr><td>Kiszállításos_rendelés</td><td>keszreAllitas, futarKiosztas, szallitolevelNyomtatas, indulas, kiszallitasLezarasa, lemondas, vegosszeg</td><td>Kiszállítás állapotának kezelése</td></tr>
+                            <tr><td>Rendelés_tétel</td><td>keszreJelentes, felszolgalas, sztornozas, reszosszeg</td><td>Étel készre jelentése; Védett sztornózás</td></tr>
+                            <tr><td>Vevő</td><td>keresTelefonszamAlapjan, allapot, rendelhet, lemondasRogzitese, tiltasLejaratEllenorzes, visszateroSzamitas, veglegesTiltasFeloldasa, anonimizalas</td><td>Vevő keresése / felvétele; Vevői jelzők ellenőrzése; ütemezett feldolgozások</td></tr>
+                            <tr><td>Cím</td><td>formazottCim, inaktival</td><td>Kiszállításos rendelés felvétele; Szállítólevél nyomtatása</td></tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li>
+                    <b>3.5 Az analízis modell osztálydiagramja</b>
+                    <p>
+                        Az alrendszer részletes osztálydiagramja az attribútumokkal, az operációkkal, az öröklési viszonnyal és a
+                        számosságokkal. A más alrendszerbe tartozó osztályok (Asztal, Felhasználó, Termék, Raktár_mozgás,
+                        Fizetési_tranzakció, Beállítás) csak névvel szerepelnek rajta.
+                    </p>
+                    <p style="font-size: 16px; margin-top: 35px; margin-bottom: 5px; text-align: center;">
+                        <i>A Rendelés- és kiszállításkezelés alrendszer osztálydiagramja</i>
+                    </p>
+                    <div style="text-align: left; margin-top: 0; margin-bottom: 30px;">
+                        <img src="../Képek/Osztalydiagram-rendeles.png" alt="A Rendelés- és kiszállításkezelés alrendszer osztálydiagramja" style="max-width: 95%;
+                        border: 1px solid #777; padding: 10px; background-color: white;">
+                    </div>
+                </li>
+                <li>
+                    <b>3.6 Az analízis modell osztályainak listája</b>
                     <ul style="list-style: none;">
-                        <li><b>3.6.1 Első osztály neve</b></li>
-                        <li><b>3.6.2 Második osztály neve</b></li>
+                        <li>
+                            <b>3.6.1 Rendelés (absztrakt)</b>
+                            <p>
+                                <b>Felelőssége:</b> egy fogyasztás vagy kiszállítás közös adatainak és tételeinek kezelése, a végösszeg
+                                számítása. Önmagában nem példányosítható, csak a két alosztályán keresztül.
+                            </p>
+                            <p><b>Együttműködők:</b> Rendelés_tétel, Felhasználó (felvevő), Fizetési_tranzakció, Termék.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>id</td><td>egész</td><td>Egyedi azonosító.</td></tr>
+                                    <tr><td>nyitas_ideje</td><td>dátum-idő</td><td>A rendelés leadásának (helyben: az asztal megnyitásának) ideje.</td></tr>
+                                    <tr><td>zaras_ideje</td><td>dátum-idő</td><td>A végállapotba (Lezárt, Kiszállítva, Lemondva) kerülés ideje.</td></tr>
+                                    <tr><td>statusz</td><td>felsorolás</td><td>Az aktuális állapot; értékkészletét az alosztály határozza meg.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>tetelHozzaad</td><td>termek, mennyiseg, megjegyzes</td><td>Ellenőrzi a termék elérhetőségét és a készletet (készlethiány esetén hibát jelez, amelyet a Diszpécser felülbírálhat), majd új tételt hoz létre a termék aktuális árával.</td></tr>
+                                    <tr><td>leadas</td><td>–</td><td>Menti a rendelést, a tételeket Konyhán állapotba teszi, és tételenként kezdeményezi a receptúra szerinti készletlevonást.</td></tr>
+                                    <tr><td>vegosszeg</td><td>–</td><td>A nem sztornózott tételek részösszegeinek összege. Az alosztály felüldefiniálhatja.</td></tr>
+                                    <tr><td>mindenTetelKesz</td><td>–</td><td>Igaz, ha minden nem sztornózott tétel Kész vagy Felszolgálva állapotú.</td></tr>
+                                    <tr><td>fizetettOsszeg</td><td>–</td><td>A rendeléshez tartozó fizetési tranzakciók összege.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <b>3.6.2 Helyben_rendelés</b>
+                            <p>
+                                <b>Felelőssége:</b> egy asztalhoz kötött fogyasztás vezetése a nyitástól a teljes kifizetésig, a tételek
+                                áthelyezésével és az asztalok összevonásával együtt.
+                            </p>
+                            <p><b>Együttműködők:</b> Asztal, Fizetési_tranzakció, Fizetett_tétel.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>statusz</td><td>felsorolás</td><td>Nyitott, Fizetésre vár, Lezárt.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>fizetesKerese</td><td>–</td><td>Nyitott → Fizetésre vár.</td></tr>
+                                    <tr><td>rendelesFolytatasa</td><td>–</td><td>Fizetésre vár → Nyitott, ha a vendég még rendel.</td></tr>
+                                    <tr><td>lezaras</td><td>–</td><td>Fizetésre vár → Lezárt, ha a fizetett összeg eléri a végösszeget.</td></tr>
+                                    <tr><td>tetelAthelyezes</td><td>tetel, celRendeles</td><td>A tételt egy másik asztal nyitott rendeléséhez rendeli.</td></tr>
+                                    <tr><td>osszevonas</td><td>masikRendeles</td><td>Egy másik asztal nyitott rendelésének összes tételét átveszi, a másik rendelést lezárja.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <b>3.6.3 Kiszállításos_rendelés</b>
+                            <p>
+                                <b>Felelőssége:</b> egy telefonon leadott, vevőhöz és címhez kötött rendelés vezetése a felvételtől a futár
+                                visszaérkezéséig vagy a lemondásig, a lemondások vevői jelzőkre gyakorolt hatásával együtt.
+                            </p>
+                            <p><b>Együttműködők:</b> Vevő, Cím, Felhasználó (futár), Fizetési_tranzakció, Beállítás.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>statusz</td><td>felsorolás</td><td>Felvéve, Kész, Úton, Kiszállítva, Lemondva.</td></tr>
+                                    <tr><td>kert_idopont</td><td>dátum-idő</td><td>A vevő által kért szállítási időpont; üres, ha mielőbb kéri.</td></tr>
+                                    <tr><td>szallitasi_cim</td><td>szöveg</td><td>A kiválasztott Cím rendeléskori másolata.</td></tr>
+                                    <tr><td>kiszallitasi_dij</td><td>pénzösszeg</td><td>A rendeléskor érvényes kiszállítási díj.</td></tr>
+                                    <tr><td>tervezett_fizetesi_mod</td><td>felsorolás</td><td>Készpénz, Bankkártya, SZÉP-kártya vagy Utalvány; ebből tudja a futár, kell-e kártyaterminál.</td></tr>
+                                    <tr><td>lemondas_oka</td><td>szöveg</td><td>A lemondás indoka (csak Lemondva állapotban).</td></tr>
+                                    <tr><td>lemondas_vevo_miatt</td><td>logikai</td><td>Igaz, ha a lemondás a vevőnek felróható; csak ekkor számít bele a tiltásba.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>keszreAllitas</td><td>–</td><td>Felvéve → Kész, ha mindenTetelKesz() igaz.</td></tr>
+                                    <tr><td>futarKiosztas</td><td>futar</td><td>Hozzárendeli az aznapi műszakban lévő Futár szerepkörű felhasználót.</td></tr>
+                                    <tr><td>szallitolevelNyomtatas</td><td>–</td><td>Kinyomtatja a címet, a tételeket, a fizetendő összeget és a tervezett fizetési módot.</td></tr>
+                                    <tr><td>indulas</td><td>–</td><td>Kész → Úton, ha van kiosztott futár; a tételeket Felszolgálva állapotba teszi.</td></tr>
+                                    <tr><td>kiszallitasLezarasa</td><td>fizetesiMod, osszeg, borravalo</td><td>Fizetési tranzakciót hoz létre, majd Úton → Kiszállítva.</td></tr>
+                                    <tr><td>lemondas</td><td>ok, vevoMiatt</td><td>Felvéve, Kész vagy Úton → Lemondva; ha vevoMiatt igaz, meghívja a vevő lemondasRogzitese() műveletét.</td></tr>
+                                    <tr><td>vegosszeg</td><td>–</td><td>Felüldefiniált: a tételek összegéhez hozzáadja a kiszállítási díjat.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <b>3.6.4 Rendelés_tétel</b>
+                            <p>
+                                <b>Felelőssége:</b> egy termék adott mennyiségének nyilvántartása a rendelésen belül, a rendeléskori árral, a
+                                konyhai állapottal és az esetleges sztornó adataival.
+                            </p>
+                            <p><b>Együttműködők:</b> Rendelés, Termék, Felhasználó (sztornó jóváhagyója), Raktár_mozgás, Fizetett_tétel.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>id</td><td>egész</td><td>Egyedi azonosító.</td></tr>
+                                    <tr><td>eladasi_egysegar</td><td>pénzösszeg</td><td>A termék ára a rendelés pillanatában.</td></tr>
+                                    <tr><td>mennyiseg</td><td>egész</td><td>A rendelt darabszám.</td></tr>
+                                    <tr><td>statusz</td><td>felsorolás</td><td>Konyhán, Kész, Felszolgálva, Sztornózva.</td></tr>
+                                    <tr><td>megjegyzes</td><td>szöveg</td><td>Elkészítési kérés (pl. „öntet nélkül”).</td></tr>
+                                    <tr><td>sztorno_idopont</td><td>dátum-idő</td><td>A sztornó ideje.</td></tr>
+                                    <tr><td>sztorno_ok</td><td>szöveg</td><td>A sztornó indoka.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>keszreJelentes</td><td>–</td><td>Konyhán → Kész; értesíti a pincért, kiszállításnál a diszpécsert.</td></tr>
+                                    <tr><td>felszolgalas</td><td>–</td><td>Kész → Felszolgálva.</td></tr>
+                                    <tr><td>sztornozas</td><td>ok, jovahagyo</td><td>A jóváhagyó Diszpécser PIN-kódjának ellenőrzése után → Sztornózva; rögzíti a jóváhagyót, az időt és az okot, és kezdeményezi a készlet visszaírását.</td></tr>
+                                    <tr><td>reszosszeg</td><td>–</td><td>eladasi_egysegar × mennyiseg; sztornózott tételnél 0.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <b>3.6.5 Vevő</b>
+                            <p>
+                                <b>Felelőssége:</b> a kiszállításos vevők adatainak nyilvántartása és a vevői jelzők (visszatérő, tiltott,
+                                priuszos, véglegesen tiltott) szabályainak érvényesítése.
+                            </p>
+                            <p><b>Együttműködők:</b> Cím, Kiszállításos_rendelés, Beállítás.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>id</td><td>egész</td><td>Egyedi azonosító.</td></tr>
+                                    <tr><td>nev</td><td>szöveg</td><td>A vevő neve.</td></tr>
+                                    <tr><td>telefonszam</td><td>szöveg</td><td>Egyedi; ez alapján keresi a Diszpécser a vevőt.</td></tr>
+                                    <tr><td>email</td><td>szöveg</td><td>Nem kötelező elérhetőség.</td></tr>
+                                    <tr><td>visszatero_honap</td><td>szöveg (év-hónap)</td><td>Az a hónap, amelyben a vevő visszatérő.</td></tr>
+                                    <tr><td>lemondas_szamlalo</td><td>egész</td><td>A vevőnek felróható lemondások száma az utolsó nullázás óta.</td></tr>
+                                    <tr><td>tiltas_vege</td><td>dátum</td><td>A tiltás lejárta; ha a jövőben van, a vevő tiltott.</td></tr>
+                                    <tr><td>priusz_szamlalo</td><td>egész</td><td>A lejárt tiltások száma; ha legalább 1, a vevő priuszos.</td></tr>
+                                    <tr><td>vegleg_tiltott</td><td>logikai</td><td>Igaz, ha a vevő véglegesen tiltott.</td></tr>
+                                    <tr><td>aktiv</td><td>logikai</td><td>Hamis, ha a vevő adatai anonimizálva lettek.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>keresTelefonszamAlapjan</td><td>telefonszam</td><td>Osztályszintű művelet: visszaadja a telefonszámhoz tartozó vevőt, ha létezik.</td></tr>
+                                    <tr><td>allapot</td><td>–</td><td>A tárolt mezőkből számítja: Véglegesen tiltott, Tiltott, Priuszos vagy Normál.</td></tr>
+                                    <tr><td>rendelhet</td><td>–</td><td>Hamis, ha az állapot Tiltott vagy Véglegesen tiltott; ilyenkor a felület felugró ablakot jelenít meg.</td></tr>
+                                    <tr><td>lemondasRogzitese</td><td>–</td><td>Növeli a lemondás-számlálót; ha eléri a küszöböt, a tiltás végét a tiltás időtartamával későbbi dátumra állítja, a számlálót nullázza.</td></tr>
+                                    <tr><td>tiltasLejaratEllenorzes</td><td>–</td><td>Naponta: lejárt tiltásnál törli a tiltás végét és növeli a priusz-számlálót; ha az eléri a végleges tiltás küszöbét, a vegleg_tiltott igazra vált.</td></tr>
+                                    <tr><td>visszateroSzamitas</td><td>honap</td><td>Havonta: ha az előző naptári hónap Kiszállítva állapotú rendeléseinek száma eléri a küszöböt, a visszatero_honap az aktuális hónap lesz.</td></tr>
+                                    <tr><td>veglegesTiltasFeloldasa</td><td>–</td><td>Csak Üzletvezető: a vegleg_tiltott hamisra vált, a vevő priuszos marad.</td></tr>
+                                    <tr><td>anonimizalas</td><td>–</td><td>A vevő kérésére (GDPR) törli a személyes adatait és címeit, a rendelések számviteli adatai megmaradnak.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <b>3.6.6 Cím</b>
+                            <p><b>Felelőssége:</b> egy vevő egy szállítási címének tárolása és szállítólevélre alkalmas formázása.</p>
+                            <p><b>Együttműködők:</b> Vevő, Kiszállításos_rendelés.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>id</td><td>egész</td><td>Egyedi azonosító.</td></tr>
+                                    <tr><td>iranyitoszam</td><td>szöveg</td><td>Irányítószám.</td></tr>
+                                    <tr><td>telepules</td><td>szöveg</td><td>Település.</td></tr>
+                                    <tr><td>cim_sor</td><td>szöveg</td><td>Utca, házszám, emelet, ajtó.</td></tr>
+                                    <tr><td>megjegyzes</td><td>szöveg</td><td>Pl. kapucsengő, kapukód.</td></tr>
+                                    <tr><td>aktiv</td><td>logikai</td><td>Hamis, ha a vevő már nem használja ezt a címet.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>formazottCim</td><td>–</td><td>Egysoros szöveget állít elő a rendelésbe másoláshoz és a szállítólevélhez.</td></tr>
+                                    <tr><td>inaktival</td><td>–</td><td>A címet a választható címek közül eltávolítja, a korábbi rendeléseket nem érinti.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        
-        <li>Mellékletek</li>
+
+        <li>
+            Mellékletek
+            <ul class="pottyos-lista">
+                <li>Kezdeti osztálydiagram (Osztalydiagram-kezdeti.png)</li>
+                <li>A Rendelés- és kiszállításkezelés alrendszer osztálydiagramja (Osztalydiagram-rendeles.png)</li>
+                <li>
+                    Állapotdiagramok: helyben fogyasztásos rendelés, kiszállításos rendelés, rendelési tétel, vevő
+                    (Allapot-helyben-rendeles.png, Allapot-kiszallitas.png, Allapot-rendeles-tetel.png, Allapot-vevo.png)
+                </li>
+            </ul>
+        </li>
     </ol>
 
 </body>
