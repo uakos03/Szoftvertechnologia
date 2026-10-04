@@ -347,7 +347,7 @@
                             <tr>
                                 <td>Egy rendszerben a helyben fogyasztás és a kiszállítás, megbízhatóbb vevőkör</td>
                                 <td>
-                                    1. A diszpécser a telefonszám alapján másodpercek alatt előhívja a korábbi vevők adatait és címeit.<br>
+                                    1. A diszpécser név, telefonszám vagy cím alapján másodpercek alatt előhívja a korábbi vevők adatait, telefonszámait és címeit.<br>
                                     2. A kiszállításos rendelés ugyanúgy a konyhai KDS-re kerül, mint a helyben fogyasztott, és állapota a
                                     futár visszaérkezéséig követhető.<br>3. A rendszer megjelöli a visszatérő vevőket, és a beállított határérték alapján automatikusan
                                     letiltja azokat, akik egy időszakon belül többször lemondják a rendelésüket.
@@ -425,13 +425,14 @@
                 </li>
                 <li>
                     <b>Kiszállítás és vevőkezelés (Magas prioritás):</b> Telefonon leadott kiszállításos rendelések felvétele a
-                    diszpécseri felületen. Vevőnyilvántartás (név, telefonszám, egy vagy több szállítási cím), telefonszám alapú
-                    gyors kereséssel. A rendelés állapotát (Felvéve, Kész, Úton, Kiszállítva, Lemondva) a diszpécser vezeti, a
-                    futárral telefonon egyeztetve; a Kiszállítva állapotot a futár visszaérkezésekor, a beszedett összeg
-                    rögzítésével állítja be. Szállítólevél nyomtatása a futár számára. Vevői jelzők: <i>visszatérő</i> (az előző
+                    diszpécseri felületen. Vevőnyilvántartás (név, egy vagy több telefonszám, egy vagy több szállítási cím), név,
+                    telefonszám vagy cím alapú gyors kereséssel. A rendelés állapotát (Felvéve, Kész, Úton, Kiszállítva, Lemondva) a
+                    diszpécser vezeti, a futárral telefonon egyeztetve; a Kiszállítva állapotot a futár visszaérkezésekor, a beszedett
+                    összeg rögzítésével állítja be. Szállítólevél nyomtatása a futár számára. Vevői jelzők: <i>visszatérő</i> (az előző
                     naptári hónapban legalább 10 kiszállított rendelés), <i>tiltott</i> (3, a vevőnek felróható lemondás után egy
                     hónapig nem rendelhet), <i>priuszos</i> (a tiltás lejárta után) és <i>véglegesen tiltott</i> (a harmadik tiltás
-                    lejártakor). Tiltott vevő esetén a rendszer rendelésfelvételkor felugró ablakban figyelmezteti a diszpécsert.
+                    lejártakor). A jelzők a vevőhöz tartoznak, így bármelyik telefonszámáról hív, ugyanúgy érvényesek. Tiltott vevő
+                    esetén a rendszer rendelésfelvételkor felugró ablakban figyelmezteti a diszpécsert.
                 </li>
                 <li>
                     <b>Konyhai KDS modul (Magas prioritás):</b> Időrendben (vagy asztalszám alapján) érkező rendelések (blokkok)
@@ -450,7 +451,9 @@
                 <li>
                     <b>Raktárkészlet automatizálás (Közepes prioritás):</b> Ételekhez és italokhoz tartozó precíz receptúrák,
                     valamint az alapanyagok beszerzési árának rögzítése a rendszerben. A fogyás alapján a felhasznált alapanyagok
-                    (gramm, deciliter, darab) automatikus, valós idejű levonása a virtuális raktárkészletből. Kritikus készletszint
+                    (gramm, deciliter, darab) automatikus, valós idejű levonása a virtuális raktárkészletből. Sztornókor a rendszer
+                    rákérdez, elkészült-e már a tétel: ha nem, az alapanyagokat visszavezeti a készletbe, ha igen, a készlet nem
+                    változik, a tétel pedig selejtként jelenik meg a zárási jelentésben. Kritikus készletszint
                     (re-order point) elérésekor a rendszer felugró ablakban és e-mailben figyelmezteti a diszpécsert és az
                     üzletvezetőt, és javasolt rendelési mennyiséget számol. Ez alapján a diszpécser rendelési előrejelzést állít össze,
                     amelyet az üzletvezető jóváhagy, majd a rendszer elküld a beszállítónak. Bevételezés és leltározást segítő

@@ -166,7 +166,7 @@
                     "Foglalt/Fogyasztás alatt" státuszba vált. A rendelés tételei és a hozzájuk tartozó megjegyzések valós
                     időben megjelennek a Szakács KDS képernyőjén, időbélyeggel ellátva. A rendszer a beépített receptúrák
                     alapján levonja a szükséges alapanyagokat a raktárkészletből (Fogyás típusú raktármozgásként rögzítve);
-                    egy esetleges sztornó ezt visszaírja.
+                    egy esetleges sztornó ezt csak akkor írja vissza, ha a tétel még nem készült el (lásd: Tétel sztornózása).
                 </li>
                 <li>
                     <b>Szokásos működés (Main Flow):</b>
@@ -212,6 +212,14 @@
                             túléli. Amint a hálózat helyreáll, a kliens automatikusan újraküldi a rendelést, és csak a szerver
                             visszaigazolása után törli a helyi másolatot.
                         </li>
+                        <li>
+                            <i>Tétel sztornózása leadás után:</i> Ha egy már konyhára küldött tételt törölni kell, a Pincér a
+                            Diszpécsert hívja, aki a PIN-kódjával jóváhagyja a sztornót, és megadja az okát. A rendszer felugró
+                            ablakban rákérdez, hogy a tétel elkészült-e már: Kész vagy Felszolgálva állapotú tételnél az „igen” előre
+                            ki van jelölve, Konyhán lévő tételnél a választás kötelező. Ha a tétel nem készült el, a rendszer a
+                            receptúra szerinti alapanyagokat visszaírja a készletbe; ha elkészült, a készlet nem változik, a tétel
+                            pedig selejtként jelenik meg az üzletvezetői zárási jelentésben.
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -219,9 +227,10 @@
             <ul class="srs-belso-lista" style="list-style-type: none;">
                 <li><b>A use case neve:</b> Kiszállításos rendelés felvétele és kezelése.</li>
                 <li>
-                    <b>Rövid leírás:</b> A vevő telefonon ad le rendelést. A Diszpécser a telefonszám alapján azonosítja vagy
-                    felveszi a vevőt, rögzíti a szállítási címet és a tételeket, majd a rendelést a konyhára küldi. A rendelés
-                    állapotát végig a Diszpécser vezeti, szükség esetén a futárral telefonon egyeztetve, egészen a futár visszaérkezéséig.
+                    <b>Rövid leírás:</b> A vevő telefonon ad le rendelést. A Diszpécser név, telefonszám vagy cím alapján
+                    azonosítja vagy felveszi a vevőt, rögzíti a szállítási címet és a tételeket, majd a rendelést a konyhára küldi.
+                    A rendelés állapotát végig a Diszpécser vezeti, szükség esetén a futárral telefonon egyeztetve, egészen a futár
+                    visszaérkezéséig.
                 </li>
                 <li>
                     <b>Prekondíciók (előfeltételek):</b> A Diszpécser sikeresen azonosította magát a saját PIN-kódjával.
@@ -236,9 +245,10 @@
                     <b>Szokásos működés (Main Flow):</b>
                     <ol class="srs-belso-lista">
                         <li>
-                            A Diszpécser beírja a hívó telefonszámát. Ha a vevő már szerepel a rendszerben, a rendszer megjeleníti
-                            az adatait, a korábbi címeit és a vevői jelzőit (pl. visszatérő, priuszos); ha nem, a Diszpécser felveszi
-                            a vevő nevét, telefonszámát és címét.
+                            A Diszpécser a hívó nevére, bármelyik telefonszámára (részletre is) vagy címére keres. Több találat
+                            esetén a rendszer listát jelenít meg, amelyből a Diszpécser kiválasztja a vevőt. A kiválasztott vevőnél
+                            megjelennek az adatai, a telefonszámai, a korábbi címei és a vevői jelzői (pl. visszatérő, priuszos).
+                            Ha nincs találat, a Diszpécser felveszi a vevő nevét, egy vagy több telefonszámát és a címét.
                         </li>
                         <li>A Diszpécser kiválasztja vagy rögzíti a szállítási címet.</li>
                         <li>
@@ -262,8 +272,10 @@
                 </li>
                 <li>
                     <b>Alternatív esetek (Alternate Flows):</b> A vevő a megszokottól eltérő címre kér szállítást: a Diszpécser
-                    új címet rögzít a vevőhöz, a korábbiak megmaradnak. A vevő a leadás előtt módosít: a tétel a kosárból
-                    törölhető, a konyha ebből semmit nem érzékel.
+                    új címet rögzít a vevőhöz, a korábbiak megmaradnak. A vevő új telefonszámról hív: a Diszpécser név vagy cím
+                    alapján megkeresi, és az új számot is a vevőhöz rögzíti. Ha a megadott telefonszám már egy másik vevőhöz
+                    tartozik, a rendszer figyelmeztet, és megjeleníti azt a vevőt. A vevő a leadás előtt módosít: a tétel a
+                    kosárból törölhető, a konyha ebből semmit nem érzékel.
                 </li>
                 <li>
                     <b>Kivételes esetek (Exception Flows):</b>
@@ -280,6 +292,9 @@
                             <i>Lemondás:</i> A vevő lemondja a rendelést, nem veszi át, vagy nem érhető el. A Diszpécser "Lemondva"
                             állapotba teszi a rendelést, és megadja az okát. Ha az ok a vevőnek felróható, a rendszer növeli a vevő
                             lemondás-számlálóját; az étterem hibájából (pl. készlethiány, késés) történt lemondás nem számít bele.
+                            Lemondáskor a rendelés összes nem sztornózott tétele sztornózásra kerül: a felugró ablak tételenként
+                            rákérdez, elkészültek-e (Kész és Úton állapotú rendelésnél az „igen” előre ki van jelölve), és a készletet
+                            a rendszer a tétel-sztornó szabálya szerint kezeli (lásd 3.1, Tétel sztornózása).
                         </li>
                         <li>
                             <i>Hálózati szakadás:</i> Ugyanúgy kezelendő, mint a 3.1. use case esetében (helyi lemezre mentés,

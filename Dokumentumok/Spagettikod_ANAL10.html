@@ -63,6 +63,7 @@
                             <tr><td>Asztal</td><td>A vendégtér egy asztala, amelyhez helyben fogyasztásos rendelések tartoznak.</td></tr>
                             <tr><td>Asztalfoglalás</td><td>Egy vendég előzetes foglalása egy asztalra, adott időpontra.</td></tr>
                             <tr><td>Vevő</td><td>A kiszállításos rendelést leadó személy, a vevői jelzőivel (visszatérő, tiltott, priuszos, véglegesen tiltott).</td></tr>
+                            <tr><td>Telefonszám</td><td>Egy vevő egy telefonszáma; egy vevőnek több száma is lehet.</td></tr>
                             <tr><td>Cím</td><td>Egy vevő egy szállítási címe.</td></tr>
                             <tr><td>Rendelés</td><td>Egy fogyasztás vagy kiszállítás fejléce: helyben fogyasztásos vagy kiszállításos.</td></tr>
                             <tr><td>Rendelés_tétel</td><td>Egy rendelés egy terméke, a rendeléskori eladási árral és saját állapottal.</td></tr>
@@ -109,7 +110,7 @@
                             </tr>
                             <tr>
                                 <td><b>Rendelés- és kiszállításkezelés</b> (első alrendszer)</td>
-                                <td>Rendelés, Rendelés_tétel, Vevő, Cím</td>
+                                <td>Rendelés, Rendelés_tétel, Vevő, Telefonszám, Cím</td>
                                 <td>
                                     Helyben fogyasztásos és kiszállításos rendelések felvétele, állapotaik vezetése, sztornó, vevőnyilvántartás
                                     és vevői jelzők.
@@ -176,6 +177,11 @@
                                     inaktiválása nem változtatja meg a korábbi rendeléseket.
                                 </li>
                                 <li>
+                                    <b>Vevő – Telefonszám (1 : 1..*), aggregáció:</b> egy vevőnek több telefonszáma lehet, egy szám
+                                    viszont csak egy vevőhöz tartozik. A vevői jelzők a Vevőhöz, nem a telefonszámhoz kötődnek, így egy
+                                    tiltott vevő másik számáról hívva sem rendelhet.
+                                </li>
+                                <li>
                                     <b>Rendelés – Felhasználó, két asszociáció:</b> a <i>felvevő</i> (N : 1, minden rendelésnél kötelező:
                                     Pincér vagy Diszpécser) és a <i>futár</i> (N : 0..1, csak kiszállításnál, a Kész állapottól kötelező,
                                     Futár szerepkörű felhasználó).
@@ -202,6 +208,16 @@
                                     <b>Ár-pillanatkép:</b> a Rendelés_tétel saját eladási egységárat tárol, a Kiszállításos_rendelés a
                                     kiszállítási díjat és a szállítási címet is lemásolja, mert ezek a rendelés pillanatában érvényes
                                     értékek.
+                                </li>
+                                <li>
+                                    <b>Telefonszámok külön osztályban:</b> a telefonszám nem a Vevő attribútuma, mert egy vevőnek több
+                                    száma lehet, és a keresés bármelyikre működik. A Vevő ezért nem telefonszám alapján, hanem név,
+                                    bármelyik telefonszám vagy cím alapján kereshető.
+                                </li>
+                                <li>
+                                    <b>A sztornó elkészültsége:</b> a Rendelés_tétel sztorno_elkeszult attribútuma rögzíti, hogy a
+                                    sztornózott tétel elkészült-e. Ettől függ, hogy a sztornó visszaírja-e az alapanyagokat a készletbe,
+                                    és hogy a tétel selejtként szerepel-e a zárási jelentésben.
                                 </li>
                                 <li>
                                     <b>Számított vevői jelzők:</b> a tiltott, a priuszos és a véglegesen tiltott állapotot nem külön
@@ -239,8 +255,8 @@
                                     szintjén, a szerepkörhöz rendelt jogosultságokkal kezelhető.
                                 </li>
                                 <li>
-                                    <b>Elvetett összevonás – Vevő és Cím:</b> a címet nem a Vevő attribútumaként tároljuk, mert egy
-                                    vevőnek több szállítási címe lehet.
+                                    <b>Elvetett összevonás – Vevő, Cím és Telefonszám:</b> a címet és a telefonszámot nem a Vevő
+                                    attribútumaként tároljuk, mert egy vevőnek több szállítási címe és több telefonszáma is lehet.
                                 </li>
                             </ul>
                         </li>
@@ -292,12 +308,13 @@
                             <tr><td>Felvéve</td><td>Készre állítás</td><td>Minden nem sztornózott tétel Kész</td><td>Kész</td><td>Diszpécser</td></tr>
                             <tr><td>Kész</td><td>Futár indulása</td><td>Futár kiosztva, szállítólevél kinyomtatva</td><td>Úton</td><td>Diszpécser</td></tr>
                             <tr><td>Úton</td><td>A futár visszaér, leadja a beszedett összeget</td><td>A fizetés rögzítve</td><td>Kiszállítva</td><td>Diszpécser</td></tr>
-                            <tr><td>Felvéve, Kész, Úton</td><td>Lemondás (vevő lemondta, nem vette át, nem volt elérhető, vagy étterem miatti ok)</td><td>Lemondás oka megadva</td><td>Lemondva</td><td>Diszpécser</td></tr>
+                            <tr><td>Felvéve, Kész, Úton</td><td>Lemondás (vevő lemondta, nem vette át, nem volt elérhető, vagy étterem miatti ok)</td><td>Lemondás oka megadva, a tételek elkészültsége a felugró ablakban megadva</td><td>Lemondva</td><td>Diszpécser</td></tr>
                         </tbody>
                     </table>
                     <p>
-                        A Kiszállítva és a Lemondva végállapot. A vevőnek felróható lemondás a vevő lemondás-számlálóját is növeli
-                        (lásd a Vevő állapotdiagramját).
+                        A Kiszállítva és a Lemondva végállapot. Lemondáskor a rendelés összes nem sztornózott tétele sztornózásra
+                        kerül a tétel-sztornó szabálya szerint (lásd a Rendelés_tétel állapotdiagramját). A vevőnek felróható
+                        lemondás a vevő lemondás-számlálóját is növeli (lásd a Vevő állapotdiagramját).
                     </p>
 
                     <p><b>Rendelési tétel</b></p>
@@ -316,12 +333,16 @@
                             <tr><td>–</td><td>A rendelés leadása</td><td>–</td><td>Konyhán</td><td>Pincér / Diszpécser</td></tr>
                             <tr><td>Konyhán</td><td>Készre jelentés a KDS-en</td><td>–</td><td>Kész</td><td>Szakács</td></tr>
                             <tr><td>Kész</td><td>Felszolgálás (helyben), illetve a rendelés Úton állapotba kerülése (kiszállítás)</td><td>–</td><td>Felszolgálva</td><td>Pincér / rendszer</td></tr>
-                            <tr><td>Konyhán, Kész, Felszolgálva</td><td>Sztornó</td><td>Diszpécseri PIN-kódos jóváhagyás és sztornó ok megadva</td><td>Sztornózva</td><td>Diszpécser</td></tr>
+                            <tr><td>Konyhán, Kész, Felszolgálva</td><td>Sztornó, felugró ablak: „Elkészült-e a tétel?” – nem</td><td>Diszpécseri PIN-kódos jóváhagyás és sztornó ok megadva</td><td>Sztornózva (készlet visszaírva)</td><td>Diszpécser</td></tr>
+                            <tr><td>Konyhán, Kész, Felszolgálva</td><td>Sztornó, felugró ablak: „Elkészült-e a tétel?” – igen</td><td>Diszpécseri PIN-kódos jóváhagyás és sztornó ok megadva</td><td>Sztornózva (selejt)</td><td>Diszpécser</td></tr>
                         </tbody>
                     </table>
                     <p>
-                        Sztornókor a rendszer a tétel receptúra szerinti alapanyagait Sztornó-visszaírás típusú raktármozgással
-                        visszaírja a készletbe.
+                        Sztornókor a felugró ablakban Kész vagy Felszolgálva állapotú tételnél az „igen” előre ki van jelölve,
+                        Konyhán lévő tételnél a választás kötelező. Ha a tétel nem készült el, a rendszer a receptúra szerinti
+                        alapanyagait Sztornó-visszaírás típusú raktármozgással visszaírja a készletbe. Ha elkészült, a készlet nem
+                        változik (a leadáskori Fogyás helyes marad), a tétel pedig selejtként jelenik meg az üzletvezetői zárási
+                        jelentésben.
                     </p>
 
                     <p><b>Vevő (vevői jelzők)</b></p>
@@ -365,7 +386,7 @@
                             <tr><th>Lépés</th><th>Bemenet</th><th>Feldolgozás</th><th>Kimenet / módosult adat</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>1. Vevő azonosítása</td><td>Telefonszám</td><td>Keresés a vevők között; ha nincs találat, új Vevő és Cím felvétele</td><td>Vevő (meglévő vagy új)</td></tr>
+                            <tr><td>1. Vevő azonosítása</td><td>Név, telefonszám vagy cím (részlet is)</td><td>Keresés a vevők nevében, összes telefonszámában és címében; több találat esetén lista, amelyből a Diszpécser választ; ha nincs találat, új Vevő, Telefonszám és Cím felvétele</td><td>Vevő (meglévő vagy új)</td></tr>
                             <tr><td>2. Jelzők ellenőrzése</td><td>Vevő</td><td>A vevő állapotának számítása; tiltott vagy véglegesen tiltott vevőnél a folyamat megszakad, felugró ablakkal</td><td>Vevői állapot, visszatérő jelző a képernyőn</td></tr>
                             <tr><td>3. Cím kiválasztása</td><td>Vevő címei</td><td>A kiválasztott vagy új cím szöveges másolása a rendelésbe</td><td>szallitasi_cim</td></tr>
                             <tr><td>4. Tételek felvétele</td><td>Termékek, mennyiségek, megjegyzések</td><td>Elérhetőség és készlet ellenőrzése (Étlap és készlet alrendszer), az aktuális ár lemásolása</td><td>Rendelés_tétel-ek (még csak a kliens helyi kosarában)</td></tr>
@@ -381,7 +402,19 @@
                         <tbody>
                             <tr><td>Futár kiosztása, indulás</td><td>Futár (az aznapi Műszakból)</td><td>Futár hozzárendelése, szállítólevél nyomtatása, a tételek Felszolgálva állapotba kerülnek</td><td>Rendelés: Kész → Úton</td></tr>
                             <tr><td>Lezárás</td><td>Beszedett összeg, tényleges fizetési mód, borravaló</td><td>Fizetési tranzakció létrehozása (Pénzügy és zárás alrendszer)</td><td>Fizetési_tranzakció, Rendelés: Kiszállítva</td></tr>
-                            <tr><td>Lemondás</td><td>Lemondás oka, vevőnek felróható-e</td><td>Állapotváltás; ha felróható, a vevő lemondás-számlálójának növelése és szükség esetén a tiltás beállítása</td><td>Rendelés: Lemondva, Vevő számlálói és tiltás vége</td></tr>
+                            <tr><td>Lemondás</td><td>Lemondás oka, vevőnek felróható-e, tételenként: elkészült-e</td><td>Állapotváltás; a tételek sztornózása a tétel-sztornó szabálya szerint; ha felróható, a vevő lemondás-számlálójának növelése és szükség esetén a tiltás beállítása</td><td>Rendelés: Lemondva, Rendelés_tétel: Sztornózva, Raktár_mozgás (Sztornó-visszaírás a nem elkészült tételekre), Vevő számlálói és tiltás vége</td></tr>
+                        </tbody>
+                    </table>
+                    <p><b>Tétel sztornózása (helyben fogyasztásnál és kiszállítás lemondásakor)</b></p>
+                    <table class="tech-tabla">
+                        <thead>
+                            <tr><th>Lépés</th><th>Bemenet</th><th>Feldolgozás</th><th>Kimenet / módosult adat</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1. Jóváhagyás</td><td>Sztornó oka, diszpécseri PIN-kód</td><td>A PIN-kód és a jogosultság ellenőrzése</td><td>–</td></tr>
+                            <tr><td>2. Elkészültség megadása</td><td>A felugró ablak válasza (Kész vagy Felszolgálva tételnél az „igen” előre kijelölve, Konyhán lévőnél kötelező választani)</td><td>–</td><td>Rendelés_tétel: sztorno_elkeszult</td></tr>
+                            <tr><td>3/a. Nem készült el</td><td>Receptúra</td><td>A receptúra szerinti alapanyagok visszaírása a készletbe</td><td>Rendelés_tétel: Sztornózva, Raktár_mozgás (Sztornó-visszaírás)</td></tr>
+                            <tr><td>3/b. Elkészült</td><td>–</td><td>Nincs készletváltozás, mert a leadáskori Fogyás helyes; a tétel selejtként kerül az üzletvezetői zárási jelentésbe</td><td>Rendelés_tétel: Sztornózva</td></tr>
                         </tbody>
                     </table>
 
@@ -411,7 +444,8 @@
                             <tr><td>Helyben_rendelés</td><td>fizetesKerese, rendelesFolytatasa, lezaras, tetelAthelyezes, osszevonas</td><td>Fizettetés; a helyben rendelés átmenetei</td></tr>
                             <tr><td>Kiszállításos_rendelés</td><td>keszreAllitas, futarKiosztas, szallitolevelNyomtatas, indulas, kiszallitasLezarasa, lemondas, vegosszeg</td><td>Kiszállítás állapotának kezelése</td></tr>
                             <tr><td>Rendelés_tétel</td><td>keszreJelentes, felszolgalas, sztornozas, reszosszeg</td><td>Étel készre jelentése; Védett sztornózás</td></tr>
-                            <tr><td>Vevő</td><td>keresTelefonszamAlapjan, allapot, rendelhet, lemondasRogzitese, tiltasLejaratEllenorzes, visszateroSzamitas, veglegesTiltasFeloldasa, anonimizalas</td><td>Vevő keresése / felvétele; Vevői jelzők ellenőrzése; ütemezett feldolgozások</td></tr>
+                            <tr><td>Vevő</td><td>kereses, telefonszamHozzaadas, allapot, rendelhet, lemondasRogzitese, tiltasLejaratEllenorzes, visszateroSzamitas, veglegesTiltasFeloldasa, anonimizalas</td><td>Vevő keresése / felvétele; Vevői jelzők ellenőrzése; ütemezett feldolgozások</td></tr>
+                            <tr><td>Telefonszám</td><td>normalizaltSzam, inaktival</td><td>Vevő keresése / felvétele</td></tr>
                             <tr><td>Cím</td><td>formazottCim, inaktival</td><td>Kiszállításos rendelés felvétele; Szállítólevél nyomtatása</td></tr>
                         </tbody>
                     </table>
@@ -512,7 +546,7 @@
                                     <tr><td>szallitolevelNyomtatas</td><td>–</td><td>Kinyomtatja a címet, a tételeket, a fizetendő összeget és a tervezett fizetési módot.</td></tr>
                                     <tr><td>indulas</td><td>–</td><td>Kész → Úton, ha van kiosztott futár; a tételeket Felszolgálva állapotba teszi.</td></tr>
                                     <tr><td>kiszallitasLezarasa</td><td>fizetesiMod, osszeg, borravalo</td><td>Fizetési tranzakciót hoz létre, majd Úton → Kiszállítva.</td></tr>
-                                    <tr><td>lemondas</td><td>ok, vevoMiatt</td><td>Felvéve, Kész vagy Úton → Lemondva; ha vevoMiatt igaz, meghívja a vevő lemondasRogzitese() műveletét.</td></tr>
+                                    <tr><td>lemondas</td><td>ok, vevoMiatt, elkeszultTetelek</td><td>Felvéve, Kész vagy Úton → Lemondva; a rendelés minden nem sztornózott tételét sztornózza, a felugró ablakban tételenként megadott elkészültséggel; ha vevoMiatt igaz, meghívja a vevő lemondasRogzitese() műveletét.</td></tr>
                                     <tr><td>vegosszeg</td><td>–</td><td>Felüldefiniált: a tételek összegéhez hozzáadja a kiszállítási díjat.</td></tr>
                                 </tbody>
                             </table>
@@ -534,6 +568,7 @@
                                     <tr><td>megjegyzes</td><td>szöveg</td><td>Elkészítési kérés (pl. „öntet nélkül”).</td></tr>
                                     <tr><td>sztorno_idopont</td><td>dátum-idő</td><td>A sztornó ideje.</td></tr>
                                     <tr><td>sztorno_ok</td><td>szöveg</td><td>A sztornó indoka.</td></tr>
+                                    <tr><td>sztorno_elkeszult</td><td>logikai</td><td>Igaz, ha a sztornózott tétel már elkészült (ilyenkor selejt, és nincs készlet-visszaírás).</td></tr>
                                 </tbody>
                             </table>
                             <table class="tech-tabla">
@@ -541,7 +576,7 @@
                                 <tbody>
                                     <tr><td>keszreJelentes</td><td>–</td><td>Konyhán → Kész; értesíti a pincért, kiszállításnál a diszpécsert.</td></tr>
                                     <tr><td>felszolgalas</td><td>–</td><td>Kész → Felszolgálva.</td></tr>
-                                    <tr><td>sztornozas</td><td>ok, jovahagyo</td><td>A jóváhagyó Diszpécser PIN-kódjának ellenőrzése után → Sztornózva; rögzíti a jóváhagyót, az időt és az okot, és kezdeményezi a készlet visszaírását.</td></tr>
+                                    <tr><td>sztornozas</td><td>ok, jovahagyo, elkeszult</td><td>A jóváhagyó Diszpécser PIN-kódjának ellenőrzése után → Sztornózva; rögzíti a jóváhagyót, az időt, az okot és az elkészültséget. Ha a tétel nem készült el, kezdeményezi a készlet visszaírását; ha elkészült, a készlet nem változik.</td></tr>
                                     <tr><td>reszosszeg</td><td>–</td><td>eladasi_egysegar × mennyiseg; sztornózott tételnél 0.</td></tr>
                                 </tbody>
                             </table>
@@ -552,13 +587,12 @@
                                 <b>Felelőssége:</b> a kiszállításos vevők adatainak nyilvántartása és a vevői jelzők (visszatérő, tiltott,
                                 priuszos, véglegesen tiltott) szabályainak érvényesítése.
                             </p>
-                            <p><b>Együttműködők:</b> Cím, Kiszállításos_rendelés, Beállítás.</p>
+                            <p><b>Együttműködők:</b> Telefonszám, Cím, Kiszállításos_rendelés, Beállítás.</p>
                             <table class="tech-tabla">
                                 <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
                                 <tbody>
                                     <tr><td>id</td><td>egész</td><td>Egyedi azonosító.</td></tr>
                                     <tr><td>nev</td><td>szöveg</td><td>A vevő neve.</td></tr>
-                                    <tr><td>telefonszam</td><td>szöveg</td><td>Egyedi; ez alapján keresi a Diszpécser a vevőt.</td></tr>
                                     <tr><td>email</td><td>szöveg</td><td>Nem kötelező elérhetőség.</td></tr>
                                     <tr><td>visszatero_honap</td><td>szöveg (év-hónap)</td><td>Az a hónap, amelyben a vevő visszatérő.</td></tr>
                                     <tr><td>lemondas_szamlalo</td><td>egész</td><td>A vevőnek felróható lemondások száma az utolsó nullázás óta.</td></tr>
@@ -571,14 +605,15 @@
                             <table class="tech-tabla">
                                 <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
                                 <tbody>
-                                    <tr><td>keresTelefonszamAlapjan</td><td>telefonszam</td><td>Osztályszintű művelet: visszaadja a telefonszámhoz tartozó vevőt, ha létezik.</td></tr>
+                                    <tr><td>kereses</td><td>nev, telefonszam, cim</td><td>Osztályszintű művelet: a megadott (akár részleges) név, bármelyik telefonszám vagy cím alapján visszaadja az illeszkedő vevők listáját.</td></tr>
+                                    <tr><td>telefonszamHozzaadas</td><td>szam, megjegyzes</td><td>Új telefonszámot rendel a vevőhöz; ha a szám már egy másik vevőé, hibát jelez.</td></tr>
                                     <tr><td>allapot</td><td>–</td><td>A tárolt mezőkből számítja: Véglegesen tiltott, Tiltott, Priuszos vagy Normál.</td></tr>
                                     <tr><td>rendelhet</td><td>–</td><td>Hamis, ha az állapot Tiltott vagy Véglegesen tiltott; ilyenkor a felület felugró ablakot jelenít meg.</td></tr>
                                     <tr><td>lemondasRogzitese</td><td>–</td><td>Növeli a lemondás-számlálót; ha eléri a küszöböt, a tiltás végét a tiltás időtartamával későbbi dátumra állítja, a számlálót nullázza.</td></tr>
                                     <tr><td>tiltasLejaratEllenorzes</td><td>–</td><td>Naponta: lejárt tiltásnál törli a tiltás végét és növeli a priusz-számlálót; ha az eléri a végleges tiltás küszöbét, a vegleg_tiltott igazra vált.</td></tr>
                                     <tr><td>visszateroSzamitas</td><td>honap</td><td>Havonta: ha az előző naptári hónap Kiszállítva állapotú rendeléseinek száma eléri a küszöböt, a visszatero_honap az aktuális hónap lesz.</td></tr>
                                     <tr><td>veglegesTiltasFeloldasa</td><td>–</td><td>Csak Üzletvezető: a vegleg_tiltott hamisra vált, a vevő priuszos marad.</td></tr>
-                                    <tr><td>anonimizalas</td><td>–</td><td>A vevő kérésére (GDPR) törli a személyes adatait és címeit, a rendelések számviteli adatai megmaradnak.</td></tr>
+                                    <tr><td>anonimizalas</td><td>–</td><td>A vevő kérésére (GDPR) törli a személyes adatait, telefonszámait és címeit, a rendelések számviteli adatai megmaradnak.</td></tr>
                                 </tbody>
                             </table>
                         </li>
@@ -602,6 +637,27 @@
                                 <tbody>
                                     <tr><td>formazottCim</td><td>–</td><td>Egysoros szöveget állít elő a rendelésbe másoláshoz és a szállítólevélhez.</td></tr>
                                     <tr><td>inaktival</td><td>–</td><td>A címet a választható címek közül eltávolítja, a korábbi rendeléseket nem érinti.</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>
+                            <b>3.6.7 Telefonszám</b>
+                            <p><b>Felelőssége:</b> egy vevő egy telefonszámának tárolása, és a keresés támogatása egységes (normalizált) formával.</p>
+                            <p><b>Együttműködők:</b> Vevő.</p>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Attribútum</th><th>Típus</th><th>Leírás</th></tr></thead>
+                                <tbody>
+                                    <tr><td>id</td><td>egész</td><td>Egyedi azonosító.</td></tr>
+                                    <tr><td>szam</td><td>szöveg</td><td>A telefonszám; a rendszerben egyedi, vagyis csak egy vevőhöz tartozhat.</td></tr>
+                                    <tr><td>megjegyzes</td><td>szöveg</td><td>Pl. „munkahelyi”, „otthoni”.</td></tr>
+                                    <tr><td>aktiv</td><td>logikai</td><td>Hamis, ha a vevő már nem használja ezt a számot.</td></tr>
+                                </tbody>
+                            </table>
+                            <table class="tech-tabla">
+                                <thead><tr><th>Operáció</th><th>Argumentumok</th><th>Működés</th></tr></thead>
+                                <tbody>
+                                    <tr><td>normalizaltSzam</td><td>–</td><td>Szóközök, kötőjelek és előtag (+36, 06) nélküli alakot ad vissza, így a keresés eltérő írásmód esetén is talál.</td></tr>
+                                    <tr><td>inaktival</td><td>–</td><td>A számot a keresésből és a választható számok közül eltávolítja, a korábbi rendeléseket nem érinti.</td></tr>
                                 </tbody>
                             </table>
                         </li>

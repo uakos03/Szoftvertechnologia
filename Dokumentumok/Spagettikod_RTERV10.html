@@ -111,7 +111,7 @@
                             <tr>
                                 <td><b>Vevő</b></td>
                                 <td>
-                                    id [PK], nev, telefonszam (egyedi), email, visszatero_honap, lemondas_szamlalo, tiltas_vege,
+                                    id [PK], nev, email, visszatero_honap, lemondas_szamlalo, tiltas_vege,
                                     priusz_szamlalo, vegleg_tiltott, aktiv
                                 </td>
                                 <td>
@@ -119,7 +119,17 @@
                                     visszatérő (havonta számítva). A lemondas_szamlalo a vevőnek felróható lemondásokat számolja: a
                                     küszöb elérésekor a tiltas_vege egy hónappal későbbi dátumot kap (tiltott). Lejáratkor a
                                     priusz_szamlalo eggyel nő (priuszos), és a lemondas_szamlalo nullázódik; a harmadik lejáratkor a
-                                    vegleg_tiltott igazra vált. A szabályok részletesen: SRS 3.2.
+                                    vegleg_tiltott igazra vált. A telefonszámok a Telefonszám egyedben vannak; a jelzők a vevőhöz
+                                    tartoznak, így bármelyik számáról hív, ugyanaz a tiltás érvényes. A szabályok részletesen: SRS 3.2.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Telefonszám</b></td>
+                                <td>id [PK], szam (egyedi), megjegyzes, aktiv, vevo_id [FK]</td>
+                                <td>
+                                    A vevők telefonszámai; egy vevőnek több száma is lehet (Vevő 1:N Telefonszám), egy szám viszont
+                                    csak egy vevőhöz tartozhat. A megjegyzés pl. „munkahelyi”. A Diszpécser a vevőt név, bármelyik
+                                    telefonszám (részlet is) vagy cím alapján keresheti.
                                 </td>
                             </tr>
                             <tr>
@@ -170,6 +180,7 @@
                                     A készletváltozások historikus naplózása (Bevételezés, Selejt, Fogyás, Sztornó-visszaírás).
                                     Bevételezésnél rögzül az akkori beszerzési egységár, ebből készül a zárási jelentések
                                     alapanyag-bevételezési része. Fogyásnál és sztornónál a kiváltó rendelési tételhez is kötődik.
+                                    Sztornó-visszaírás csak akkor keletkezik, ha a sztornózott tétel még nem készült el.
                                 </td>
                             </tr>
                             <tr>
@@ -208,13 +219,16 @@
                                 <td><b>Rendelés_tétel</b></td>
                                 <td>
                                     id [PK], eladasi_egysegar, mennyiseg, statusz, megjegyzes, rendeles_id [FK], termek_id [FK],
-                                    sztorno_idopont, sztorno_ok, sztorno_jovahagyo_id [FK]
+                                    sztorno_idopont, sztorno_ok, sztorno_elkeszult, sztorno_jovahagyo_id [FK]
                                 </td>
                                 <td>
                                     Kapcsoló egyed: a rendelés konkrét elemei. Az eladasi_egysegar rögzítése kritikus az ártörténet
                                     miatt. Állapota: Konyhán, Kész, Felszolgálva, Sztornózva. Konyhára küldött tétel sztornójához a
                                     diszpécser PIN-kódos jóváhagyása szükséges és elegendő; a jóváhagyó, az időpont és az indok a tételnél
-                                    rögzül. Tétel áthelyezésekor vagy asztalok összevonásakor a tétel rendeles_id-ja módosul.
+                                    rögzül. Sztornókor a rendszer rákérdez, elkészült-e a tétel (sztorno_elkeszult): ha nem, Sztornó-visszaírás
+                                    raktármozgás jön létre; ha igen, a készlet nem változik, a tétel selejtnek számít. Kiszállítás
+                                    lemondásakor a rendelés minden tétele ugyanígy sztornózódik. Tétel áthelyezésekor vagy asztalok
+                                    összevonásakor a tétel rendeles_id-ja módosul.
                                 </td>
                             </tr>
                             <tr>
@@ -254,7 +268,7 @@
                                     fizetési módonként (készpénz, bankkártya, SZÉP-kártya, utalvány), az aznapi alapanyag-bevételezéseket
                                     (mennyiség, beszerzési érték) és az aznap dolgozó munkatársakat (Műszak); a Könyvelő szerepkörű
                                     felhasználók kapják. Az <i>Üzletvezetői</i> jelentés ugyanezeket tartalmazza, kiegészítve az aznapi
-                                    sztornókkal (tétel, indok, jóváhagyó) és a lemondott kiszállításokkal; az Üzletvezető kapja.
+                                    sztornókkal (tétel, indok, jóváhagyó, elkészült-e, vagyis selejt-e) és a lemondott kiszállításokkal; az Üzletvezető kapja.
                                     Internetkimaradáskor a jelentés a szerver lemezén sorban áll (email_statusz: Sorban áll / Elküldve).
                                     A Napi_záráshoz N:1 kapcsolattal kötődik.
                                 </td>
