@@ -220,3 +220,50 @@ html, body {
     text-align: center !important;
     margin-right: 80px;
 }
+
+.felhasznaloi-dokumentacio {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 18px;
+    margin-left: 60px;       
+    padding-left: 20px;
+}
+
+.felhasznaloi-dokumentacio > li {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 16px;   
+    margin-top: 16px;  
+    line-height: 1.4;
+}
+
+.felhasznaloi-dokumentacio ul {
+    font-weight: normal;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+.felhasznaloi-dokumentacio p {
+    font-weight: normal;
+    text-align: justify;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 80px;
+    line-height: 1.6;
+    font-size: 18px;
+
+}
+.felhasznaloi-dokumentacio ol {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.felhasznaloi-dokumentacio table, th, td {
+    border:1px solid black;
+    text-align: center;
+}
+
+.felhasznaloi-dokumentacio td{
+    font-weight: normal;
+    font-size: 15px;
+}

@@ -8,6 +8,372 @@
 <body> 
 
     <a href="../index.html" class="vissza-link">Főoldal</a>
-    <h1 class="oldal-cim">Felhasználói dokumentum</h1>
+    <h1 class="oldal-cim">Felhasználói dokumentació</h1>
+<ol class="felhasznaloi-dokumentacio">
+<li>
+    <b>Bevezetés</b>
+    <p>A dokumentum célja, hogy gyakorlati útmutatást adjon a DishPatch éttermi rendelés- és készletnyilvántartó 
+        rendszer tervezett használatához. A kézikönyv a rendszer követelményspecifikációjára épül, ezért 
+        elsősorban a meghatározott munkafolyamatokat ismerteti, nem pedig egy végleges, minden képernyőelemre 
+        kiterjedő kezelési leírást. A DishPatch célja, hogy egyetlen rendszerben támogassa a vendégtéri 
+        rendelésfelvételt, a konyhai munkaszervezést, a fizettetést, a kiszállítások adminisztrációját, 
+        valamint az éttermi készlet és a napi pénzügyi folyamatok követését.
+    </p>
+</li>
+<li>    
+    <b>A Rendszer áttekintése</b>
+    <p>
+        A DishPatch több, egymással együttműködő felületből álló éttermi 
+        rendszer. A pincér a rendelést a vendégtérben rögzíti, a szakács 
+        a konyhai kijelzőn (KDS) látja az elkészítendő tételeket, a diszpécser 
+        pedig a napi működés adminisztratív feladatait végzi. Az üzletvezető a 
+        törzsadatokat, jogosultságokat, beszerzéseket és elemzéseket kezeli. 
+        A könyvelő a pénzügyi jelentésekhez olvasási jogosultsággal fér hozzá.
+    </p>
+    <p>
+        A specifikáció szerint a kliens Windows 10/11 környezetre készül, és az 
+        étterem belső helyi hálózatán kommunikál a központi szerverrel. Az internetkapcsolat főként a külső 
+        szolgáltatások például e-mailes jelentések és adóügyi integrációk eléréséhez szükséges. A pontos telepítést és 
+        hálózati beállításokat a rendszer üzemeltető / rendszergazda végzi.
+    </p>
+</li>
+
+<li>    
+    <b>Felhasználói szerepkörök és jogusoltságok</b>
+    <p>
+        <ol>
+      <li>
+        Pincér / felszolgáló
+      </li>
+    <p>
+        Asztalok megtekintése és kezelése, foglalások rögzítése, rendelések felvétele és módosítása leadás előtt, fizettetés. 
+        A már konyhára küldött tétel sztornózásához diszpécseri jóváhagyás szükséges
+    </p>
+
+      <li>
+        Szakács
+      </li>
+    <p>
+        A konyhai kijelzőn megjelenő rendelések megtekintése, az ételek elkészítése és a tételek készre jelentése.
+    </p>
+
+      <li>
+        Diszpécser
+      </li>
+    <p>
+        A pincéri funkciókon túl kiszállításos rendelések és vevők kezelése, asztalok kiosztása, műszak rögzítése, sztornók jóváhagyása, 
+        bevételezés, leltár, készletriasztások kezelése és napi zárás.
+    </p>
+
+      <li>
+        Üzletvezető
+      </li>
+    <p>
+        Teljes körű vezetői hozzáférés: termékek, árak, receptúrák, felhasználói profilok és jogosultságok karbantartása, 
+        beszerzések jóváhagyása, elemzések és vevői jelzők beállítása.
+    </p>
+
+      <li>
+        Könyvelő
+      </li>
+    <p>
+       A pénzügyi kimutatások megtekintése, illetve a napi zárás után e-mailben küldött könyvelői jelentés feldolgozása. 
+       A szerepkör alapvetően olvasási jogosultságú.
+    </p>
+
+    </ol>   
+    </p>
+    
+</li>
+
+<li>    
+    <b>A rendszer indítása és használatba vétele</b>
+    <p>A napi használat előtt az alábbi feltételeknek kell teljesülniük:</p>
+        <ul>
+           <li>A kliensgépen telepítve van a DishPatch alkalmazás, és az eszköz működőképes.</li>
+           <li>A központi szerver és az adatbázis elérhető.</li>
+           <li>A kliens csatlakozik az étterem belső helyi hálózatához.</li>
+           <li>A felhasználó rendelkezik aktív fiókkal vagy egyedi PIN-kóddal.</li>
+           <li>A termékek, árak és a készletadatok betöltődtek.</li>
+        </ul>
+</li>
+
+<p>A telepítés, frissítés, szerverindítás és biztonsági mentés nem a hétköznapi felhasználók feladata, ezeket az arra kijelölt üzemeltető végzi.
+     Ha a rendszer nem indul el, vagy a szerver nem érhető el, a felhasználó ne próbáljon önállóan adatbázis- vagy hálózati beállításokat 
+     módosítani.
+    
+</p>
+
+<li>
+    <b>Bejelentkezés és alapvető kezelési elvek</b>
+    <p>A felhasználó a saját PIN-kódjával azonosítja magát. A rendszer a szerepkörnek megfelelő funkciókat biztosítja. A PIN-kódot más munkatársnak
+       átadni nem ajánlott, mivel a rendszer a kritikus műveleteket például a sztornózást felhasználóhoz és időponthoz köthetően naplózza. A felület 
+       érintőképernyős használatra is készül. A specifikáció színkódokkal különbözteti meg az asztalok állapotait, például a szabad, lefoglalt, foglalt és 
+       fizetésre váró állapotot. A színek pontos jelentését a tényleges felületen megjelenő jelölések alapján kell értelmezni.
+    </p>
+</li>
+
+<li>
+    <b>Helyben fogyasztás és rendelésfevétel</b>
+    <p>
+        <ol>
+      <li>
+        Nyissa meg a vendégtér megfelelő zónáját az asztaltérképen.
+      </li>
+       <li>
+        Válassza ki a vendégek asztalát. A rendszer az asztalhoz rendeli a rendelési panelt.
+      </li>
+       <li>
+        Válassza ki a kívánt termékeket a kategóriákból, például levesek, főételek vagy italok
+      </li>
+       <li>
+        A mennyiséget a megfelelő vezérlőkkel módosítsa.
+      </li>
+       <li>
+        Ha szükséges, adjon meg elkészítési megjegyzést, például „öntet nélkül” vagy „jól átsütve”.
+      </li>
+       <li>
+        Leadás előtt ellenőrizze a tételeket és a mennyiségeket.
+      </li>
+      <li>
+        A „Rendelés leadása” művelettel véglegesítse a rendelést
+      </li>
+      </ol>
+    </p>
+    <p>
+      Sikeres leadás után a rendelés elmentődik, az asztal foglalt/fogyasztás alatt állapotba kerül, a tételek megjelennek a konyhai kijelzőn,
+       a rendszer pedig a receptúrák alapján aktualizálja a várható alapanyag-felhasználást
+    </p>
+    <p>
+      Ha a rendelést még nem adta le, a kosárból eltávolíthatja a tévesen kiválasztott tételt. A konyhára már elküldött tétel törlése nem egyszerű 
+      kosármódosítás, ehhez a diszpécser jóváhagyása szükséges, ezzel megelőzve a visszaéléseket és az étel pazarlást.
+    </p>
+</li>
+
+<li>
+    <b>Konyhai kijelző használata</b>
+    <p>
+      A szakács a KDS (Kitchen Display System) felületén követi a beérkező rendeléseket. A rendelési tételekhez megjelennek a kapcsolódó információk és a megjegyzések.
+      A konyhai személyzet a feladat elkészítése után a megfelelő művelettel készre jelenti a tételt. A készre jelentés a pincér, kiszállítás esetén pedig a diszpécser 
+      számára is jelzést ad.
+    </p>
+</li>
+
+<li>
+    <b>Fizettetés és számlabontás</b>
+    <p>
+      A fizettetés az adott asztalhoz tartozó rendelés lezárásának folyamata. A specifikáció szerint a rendszer támogatja a nyugta nyomtatását és a tételenkénti asztalbontást (Split Bill),
+       amely lehetővé teszi, hogy a vendégek külön tételeket fizessenek.
+    </p>
+    <ol>
+      <li>
+        Nyissa meg az érintett asztal rendelését.
+      </li>
+      <li>
+        Ellenőrizze a rendelés tételeit és végösszegét.
+      </li>
+      <li>
+        Ha a vendégek külön fizetnek, használja a tételenkénti bontás funkciót és rendelje a tételeket a megfelelő fizetőhöz.
+      </li>
+      <li>
+        Ha a vendégek áfá-s számlát szertnének, használja az áfá-s számla opciót és adja meg adatait.
+      </li>
+      <li>
+        Válassza ki a felkínált fizetési módot, majd hajtsa végre a fizettetést.
+      </li>
+      <li>
+        Szükség esetén nyomtassa ki a bizonylatot.
+      </li>
+    </ol>
+</li>
+
+<li>
+  <b>Kiszállításos rendelések fizetése</b>
+  <p>A telefonon érkező kiszállításos rendeléseket a diszpécser rögzíti és követi.</p>
+  <ol>
+    <li>
+      Keresse meg a vevőt név, telefonszám vagy cím alapján, specifikáció szerint telefonszámrészlet alapján is lehetséges keresni.
+    </li>
+    <li>
+      Ha nincs megfelelő találat, vegye fel a vevő nevét, telefonszámát és szállítási címét.
+    </li>
+    <li>
+      Válassza ki vagy rögzítse az adott rendeléshez tartozó szállítási címet.
+    </li>
+    <li>
+      Vegye fel a kért termékeket, adja meg az elkészítési megjegyzéseket és a tervezett fizetési módot.
+    </li>
+    <li>
+      Ellenőrizze a rendelést, majd adja le. A tételek megjelennek a konyhai kijelzőn.
+    </li>
+    <li>
+      Amikor minden tétel elkészült, állítsa a rendelést „Kész” állapotba, válassza ki a futárt, és nyomtassa ki a szállítólevelet.
+    </li>
+    <li>
+      A futár indulásakor állítsa a rendelést „Úton” állapotba.
+    </li>
+    <li>
+      A futár visszaérkezése és a fizetés elszámolása után rögzítse a fizetést, majd állítsa a rendelést „Kiszállítva” állapotba.
+    </li>
+  </ol>
+  <p>
+    Ha a vevő lemondja a rendelést, vagy nem érhető el, a diszpécser a „Lemondva” állapotot választja, és megadja a lemondás okát.
+     A rendszer a lemondás okától függően kezeli a vevő lemondási előzményeit, ezzel akár egy jövőbeli rendelést vissza lehet utasítani. A már elkészült tételek 
+     készletkezelése eltérhet a még el nem készültekétől.
+  </p>  
+</li>
+
+<li>
+  <b>Vevőnyilvántartás és vevői jelzők</b>
+  <p>A vevő adatlapján a specifikáció szerint név, egy vagy több telefonszám, valamint több szállítási cím is tárolható. 
+    Új telefonszám vagy cím hozzáadása esetén a korábbi adatok megmaradnak. Ha egy telefonszám már másik vevőhöz tartozik, 
+    a rendszer figyelmeztetést adhat.</p>
+    <p>A rendszer a vevőkhöz a következő jelzőket rendelheti:</p>
+    <ul>
+      <li>
+        Visszatérő: a specifikáció alapértéke szerint akkor jár, ha a vevőnek az előző naptári hónapban legalább 10 kiszállított rendelése volt.
+      </li>
+      <li>
+        Tiltott: a specifikáció alapértéke szerint három, a vevőnek felróható lemondás után egy hónapig nem adható le új rendelés.
+      </li>
+      <li>
+        Priuszos: az egy hónapos tiltás lejárta után a vevő ismét rendelhet, de az előzmény látható marad a diszpécser számára.
+      </li>
+      <li>
+        Véglegesen tiltott: a specifikációban leírt ismétlődő tiltási szabály alapján keletkezhet, feloldása az üzletvezető jogosultsága.
+      </li>
+    </ul>
+    <p>A fenti küszöbértékek a követelményspecifikációban megadott alapértékek, és az üzletvezető módosíthatja őket. A vevői jelzők nem helyettesítik 
+      a munkatársi mérlegelést, rendelésfelvételkor mindig a rendszer aktuális figyelmeztetését kell követni.</p>
+</li>
+
+<li>
+  <b>Készletkezelés és bevételezés</b>
+  <p>A DishPatch a termékekhez rendelt receptúrák alapján követi az alapanyagok felhasználását. A rendelés leadásakor a rendszer a receptúra szerinti mennyiségeket 
+    levonja a nyilvántartott készletből. Ha valamely alapanyag készlete nem elegendő, a rendszer figyelmeztetést jeleníthet meg, és megakadályozhatja a tétel rendelésbe 
+    helyezését.</p>
+  <p>
+    A diszpécser rögzíti a beérkező alapanyagokat (bevételezés), valamint elvégzi a készletellenőrzést és a leltárt. A készletriasztásokat a diszpécser kezeli, ezek alapján 
+    beszállítói rendelési javaslat készülhet, amelyet elküldés előtt az üzletvezető hagy jóvá.A készletadatok kézi módosítása csak a megfelelő jogosultsággal és a valós árumozgás 
+    alapján történjen. Eltérés esetén ellenőrizni kell a bevételezéseket, a receptúrákat, a sztornókat és a leltáradatokat.
+  </p>
+</li>
+
+<li>
+  <b>Műszak és napi zárás</b>
+  <p>A diszpécser rögzíti az aznapi műszakot és a napi záráskor ellenőrzi a szükséges adatokat. A napi zárás összesíti a napi forgalomhoz és a készletmozgásokhoz
+     kapcsolódó adatokat, majd a specifikáció szerint automatikus jelentések küldését indítja el</p>
+  <ol>
+    <li>
+      Ellenőrizze, hogy a nyitott rendelések állapota rendezett-e.
+    </li>
+    <li>
+      Ellenőrizze a kiszállításokat, a fizetési tranzakciókat és a futárok elszámolását.
+    </li>
+    <li>
+      Ellenőrizze a bevételezéseket és az esetleges leltáreltéréseket.
+    </li>
+    <li>
+      Végezze el a napi zárás műveletét a rendszerben.
+    </li>
+    <li>
+      Ellenőrizze a rendszer visszajelzését, illetve a zárási jelentések elküldésének állapotát.
+    </li>
+    </ol>
+    <p>
+      A specifikáció alapján a zárás után az üzletvezető és a könyvelő jelentést kap. Ha az e-mail- vagy internetkapcsolat átmenetileg nem működik,
+      a rendszer a küldendő üzeneteket sorba állíthatja, és a kapcsolat helyreállásakor elküldheti
+    </p>
+  
+</li>
+
+<li>
+  <b>Üzletvezetői funkciók</b>
+  <p>Az üzletvezető feladatai közé tartozik többek közöt:</p>
+  <ul>
+    <li>
+      A termékek, kategóriák, árak és receptúrák karbantartása.
+    </li>
+    <li>
+      A dolgozói profilok és hozzáférési jogosultságok kezelése.
+    </li>
+    <li>
+      A beszerzési javaslatok jóváhagyása vagy elutasítása.
+    </li>
+    <li>
+      A forgalmi és árréselemzések megtekintése.
+    </li>
+    <li>
+      A vevői jelzők küszöbértékeinek beállítása, valamint indokolt esetben a végleges tiltás feloldása.
+    </li>
+    <li>
+      A készletriasztások és a napi zárási jelentések áttekintése.
+    </li>
+    </ul>
+    <p>
+      Mivel ezek a funkciók a működésre és a pénzügyi adatokra is hatással vannak, módosítás előtt ellenőrizni kell a megadott értékeket. A konkrét menüpontok 
+      és mentési folyamatok a tényleges alkalmazás felületéhez igazítandók.
+    </p>
+  
+</li>
+
+<li>
+  <b>Jelentések és könyvelői hozzáférés</b>
+  <p>A napi zárás után a specifikáció szerint könyvelői jelentés készülhet, amely a napi bevételt tételesen és fizetési módonként, az aznapi alapanyag-bevételezéseket, 
+    valamint a műszakban dolgozó munkatársak listáját tartalmazza. A könyvelő a pénzügyi kimutatásokat olvasási jogosultsággal érheti el.</p>
+  <p>Ha a jelentés nem érkezik meg, először ellenőrizni kell, hogy a napi zárás sikeresen befejeződött-e, illetve helyes-e a címzett e-mail címe. Ismétlődő hiba esetén az 
+    üzletvezetőnek vagy az üzemeltetőnek kell jelezni a problémát.</p>
+</li>
+
+<li>
+  <b>Hibahelyzetek és javasolt teendők</b>
+  <table>
+    <tr>
+      <th>Hibahelyzet</th>
+      <th>Javasolt teendő</th>
+    </tr>
+    <tr>
+      <td>Készlethiány jelenik meg.</td>
+      <td>Ne próbálja a tételt ismételten felvenni. Tájékoztassa a vendéget, és szükség esetén kérje a diszpécser segítségét.</td>
+    </tr>
+    <tr>
+      <td>A rendelés leadása hálózati hibát jelez.</td>
+      <td>Ne rögzítse ugyanazt a rendelést egy másik terminálon automatikusan, mert ez duplikációhoz vezethet. Várja meg a kapcsolat helyreállását és a rendszer visszaigazolását.</td>
+    </tr>
+    <tr>
+      <td>Egy már leadott tételt törölni kell.</td>
+      <td>Kérje a diszpécser közreműködését. A sztornóhoz jóváhagyás és indok megadása szükséges.</td>
+    </tr>
+    <tr>
+      <td>A vevő tiltottként jelenik meg.</td>
+      <td>Olvassa el a figyelmeztetést, és ne véglegesítse a rendelést. Végleges tiltás esetén kizárólag az üzletvezető intézkedhet.</td>
+    </tr>
+    <tr>
+      <td>A konyhai kijelzőn nem látható a rendelés.</td>
+      <td>Ellenőrizze a rendelés leadásáról kapott visszajelzést. Ha a probléma fennáll, értesítse a diszpécsert, ne feltételezze automatikusan, hogy a rendelés megérkezett.</td>
+    </tr>
+    <tr>
+      <td>Nem érkezik meg a zárási e-mail.</td>
+      <td>Ellenőrizze a zárás állapotát és a címzettet. Hálózati vagy levelezési hiba esetén jelezze az üzemeltetőnek.</td>
+    </tr>
+    <tr>
+      <td>A rendszer nem indul vagy a szerver nem elérhető.</td>
+      <td>Ne módosítsa önállóan a szerver vagy az adatbázis beállításait. Értesítse az üzemeltetőt vagy a rendszergazdát.</td>
+    </tr>
+  </table>
+</li>
+
+<li>
+  <b>Adatbiztonság és használati ajánlások</b>
+  <ul>
+    <li>Minden munkatárs kizárólag a saját azonosítóját használja.</li>
+    <li>A sztornózásnál és a készletmódosításoknál pontosan adja meg az okot, illetve a valós adatokat.</li>
+    <li>Személyes adatokat például vevőnevet, telefonszámot és címet kizárólag a munkavégzéshez szükséges mértékben kezeljen.</li>
+    <li>Hibaüzenet esetén olvassa el a teljes üzenetet, és ne próbálja megkerülni a rendszer védelmi ellenőrzéseit.</li>
+    <li>A kliensgépet ne kapcsolja ki folyamatban lévő művelet közben, ha a rendszer még mentést vagy szinkronizálást jelez.</li>
+    <li>A biztonsági mentések és a szerver karbantartása az üzemeltető vagy rendszergazda felelőssége.</li>
+  </ul>
+</li>
+</ol>
 </body>
 </html>
