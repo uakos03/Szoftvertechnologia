@@ -397,16 +397,133 @@
             </ul>
         </li>
 
-        <li><b>Teljesítmény</b></li>
+         <li>
+            <b>Teljesítmény</b>
+            <ul class="pottyos-lista srs-belso-lista">
+                <li>
+                    <b>Válaszidők:</b> A kliens felületén minden interakció (tétel kosárba tétele, kategóriaváltás) rendszerválasza
+                    normál terhelés mellett legfeljebb 0,5 másodperc, hogy a felhasználó ne kattintson duplán. A "Rendelés leadása"
+                    gombtól a tételek KDS-en való megjelenéséig legfeljebb 2 másodperc telhet el. A vevőkeresés 10 000 rekord mellett
+                    is legfeljebb 1 másodperc, a napi zárás számítása legfeljebb 30 másodperc.
+                </li>
+                <li>
+                    <b>Kapacitás:</b> A rendszer átlagosan 3-10 egyidejű felhasználót, extrém csúcsidőben 15-20 klienst kezel
+                    romlás nélkül. Több pincér párhuzamos használata mellett sem sérülhet az adatkonzisztencia, mert a
+                    készletlevonás tranzakcionálisan történik; ezt csúcsidős terheléses teszttel ellenőrizzük.
+                </li>
+                <li>
+                    <b>Stabilitás:</b> A kliens 12 órás műszak alatt sem fagyhat le, és nem okozhat memóriaszivárgást. Indulása
+                    legfeljebb 5 másodperc, memóriaigénye legfeljebb 300 MB, hogy régebbi gépen is akadásmentesen fusson. Hálózati
+                    szakadás után az újraküldés 10 másodpercen belül elindul.
+                </li>
+            </ul>
+        </li>
 
-        <li><b>Támogatottság</b></li>
+        <li>
+            <b>Támogatottság</b>
+            <ul class="pottyos-lista srs-belso-lista">
+                <li>
+                    <b>Környezet:</b> A kliens Windows 10/11 rendszeren fut érintőképernyős terminálon, tableten vagy PC-n,
+                    javasolt felbontása legalább 1280×720. A szerver Windows vagy Linux környezetben (igény esetén Docker
+                    konténerben) fut, Java 17+ és PostgreSQL szükséges hozzá. A működéshez az étterem stabil LAN/WLAN hálózata,
+                    blokk- és szállítólevél-nyomtató, valamint bankkártya-terminál kell. Natív mobilalkalmazás az első verzióban nincs.
+                </li>
+                <li><b>Nyelv:</b> A felület, a hibaüzenetek és a dokumentáció magyar nyelvű.</li>
+                <li>
+                    <b>Telepítés és karbantartás:</b> A szerveren a PostgreSQL telepítését és a séma inicializálását a
+                    rendszergazda végzi, a klienseken az önálló Tauri .exe telepítőt kell futtatni. A frissítés nyitvatartáson
+                    kívül történik, előtte automatikus adatbázis-mentés készül. Eltérő kliens- és szerververzió esetén a kliens
+                    figyelmeztet.
+                </li>
+                <li>
+                    <b>Hibakezelés:</b> A rendszer hibanaplót vezet (időpont, felhasználó, művelet, hiba), amelyet a rendszergazda
+                    a szerveren ér el. A felhasználó érthető magyar hibaüzenetet kap, a sztornókat a rendszer külön naplózza.
+                </li>
+            </ul>
+        </li>
 
-        <li><b>Tervezési korlátozások</b></li>
+        <li>
+            <b>Tervezési korlátozások</b>
+            <ul class="pottyos-lista srs-belso-lista">
+                <li>
+                    <b>Technológia:</b> TypeScript + React (felület), Tauri (asztali alkalmazás), Java Spring Boot REST API
+                    (backend), PostgreSQL (adatbázis), Hibernate / Spring Data JPA (ORM), Git + GitHub/GitLab (verziókezelés).
+                </li>
+                <li>
+                    <b>Architektúra:</b> Kliens-szerver felépítés az étterem LAN-ján. A napi működés nem függhet internettől; az
+                    e-mailek és a NAV felé küldendő adatok a szerver lemezén sorba állnak, és a kapcsolat helyreállása után elmennek.
+                </li>
+                <li>
+                    <b>Offline-biztonság:</b> A kliens minden módosítást először helyi lemezre ír, egyedi azonosítóval, és csak a
+                    szerver visszaigazolása után töröl; a szerver a duplikátumot eldobja.
+                </li>
+                <li>
+                    <b>Felület:</b> Érintőképernyőre optimalizált, túlméretezett gombok, színkódolás, bal oldalon kategóriák,
+                    középen termékek, jobb oldalon kosár. A KDS 2-3 méterről is olvasható legyen.
+                </li>
+                <li>
+                    <b>Jogosultság:</b> Egyedi PIN-kód és szerepkörönkénti hozzáférés. A sztornót a Diszpécser saját PIN-jével
+                    hagyja jóvá, a Könyvelő csak olvashat. A PIN-kódokat csak hash-elve tároljuk.
+                </li>
+                <li>
+                    <b>Adatvédelem:</b> GDPR szerint csak a kiszállításhoz szükséges vevői adatok tárolhatók, és csak a Diszpécser
+                    és az Üzletvezető éri el őket.
+                </li>
+                <li>
+                    <b>Üzleti szabályok:</b> A vevői jelzők küszöbértékei nem lehetnek beégetve, az Üzletvezető módosíthatja őket.
+                </li>
+                <li>
+                    <b>Hardver:</b> A szervert szünetmentes tápegységre kell kötni, naponta automatikus mentés készül külső
+                    meghajtóra.
+                </li>
+            </ul>
+        </li>
 
-        <li><b>On-line dokumentáció és Help rendszer</b></li>
+        <li>
+            <b>On-line dokumentáció és Help rendszer</b>
+            <p>
+                El kell készíteni a <b>felhasználói kézikönyv első verzióját</b> a követelmény specifikáció alapján. Formátuma
+                képernyőképekkel illusztrált PDF, amely a program súgójából is elérhető. Magyar nyelvű, informatikai
+                előképzettséget nem feltételező, lépésről lépésre mutatja be a folyamatokat. Szerepkör szerint épül fel:
+            </p>
+            <ol class="srs-belso-lista">
+                <li>Bevezetés (belépés PIN-kóddal, a felület felépítése, színkódok)</li>
+                <li>Felszolgáló (rendelésfelvétel, fizettetés, asztalbontás, készlethiány és hálózati hiba kezelése)</li>
+                <li>Szakács (a KDS használata)</li>
+                <li>Diszpécser (kiszállítás, vevőkezelés, sztornó, bevételezés, leltár, napi zárás, beszállítói rendelés)</li>
+                <li>Üzletvezető (elemzések, törzsadatok, jogosultságok, jóváhagyások, küszöbértékek)</li>
+                <li>Könyvelő (zárási jelentés értelmezése)</li>
+                <li>Hibaelhárítás és Szótár</li>
+            </ol>
+            <p>
+                A pincéreknek és szakácsoknak egyoldalas gyors kezdés oldal készül, ez támogatja a 30 perces betanulást. A
+                programban minden képernyőn "?" gomb nyitja az adott súgóoldalt; a súgó a programmal települ, így hálózat nélkül
+                is elérhető. A fejlesztői és üzemeltetői dokumentáció (UML-diagramok, REST API leírás, telepítési útmutató)
+                elektronikus formában a GitHub-tárolóban található.
+            </p>
+        </li>
 
-        <li><b>Felhasznált kész komponensek</b></li>
-
+        <li>
+            <b>Felhasznált kész komponensek</b>
+            <ul class="pottyos-lista srs-belso-lista">
+                <li><b>Tauri:</b> asztali alkalmazáskeret, helyi várakozási sor, .exe telepítő.</li>
+                <li><b>React + TypeScript:</b> felhasználói felület.</li>
+                <li><b>Java 17+ / Spring Boot:</b> backend, REST API.</li>
+                <li><b>Hibernate / Spring Data JPA:</b> ORM.</li>
+                <li><b>PostgreSQL:</b> adatbázis, tranzakciós naplóval.</li>
+                <li><b>Docker (opcionális):</b> a szerver konténeres futtatása.</li>
+                <li><b>SMTP-komponens (pl. Spring Mail):</b> zárási jelentések, riasztások, beszállítói rendelések.</li>
+                <li><b>ESC/POS nyomtató-illesztés:</b> nyugta, konyhai cetli, szállítólevél.</li>
+                <li><b>Bankkártya-terminál illesztés:</b> kártyás fizetés (kártyaadatot nem tárolunk).</li>
+                <li><b>NAV 3.0 adatszolgáltatási API:</b> adóügyi adatküldés.</li>
+            </ul>
+            <p>
+                A Vízió szerint a backend és a frontend ingyenes, nyílt forráskódú technológiákra épül, így szoftveres
+                licencköltség nincs. A nyomtató- és kártyaterminál-illesztők licencét ellenőrizni kell, a verziókat pedig
+                rögzíteni a reprodukálható fordításhoz.
+            </p>
+        </li>
+        
         <li>
             <b>Interfészek</b>
             <ul style="list-style: none;">
