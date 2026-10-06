@@ -411,9 +411,19 @@
             <b>Interfészek</b>
             <ul style="list-style: none;">
                 <li><b>11.1. Felhasználói interfészek</b></li>
-                <li><b>11.2. Hardware interfészek</b></li>
+    <ol>
+    <li>Asztali/érintőképernyős grafikus felhasználói felület, magyar nyelven.</li>
+    <li>A diszpécser számára optimalizált, kevés kattintást igénylő rendelésfelvételi képernyő.</li>
+    <li>A konyhai dolgozó és a futár számára egyszerűsített, kevés funkciót tartalmazó nézet (csak az állapotváltáshoz szükséges elemekkel).</li>
+    <li>Az adminisztrátor számára külön, a törzsadatkezelést és felhasználókezelést biztosító nézet.</li></ol>
+                <li><b>11.2. Hardware interfészek</b></li>    
+    <ul class="pottyos-lista srs-belso-lista"><li>Bizonylatnyomtató gép (rendelés-lap, és — ha a beállítás szerint a DishPatch számláz — a számla nyomtatásához is), hálózaton vagy USB-n keresztül csatlakoztatva.</li>
+    <li>Opcionálisan érintőképernyős monitor a diszpécserpultnál és a konyhában.</li>
+    <li>Az étterem meglévő, önálló pénztárgépe: ha az étterem a „Külső pénztárgép” számlázási módot választja, ez a pénztárgép fizikailag és funkcionálisan különálló eszköz marad, a DishPatch-hoz nem csatlakozik.</li></ul>
                 <li><b>11.3. Software interfészek</b></li>
+    <p>Az MVP-ben nincs kötelező külső rendszerkapcsolat. A meglévő pénztárgéppel (ha az étterem azt választja számlázásra) a DishPatch nem tart adatkapcsolatot — a két rendszer a jelen verzióban egymástól függetlenül, párhuzamosan üzemel. Jövőbeli bővítésként tervezett: kapcsolat a NAV Online Számla rendszerrel (számlaadat-szolgáltatás, ha a DishPatch végzi a számlázást), illetve egy esetleges online rendelésfelvételi (web/app) felülettel.</p>
                 <li><b>11.4. Kommunikációs interfészek</b></li>
+    <p>A kliensalkalmazások és az adatbázis-szerver közötti kommunikáció az étterem helyi hálózatán (LAN, Local Area Network), TCP/IP protokollon keresztül történik. Külső, internetes kommunikációs igény az MVP-ben nincs.</p>
             </ul>
         </li>
 
@@ -421,11 +431,16 @@
             <b>Alkalmazott szabványok</b>
             <ul style="list-style: none;">
                 <li><b>12.1. Kötelezően alkalmazandó szabványok</b></li>
+    <ul class="pottyos-lista srs-belso-lista"><li>A számlázásra vonatkozó magyar jogszabályi előírások (Áfa törvény szerinti kötelező számlatartalom).</li>
+    <li>A személyes adatok (vevő neve, címe, telefonszáma) kezelésére vonatkozó GDPR alapelvek.</li></ul>
                 <li><b>12.2. Választás alapján alkalmazott szabványok</b></li>
+    <ul class="pottyos-lista srs-belso-lista"><li>Java kódolási és elnevezési konvenciók (Microsoft irányelvek).</li>
+    <li>Az UML jelölésrendszer használata a dokumentációban (use case, osztály-, állapot- és ER-diagramok).</li>
             </ul>
         </li>
 
         <li><b>Mellékletek</b></li>
+<p>Lássa az Analízis Modell dokumentum osztálydiagramját és a Rendszertervezés dokumentum adatmodelljét, amelyek a jelen SRS-ben leírt követelmények alapján készültek.</p>
     </ol>
 
 </body>
