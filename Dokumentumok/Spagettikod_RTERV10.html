@@ -11,9 +11,62 @@
     <h1 class="oldal-cim">Rendszertervezés</h1>
 
     <ol class="terv-lista">
-        <li>Bevezetés</li>
+        <li>Bevezetés
+            <p>
+                A Rendszertervezés dokumentum célja, hogy a korábban megfogalmazott Követelményspecifikációt (SRS) és az 
+                Analízis modell absztrakt logikai folyamatait konkrét, megvalósítható technikai tervekké alakítsa. 
+                Ez a dokumentum képezi a szoftverfejlesztési fázis (implementáció) közvetlen, mérnöki alapját. 
+                Részletezi a választott szoftverarchitektúrát, az adatbázis fizikai megvalósítását (relációs adatmodell), 
+                az adatbázis és a programkód közötti objektum-relációs kapcsolatot (ORM), valamint a felhasználói felület (UI) 
+                strukturális felépítését.
+            </p>
+            <p>
+                A dokumentum egyúttal biztosítja a nyomonkövethetőséget (traceability) a projekt Víziója és a specifikáció 
+                felé: garantálja, hogy minden felmerült üzleti igény technológiai leképezést kapjon. Különös hangsúlyt 
+                fektetünk a vendéglátóipari környezetből fakadó extrém technikai kihívások – mint például a csúcsidőben 
+                történő folyamatos, párhuzamos adatbázis-hozzáférés, a nyomtatók és terminálok hardveres integrációja, 
+                vagy az esetleges hálózati (LAN) ingadozások – rendszerszintű kezelésére. Az itt rögzített 
+                szigorú adatmodell és architektúra keretbe foglalja a megvalósítást, minimalizálva a kódolási 
+                fázisban felmerülő logikai ellentmondásokat, ezáltal a fejlesztőcsapat (frontend, backend programozók) 
+                késedelem nélkül megkezdheti a munkát.
+            </p>
+        </li>
         
-        <li>Felhasználói felület</li>
+        <li>Felhasználói felület
+            <p>
+                A DishPatch rendszer felhasználói felülete (UI) a modern, komponens-alapú React és TypeScript technológiákra épül, 
+                amelyet a Tauri keretrendszer csomagol gyors, erőforráskímélő, operációs rendszeren natívan futó (cross-platform) 
+                asztali alkalmazássá. A tervezés során a "mobile-first" elvet a "touch-first" (érintés-első) paradigma váltotta fel, 
+                szigorúan alkalmazkodva a zajos, pörgős éttermi környezet ergonómiai elvárásaihoz.
+            </p>
+            <ul class="pottyos-lista">
+                <li>
+                    <b>Képernyőfelépítés és azonnali reakció:</b> A felület úgynevezett SPA (Single Page Application) logikát követ, azaz 
+                    az alkalmazás használat közben sosem töltődik újra, a nézetek pislogás nélkül, a másodperc törtrésze alatt frissülnek 
+                    (a React virtuális DOM segítségével). Az olvasási iránynak megfelelően bal oldalon helyezkednek el a főkategóriák, 
+                    középen a munkaterület (termékek, interaktív asztaltérkép), jobb oldalon pedig az aktuális kontextus (virtuális blokk, kosár).
+                </li>
+                <li>
+                    <b>Extrém ergonómia és vizuális támogatás:</b> A gyors, "vak" döntéshozatalt egyértelmű, a teljes képernyőn átívelő színkódok segítik 
+                    (pl. zöld: szabad asztal / konyhán elkészült tétel; piros: foglalt asztal / készlethiány miatti tiltás; sárga: fizetésre vár). 
+                    A gombok (hitboxok) ujjbegy-méretűre vannak túlméretezve a félrekattintások elkerülése végett. A rendszer támogatja 
+                    a sötét (Dark) és világos (Light) módokat: a konyhai KDS alapértelmezetten sötét a szakácsok szemének kímélése érdekében, 
+                    míg a teraszon használt pincér-terminálok világos módban, magas kontraszttal működnek a napfény miatti olvashatóságért.
+                </li>
+                <li>
+                    <b>Szerepkör-alapú adaptív nézetek:</b> A bejelentkező felhasználó jogosultságától függően a rendszer más-más 
+                    céleszközzé alakul, a navigációs útvonalakat (kattintások számát) minimalizálva. A <i>Pincér nézet</i> azonnal az asztaltérképpel nyit. 
+                    A <i>Konyhai (KDS) nézet</i> kizárólag a bejövő blokkokat mutatja, amelyeket egyetlen nagy fizikai vagy érintőgombbal lehet készre 
+                    jelenteni (vizuális és hangjelzés kíséretében). A <i>Diszpécser nézet</i> fókuszában a vevőkereső és a kiszállítási státuszok 
+                    állnak, míg a <i>Vezetői nézet</i> egy letisztult adminisztrációs műszerfal (dashboard) grafikonokkal és táblázatos törzsadat-kezelővel.
+                </li>
+                <li>
+                    <b>Hardveres integráció és hálózati visszajelzés:</b> A felület folyamatos vizuális visszajelzést ad a perifériákról. 
+                    Ha a LAN kapcsolat megszakad, a képernyő tetején egy diszkrét piros sáv jelzi az offline módot, miközben a felület 
+                    továbbra is használható marad (a műveletek a háttérben sorba állnak).
+                </li>
+            </ul>
+        </li>
         
         <li>Adatmodellek
             <ul style="list-style: none;">
@@ -337,7 +390,42 @@
                 </li>
             </ul>
         </li>    
-        <li>A funkcionális modell kiegészítése</li>
+        <li>A funkcionális modell kiegészítése
+            <p>
+                Az Analízis modellben feltárt logikai folyamatokat a tervezési fázisban ki kell egészítenünk azokkal a rendszer-szintű 
+                mechanizmusokkal és védvonalakkal, amelyek a robusztus működést, a párhuzamosságot és a konzisztenciát garantálják 
+                egy egyidejűleg több terminálon futó, elosztott éttermi rendszerben.
+            </p>
+            <ul class="pottyos-lista">
+                <li>
+                    <b>Párhuzamos hozzáférés (Concurrency) és Optimista Zárolás:</b> Kritikus probléma egy étteremben, ha két pincér 
+                    pontosan egyszerre próbálja megnyitni ugyanazt az asztalt, vagy a diszpécser akkor akar sztornózni egy tételt, 
+                    amikor a szakács a konyhán épp készre jelenti azt. Ennek feloldására a rendszer "Optimistic Locking" 
+                    (optimista zárolás) technikát használ a Hibernate szintjén. Minden kritikus rekord (Asztal, Rendelés_tétel, Alapanyag) 
+                    kap egy rejtett verziószámot az adatbázisban. Ha az adat a képernyőre töltés óta a háttérben módosult, a mentési 
+                    kísérlet azonnal elutasításra kerül egy <code>OptimisticLockException</code> kivétellel, a felhasználó pedig 
+                    figyelmeztetést kap, hogy az adat megváltozott. Ezzel teljesen kizárható az inkonzisztens adatok felülírása és 
+                    a "fantom" készletmozgás.
+                </li>
+                <li>
+                    <b>Eseményvezérelt automatizmusok (Event-Driven Architecture):</b> A funkcionális modellben az ütemezett feladatok 
+                    és a "Rendszer" aktor által végzett műveletek aszinkron eseményfigyelőkkel (Spring Application Events) valósulnak meg. 
+                    Például, amikor egy rendelés leadásakor a készlet levonódik (Fogyás), a szál nem várakozik a minimumkészlet ellenőrzésére. 
+                    Ehelyett a háttérben egy aszinkron esemény generálódik. Ha a készlet a küszöb alá esik, az eseményfigyelő külön szálon 
+                    aktiválja az e-mail küldő (SMTP) komponenst. Ennek köszönhetően a rendelés leadása extrém gyors marad, a levélküldés 
+                    esetleges késedelme pedig nem akasztja meg a pincér munkáját a pultnál.
+                </li>
+                <li>
+                    <b>Szerveroldali Állapotgép (State Machine) vezérlés:</b> A rendelések és a tételek állapotátmeneteit 
+                    (Konyhán → Kész → Felszolgálva, vagy Nyitott → Fizetésre vár → Lezárt) szigorúan a backend vezérli. A kliensoldal 
+                    (a React felület) soha nem írja át közvetlenül az állapotot az adatbázisban, csupán a <i>szándékot</i> küldi el 
+                    (pl. "Készre jelentés gomb megnyomva"). A Spring Boot szerver az üzleti logika alapján ellenőrzi az átmenet 
+                    jogosultságát és feltételeit (pl. minden tétel ki lett-e fizetve a lezáráshoz), és ha az érvényes, ő hajtja végre 
+                    az adatbázis-módosítást. A sikeres állapotváltásról a szerver WebSocketen vagy frissített válaszban értesíti a többi 
+                    aktív klienst, biztosítva, hogy minden terminál és a konyhai kijelző ugyanazt a valós idejű állapotot mutassa.
+                </li>
+            </ul>
+        </li>
     </ol>
 </body>
 </html>
